@@ -4,17 +4,21 @@ import type { NextRequest } from 'next/server';
 export function proxy(request: NextRequest) {
   const urlPath = request.nextUrl.pathname;
 
-  // EXCLUDE internal system APIs, admin portal, and static assets from triggering security log loop!
+  // EXCLUDE internal system APIs, admin portal, sitemaps, robots, and static assets
   if (
     urlPath.startsWith('/_next') ||
     urlPath.startsWith('/api/admin') ||
     urlPath.startsWith('/api/analytics') ||
     urlPath.startsWith('/easy-admin-portal') ||
+    urlPath.includes('sitemap') ||
+    urlPath.includes('robots') ||
     urlPath.startsWith('/favicon') ||
     urlPath.startsWith('/logo') ||
     urlPath.endsWith('.png') ||
     urlPath.endsWith('.jpg') ||
     urlPath.endsWith('.ico') ||
+    urlPath.endsWith('.xml') ||
+    urlPath.endsWith('.txt') ||
     urlPath.endsWith('.mjs')
   ) {
     return NextResponse.next();
