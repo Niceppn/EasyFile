@@ -147,6 +147,14 @@
       "country": "TH",
       "details": "https://easyfile.click",
       "timestamp": "2026-08-29T15:45:49.919Z"
+    },
+    {
+      "id": "evt_1788019994147_shyd",
+      "type": "qr_generate",
+      "status": "success",
+      "country": "TH",
+      "details": "https://easyfile.click",
+      "timestamp": "2026-08-29T16:13:14.147Z"
     }
   ],
   "inquiries": [],
@@ -280,6 +288,16 @@
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
       "threatLevel": "SUSPECTED_ATTACK",
       "timestamp": "2026-08-29T15:50:30.828Z"
+    },
+    {
+      "id": "sec_1788019990858_s0cp",
+      "ip": "127.0.0.1",
+      "country": "TH",
+      "path": "/qr-code-generator",
+      "method": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+      "threatLevel": "NORMAL",
+      "timestamp": "2026-08-29T16:13:10.857Z"
     }
   ]
 }
