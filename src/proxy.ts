@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { recordSecurityLog } from './lib/db';
 
 export function proxy(request: NextRequest) {
   const urlPath = request.nextUrl.pathname;
@@ -55,19 +56,12 @@ export function proxy(request: NextRequest) {
   const userAgent = request.headers.get('user-agent') || 'Unknown';
   const method = request.method;
 
-  // Asynchronously trigger internal security logger API (silent)
-  const origin = request.nextUrl.origin;
-  fetch(`${origin}/api/admin/log-security`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      ip,
-      country,
-      path: urlPath,
-      method,
-      userAgent,
-    }),
-  }).catch(() => {});
+  // Record security log directly in memory/DB without any HTTP fetch loop!
+  try {
+    recordSecurityLog(ip, country, urlPath, method, userAgent);
+  } catch (err) {
+    // Silent catch
+  }
 
   return NextResponse.next();
 }
