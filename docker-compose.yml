@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  easyfile:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: easyfile-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - CONTACT_ADMIN_EMAIL=${CONTACT_ADMIN_EMAIL:-pphutana01@gmail.com}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-easyfile2026}
+    volumes:
+      - easyfile-data:/app/.data
+
+volumes:
+  easyfile-data:
+    driver: local
