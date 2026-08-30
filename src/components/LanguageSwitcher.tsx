@@ -152,8 +152,8 @@ export function LanguageSwitcher() {
 
       {/* Language Selector Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
-          <div className="px-3 py-1 text-[10px] font-bold tracking-wider text-slate-400 uppercase border-b border-slate-100 mb-1">
+        <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-2xl shadow-2xl border border-slate-200 z-[100] py-1.5 max-h-[65vh] overflow-y-auto">
+          <div className="px-3 py-1 text-[10px] font-bold tracking-wider text-slate-400 uppercase border-b border-slate-100 mb-1 sticky top-0 bg-white">
             Select Language / 言語 / 언어
           </div>
           {LANGUAGES.map((lang) => (
