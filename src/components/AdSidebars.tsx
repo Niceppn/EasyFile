@@ -3,29 +3,26 @@
 import Link from 'next/link';
 import { Megaphone, PlusCircle } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n/context';
+import { GoogleAdUnit } from '@/components/GoogleAdUnit';
 
 export function LeftAdSidebar() {
   const { t } = useLanguage();
 
   return (
-    <aside className="hidden xl:flex flex-col items-center justify-center w-36 sm:w-44 h-[550px] sticky top-28 bg-slate-100 hover:bg-slate-200/80 border-2 border-dashed border-slate-300 hover:border-blue-400 rounded-3xl p-4 transition-all group cursor-pointer text-center flex-shrink-0 shadow-inner">
-      <Link href="/contact-advertising" className="w-full h-full flex flex-col items-center justify-center gap-3">
-        <div className="w-12 h-12 rounded-2xl bg-slate-200 group-hover:bg-blue-100 text-slate-500 group-hover:text-blue-600 flex items-center justify-center transition-colors">
-          <Megaphone className="w-6 h-6" />
-        </div>
-        <div>
-          <span className="text-xs font-black text-slate-600 group-hover:text-blue-700 block uppercase tracking-wider">
-            {t.adTitle}
-          </span>
-          <span className="text-[11px] font-semibold text-slate-400 group-hover:text-blue-600 mt-1 block">
-            {t.adSub}
-          </span>
-        </div>
-        <div className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-blue-600 bg-white px-3 py-1.5 rounded-full shadow-sm group-hover:shadow transition-all">
-          <PlusCircle className="w-3.5 h-3.5" />
+    <aside className="hidden xl:flex flex-col items-center justify-start w-40 sm:w-48 sticky top-28 bg-white border border-slate-200 rounded-3xl p-3 shadow-xs flex-shrink-0">
+      <div className="w-full text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center mb-2">
+        {t.adTitle}
+      </div>
+      <GoogleAdUnit slot="7020030411" format="auto" />
+      <div className="w-full mt-2 pt-2 border-t border-slate-100 text-center">
+        <Link
+          href="/contact-advertising"
+          className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 hover:text-blue-700"
+        >
+          <PlusCircle className="w-3 h-3" />
           <span>{t.adBtn}</span>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </aside>
   );
 }
@@ -34,24 +31,20 @@ export function RightAdSidebar() {
   const { t } = useLanguage();
 
   return (
-    <aside className="hidden xl:flex flex-col items-center justify-center w-36 sm:w-44 h-[550px] sticky top-28 bg-slate-100 hover:bg-slate-200/80 border-2 border-dashed border-slate-300 hover:border-blue-400 rounded-3xl p-4 transition-all group cursor-pointer text-center flex-shrink-0 shadow-inner">
-      <Link href="/contact-advertising" className="w-full h-full flex flex-col items-center justify-center gap-3">
-        <div className="w-12 h-12 rounded-2xl bg-slate-200 group-hover:bg-blue-100 text-slate-500 group-hover:text-blue-600 flex items-center justify-center transition-colors">
-          <Megaphone className="w-6 h-6" />
-        </div>
-        <div>
-          <span className="text-xs font-black text-slate-600 group-hover:text-blue-700 block uppercase tracking-wider">
-            {t.adTitle}
-          </span>
-          <span className="text-[11px] font-semibold text-slate-400 group-hover:text-blue-600 mt-1 block">
-            {t.adSub}
-          </span>
-        </div>
-        <div className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-blue-600 bg-white px-3 py-1.5 rounded-full shadow-sm group-hover:shadow transition-all">
-          <PlusCircle className="w-3.5 h-3.5" />
+    <aside className="hidden xl:flex flex-col items-center justify-start w-40 sm:w-48 sticky top-28 bg-white border border-slate-200 rounded-3xl p-3 shadow-xs flex-shrink-0">
+      <div className="w-full text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center mb-2">
+        {t.adTitle}
+      </div>
+      <GoogleAdUnit slot="7020030411" format="auto" />
+      <div className="w-full mt-2 pt-2 border-t border-slate-100 text-center">
+        <Link
+          href="/contact-advertising"
+          className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 hover:text-blue-700"
+        >
+          <PlusCircle className="w-3 h-3" />
           <span>{t.adBtn}</span>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </aside>
   );
 }
@@ -60,29 +53,13 @@ export function MobileAdBanner() {
   const { t } = useLanguage();
 
   return (
-    <div className="xl:hidden w-full my-6 flex justify-center">
-      <Link
-        href="/contact-advertising"
-        className="w-full max-w-lg bg-gradient-to-r from-slate-50 via-slate-100 to-slate-50 hover:from-blue-50 hover:to-indigo-50 border-2 border-dashed border-slate-300 hover:border-blue-400 rounded-2xl p-4 transition-all flex items-center justify-between shadow-sm group"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
-            <Megaphone className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-xs font-black text-slate-700 group-hover:text-blue-700 block">
-              {t.adBadge} (Mobile Banner)
-            </span>
-            <span className="text-[11px] text-slate-500 block">
-              {t.adContactBtn}
-            </span>
-          </div>
+    <div className="xl:hidden w-full my-6 flex flex-col items-center justify-center">
+      <div className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl p-3 shadow-xs text-center">
+        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+          {t.adTitle}
         </div>
-        <div className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 bg-white px-3 py-1.5 rounded-full shadow-sm">
-          <PlusCircle className="w-3.5 h-3.5" />
-          <span>{t.adBtn}</span>
-        </div>
-      </Link>
+        <GoogleAdUnit slot="7020030411" format="auto" />
+      </div>
     </div>
   );
 }
