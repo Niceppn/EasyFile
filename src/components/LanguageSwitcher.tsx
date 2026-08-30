@@ -44,6 +44,26 @@ function JapanFlag() {
   );
 }
 
+function KoreaFlag() {
+  return (
+    <svg viewBox="0 0 900 600" className="w-4 h-3 rounded-[2px] shadow-xs inline-block flex-shrink-0 border border-slate-200">
+      <rect width="900" height="600" fill="#FFFFFF" />
+      <path d="M450,150 A150,150 0 0,1 450,450 A75,75 0 0,1 450,300 A75,75 0 0,0 450,150 Z" fill="#C60C30" />
+      <path d="M450,450 A150,150 0 0,1 450,150 A75,75 0 0,1 450,300 A75,75 0 0,0 450,450 Z" fill="#003478" />
+    </svg>
+  );
+}
+
+function FranceFlag() {
+  return (
+    <svg viewBox="0 0 900 600" className="w-4 h-3 rounded-[2px] shadow-xs inline-block flex-shrink-0 border border-slate-200">
+      <rect width="300" height="600" fill="#002395" />
+      <rect x="300" width="300" height="600" fill="#FFFFFF" />
+      <rect x="600" width="300" height="600" fill="#ED2939" />
+    </svg>
+  );
+}
+
 function SpainFlag() {
   return (
     <svg viewBox="0 0 900 600" className="w-4 h-3 rounded-[2px] shadow-xs inline-block flex-shrink-0 border border-slate-200">
@@ -84,6 +104,8 @@ const LANGUAGES: LanguageOption[] = [
   { code: 'th', name: 'ไทย (Thai)', shortLabel: 'TH', flag: <ThaiFlag /> },
   { code: 'en', name: 'English (UK/US)', shortLabel: 'EN', flag: <UkFlag /> },
   { code: 'ja', name: '日本語 (Japanese)', shortLabel: 'JP', flag: <JapanFlag /> },
+  { code: 'ko', name: '한국어 (Korean)', shortLabel: 'KR', flag: <KoreaFlag /> },
+  { code: 'fr', name: 'Français (French)', shortLabel: 'FR', flag: <FranceFlag /> },
   { code: 'es', name: 'Español (Spanish)', shortLabel: 'ES', flag: <SpainFlag /> },
   { code: 'de', name: 'Deutsch (German)', shortLabel: 'DE', flag: <GermanyFlag /> },
   { code: 'zh', name: '中文 (Chinese)', shortLabel: 'CN', flag: <ChinaFlag /> },
@@ -130,9 +152,9 @@ export function LanguageSwitcher() {
 
       {/* Language Selector Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
           <div className="px-3 py-1 text-[10px] font-bold tracking-wider text-slate-400 uppercase border-b border-slate-100 mb-1">
-            Select Language / 言語選択
+            Select Language / 言語 / 언어
           </div>
           {LANGUAGES.map((lang) => (
             <button

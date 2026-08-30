@@ -19,7 +19,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     // 1. Check saved language preference in localStorage
     const savedLang = localStorage.getItem('qubezip_lang') as Language | null;
 
-    if (savedLang && ['th', 'en', 'ja', 'es', 'de', 'zh'].includes(savedLang)) {
+    if (savedLang && ['th', 'en', 'ja', 'ko', 'fr', 'es', 'de', 'zh'].includes(savedLang)) {
       setLanguageState(savedLang);
       setIsInitialized(true);
     } else {
@@ -33,6 +33,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
               setLanguageState('th');
             } else if (country === 'JP') {
               setLanguageState('ja');
+            } else if (country === 'KR') {
+              setLanguageState('ko');
+            } else if (['FR', 'BE', 'MC'].includes(country)) {
+              setLanguageState('fr');
             } else if (['ES', 'MX', 'AR', 'CL', 'CO', 'PE'].includes(country)) {
               setLanguageState('es');
             } else if (['DE', 'AT', 'CH'].includes(country)) {
@@ -50,6 +54,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
               setLanguageState('th');
             } else if (browserLang.startsWith('ja')) {
               setLanguageState('ja');
+            } else if (browserLang.startsWith('ko')) {
+              setLanguageState('ko');
+            } else if (browserLang.startsWith('fr')) {
+              setLanguageState('fr');
             } else if (browserLang.startsWith('es')) {
               setLanguageState('es');
             } else if (browserLang.startsWith('de')) {
@@ -68,6 +76,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
             setLanguageState('th');
           } else if (browserLang.startsWith('ja')) {
             setLanguageState('ja');
+          } else if (browserLang.startsWith('ko')) {
+            setLanguageState('ko');
+          } else if (browserLang.startsWith('fr')) {
+            setLanguageState('fr');
           } else if (browserLang.startsWith('es')) {
             setLanguageState('es');
           } else if (browserLang.startsWith('de')) {

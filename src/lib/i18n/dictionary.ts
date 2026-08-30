@@ -1,4 +1,4 @@
-export type Language = 'th' | 'en' | 'ja' | 'es' | 'de' | 'zh';
+export type Language = 'th' | 'en' | 'ja' | 'ko' | 'fr' | 'es' | 'de' | 'zh';
 
 export const dictionary = {
   th: {
@@ -446,6 +446,304 @@ export const dictionary = {
     // Footer
     footerRights: '© Qubezip. All rights reserved. 無料PDF圧縮＆QRコード作成ツール',
     footerPrivacy: '100%ブラウザローカル処理 • ファイルの送信・保存なし',
+  },
+
+  ko: {
+    // Header & Nav (Korean 🇰🇷)
+    headerBadge: '올인원 PDF 툴킷 • 용량 지정 압축 • 이미지 변환 • QR 생성',
+    headerSub: '100% 무료 및 안전한 온라인 PDF 용량 압축 & QR 코드 생성기',
+    navCompressPdf: 'PDF 용량 압축',
+    navPdfToImage: 'PDF 이미지 변환',
+    navQrGenerator: 'QR 코드 생성',
+    navContactAd: '광고 문의',
+
+    // Hero Homepage
+    heroBadge: '목표 용량 지정 맞춤형 PDF 압축 도구',
+    heroTitleLine1: '온라인 PDF 용량 무료 압축',
+    heroTitleLine2: '원하는 목표 크기에 딱 맞게',
+    heroSub: '1MB, 500KB, 2MB 등 원하는 용량을 직접 지정하세요. 브라우저 내부에서 100% 로컬 처리하여 안전하고 빠릅니다.',
+
+    // PDF to Image Converter Page
+    pdfImgHeroBadge: '무료 PDF to JPG / PNG / WEBP 변환 • 초고화질 HD',
+    pdfImgHeroTitleLine1: '온라인 PDF 이미지 변환',
+    pdfImgHeroTitleLine2: '모든 페이지를 .JPG .PNG .WEBP 추출 1클릭 ZIP 저장',
+    pdfImgHeroSub: 'PDF 문서의 각 페이지를 고해상도 이미지로 변환합니다. 페이지별 다운로드 또는 전체 ZIP 다운로드가 가능합니다.',
+    pdfImgOptionsTitle: '이미지 포맷 및 화질 설정',
+    pdfImgFormatLabel: '출력 포맷:',
+    pdfImgDpiLabel: '해상도 화질 (DPI):',
+    pdfImgDpiStandard: '표준 (150 DPI)',
+    pdfImgDpiHigh: '선명한 HD (300 DPI - 인쇄용)',
+    btnStartConvertPdfImg: 'PDF 이미지 변환 시작',
+    btnDownloadAllZip: '전체 페이지 다운로드 (.ZIP)',
+    btnDownloadSinglePage: '이 페이지 다운로드',
+    pdfImgSuccessTitle: 'PDF 이미지 변환 완료!',
+    pdfImgPagesCount: '총 변환 페이지 수:',
+    pagesText: '페이지',
+
+    // File Uploader
+    uploaderDragTitle: '여기에 PDF 파일을 드래그 앤 드롭하세요',
+    uploaderBrowse: '파일 선택하기',
+    uploaderLimit: '최대 200 MB 이하 PDF 지원',
+    uploaderErrorPdfOnly: '올바른 PDF 파일(.pdf)만 선택해주세요',
+    uploaderErrorLimit: '파일 용량이 제한인 200 MB를 초과했습니다',
+    uploaderOriginalSize: '원본 용량:',
+
+    // Target Size Selector
+    targetTitle: '원하는 목표 파일 용량 선택',
+    targetSub: '원하는 용량 버튼을 선택하거나 직접 용량을 입력하세요',
+    targetBudget: '목표 용량:',
+    customSizeLabel: '직접 입력:',
+    varianceNotice: '※ 텍스트 선명도를 유지하기 위해 압축 후 용량에 약간의 오차(±)가 발생할 수 있습니다.',
+    targetLargerWarning: '목표 용량이 원본보다 크거나 같으면 최적화만 적용됩니다.',
+    btnCompress: 'PDF 압축 시작',
+
+    // Presets
+    presetWeb: '웹/양식용',
+    presetJob: '입사/이력서용',
+    presetEmail: '이메일 첨부용',
+    presetHigh: '고화질 유지',
+
+    // Result Card
+    resultSuccessTitle: 'PDF 압축 성공!',
+    resultSuccessSub: '최적화된 PDF 파일을 즉시 다운로드할 수 있습니다.',
+    originalSize: '원본 용량',
+    newSize: '압축 후 용량',
+    saved: '절감률',
+    targetMatchNote: '목표 용량:',
+    targetMatchVariance: '(실제 용량은 ± 오차가 있을 수 있습니다)',
+    keepSharpness: '최고 선명도 텍스트 유지',
+    btnDownloadPdf: '압축된 PDF 다운로드',
+    btnCompressAnother: '다른 파일 압축하기',
+
+    // QR Code Generator Page
+    qrHeroBadge: '100% 영구 직링크 • 광고 없음 • 5초 건너뛰기 없음',
+    qrHeroTitleLine1: '무료 온라인 QR 코드 생성기',
+    qrHeroTitleLine2: '영구 직링크 • 100% 프로페셔널',
+    qrHeroSub: '5초 지연 광고나 스킵 화면 없이! Qubezip은 목표 웹사이트로 즉시 연결되는 깔끔한 QR 코드를 만듭니다. 클립보드 복사 및 .PNG, .SVG 다운로드 지원.',
+    qrTrustBoxTitle: '100% 프로페셔널 보장:',
+    qrTrustBoxSub: 'Qubezip에서 생성된 QR 코드는 만료일과 광고가 없는 영구 직링크입니다.',
+    qrInputLabel: 'URL 주소 또는 텍스트 입력',
+    qrCustomTitle: '커스텀 디자인 설정',
+    qrFgColor: 'QR 코드 색상',
+    qrBgColor: '배경 색상',
+    qrRes: '해상도 (px)',
+    btnCopyClipboard: '클립보드에 이미지 복사',
+    btnCopiedSuccess: '클립보드 복사 완료!',
+    btnDownloadPng: '.PNG 다운로드',
+    btnDownloadJpeg: '.JPEG 다운로드',
+    btnDownloadWebp: '.WEBP 다운로드',
+    btnDownloadSvg: '.SVG 다운로드',
+    qrNoAdsBadge: '영구 직링크 • 광고 없음',
+    qrCard1Title: '광고 대기 화면 없음',
+    qrCard1Sub: '스캔 즉시 목표 웹사이트로 이동하여 높은 신뢰도를 제공합니다.',
+    qrCard2Title: '원클릭 클립보드 복사',
+    qrCard2Sub: '파일 저장 없이 복사하여 카카오톡, 메일, 문서에 즉시 붙여넣기 가능합니다.',
+    qrCard3Title: '다양한 포맷 지원',
+    qrCard3Sub: '.PNG, .JPEG, .WEBP 및 인쇄용 벡터 .SVG 포맷 지원.',
+
+    // SEO Content Highlights & Matrix
+    seoFeature1Title: '목표 용량 맞춤 PDF 압축',
+    seoFeature1Sub: '500KB, 1MB, 2MB 등 이력서 및 정부 제출 용량에 선명하게 맞춤.',
+    seoFeature2Title: '무료 PDF to JPG 변환기',
+    seoFeature2Sub: '모든 페이지를 고화질 이미지로 변환 및 ZIP 일괄 다운로드.',
+    seoFeature3Title: '100% 안전한 브라우저 로컬 처리',
+    seoFeature3Sub: '모든 작업이 브라우저에서 수행되며 외부 서버로 파일이 전송되지 않습니다.',
+    seoMatrixTitle: 'Qubezip 인기 온라인 툴',
+    seoMatrixSub: '24시간 언제나 무료로 이용하는 PDF & QR 도구.',
+    seoMatrixQr: 'QR 코드 생성기',
+    seoMatrixQrSub: '복사 및 .PNG/SVG 저장',
+    seoMatrix1mb: 'PDF 1MB로 압축',
+    seoMatrix1mbSub: '이력서 및 제출용',
+    seoMatrix500kb: 'PDF 500KB로 압축',
+    seoMatrix500kbSub: '정부 포털 제출용',
+    seoMatrixEmail: '이메일용 PDF 압축',
+    seoMatrixEmailSub: '용량 초과 반송 방지',
+
+    // FAQs
+    faqTitle: '자주 묻는 질문 (FAQ)',
+    faq1Q: '목표 용량에 딱 맞게 압축하는 방법은?',
+    faq1A: 'PDF를 업로드하고 1MB나 500KB 등 목표 용량을 선택 후 압축을 누르면 자동으로 조절됩니다.',
+    faq2Q: '내 PDF 파일은 안전한가요?',
+    faq2A: '100% 안전합니다. 파일이 외부 서버로 전송되지 않고 브라우저 내부에서만 처리됩니다.',
+    faq3Q: '최종 용량에 약간의 오차가 발생하는 이유는?',
+    faq3A: '문서 내 텍스트의 선명도를 최우선으로 유지하기 위해 최적의 비율로 압축합니다.',
+    faq4Q: '지원하는 최대 파일 용량은?',
+    faq4A: '사용자 기기에서 직접 처리하므로 최대 200MB 대용량 PDF까지 지원합니다.',
+    faq5Q: '생성된 QR 코드에 광고나 유효기간이 있나요?',
+    faq5A: '없습니다. 영구 직링크이며 광고나 만료일이 전혀 없습니다.',
+
+    // Ad Sidebars
+    adTitle: '광고 영역',
+    adSub: '빈 영역 (160x600)',
+    adBtn: '광고 문의',
+
+    // Contact Advertising Page
+    adPageBadge: 'Advertising & Partnership Opportunities',
+    adPageTitle: '광고 및 스폰서십 문의',
+    adPageSub: 'PDF 문서를 다루는 비즈니스 유저들에게 다가가세요. 문의 양식을 작성해주세요.',
+    fieldName: '담당자 성함',
+    fieldCompany: '회사명 / 브랜드 / 사이트',
+    fieldEmail: '이메일 주소',
+    fieldPhone: '전화번호 / 카카오톡 ID',
+    fieldMessage: '문의 내용',
+    placeholderSpecify: '입력해주세요',
+    btnSubmitAd: '광고 문의 제출',
+    btnSubmittingAd: '제출 중...',
+    adSuccessTitle: '광고 문의 제출 완료!',
+    adSuccessSub: '관심을 가져주셔서 감사합니다. 담당자가 신속히 연락드리겠습니다.',
+
+    // Footer
+    footerRights: '© Qubezip. All rights reserved. 무료 PDF 압축 & QR 코드 생성기.',
+    footerPrivacy: '100% 브라우저 로컬 처리 • 파일 업로드 기록 없음',
+  },
+
+  fr: {
+    // Header & Nav (French 🇫🇷)
+    headerBadge: 'Suite PDF Complète • Compresseur par Taille Cible • PDF en Image • QR',
+    headerSub: 'Outils PDF et Générateur de QR Code 100% Gratuits et Sécurisés',
+    navCompressPdf: 'Compresser PDF',
+    navPdfToImage: 'PDF en Image',
+    navQrGenerator: 'Générateur QR',
+    navContactAd: 'Publicité',
+
+    // Hero Homepage
+    heroBadge: 'Compresseur PDF Intelligent par Taille Cible',
+    heroTitleLine1: 'Compresser la Taille d\'un PDF en Ligne',
+    heroTitleLine2: 'À la Taille Cible Souhaitée',
+    heroSub: 'Spécifiez la taille souhaitée (ex. 1 Mo, 500 Ko, 2 Mo). Traité à 100% localement dans votre navigateur pour une confidentialité maximale.',
+
+    // PDF to Image Converter Page
+    pdfImgHeroBadge: 'Convertisseur PDF en JPG / PNG / WEBP Gratuit • Qualité HD',
+    pdfImgHeroTitleLine1: 'Convertir un PDF en Images en Ligne',
+    pdfImgHeroTitleLine2: 'Extraire les Pages en .JPG .PNG .WEBP Téléchargement ZIP en 1 Clic',
+    pdfImgHeroSub: 'Convertissez les pages de votre document PDF en images haute résolution. Téléchargez page par page ou tout en un seul fichier ZIP.',
+    pdfImgOptionsTitle: 'Options de Format d\'Image et Qualité',
+    pdfImgFormatLabel: 'Format d\'Image de Sortie:',
+    pdfImgDpiLabel: 'Qualité (DPI):',
+    pdfImgDpiStandard: 'Standard (150 DPI)',
+    pdfImgDpiHigh: 'Haute Définition HD (300 DPI - Impression)',
+    btnStartConvertPdfImg: 'Convertir le PDF en Images',
+    btnDownloadAllZip: 'Tout Télécharger (.ZIP)',
+    btnDownloadSinglePage: 'Télécharger la Page',
+    pdfImgSuccessTitle: 'PDF Converti en Images avec Succès !',
+    pdfImgPagesCount: 'Pages Converties au Total :',
+    pagesText: 'pages',
+
+    // File Uploader
+    uploaderDragTitle: 'Glissez et déposez votre fichier PDF ici',
+    uploaderBrowse: 'sélectionner un fichier',
+    uploaderLimit: 'Prend en charge les PDF jusqu\'à 200 Mo',
+    uploaderErrorPdfOnly: 'Veuillez sélectionner un fichier PDF valide (.pdf)',
+    uploaderErrorLimit: 'La taille dépasse la limite maximale de 200 Mo',
+    uploaderOriginalSize: 'Taille Originale :',
+
+    // Target Size Selector
+    targetTitle: 'Sélectionnez la Taille Cible Souhaitée',
+    targetSub: 'Choisissez une taille prédéfinie ou saisissez une taille personnalisée',
+    targetBudget: 'Taille Cible :',
+    customSizeLabel: 'Taille Personnalisée :',
+    varianceNotice: 'Remarque : La taille finale peut varier légèrement (±) afin de maintenir la netteté du texte.',
+    targetLargerWarning: 'La taille cible est supérieure ou égale à l\'originale. Une optimisation maximale sera appliquée.',
+    btnCompress: 'Compresser le PDF à',
+
+    // Presets
+    presetWeb: 'Web / Formulaire',
+    presetJob: 'Emploi / École',
+    presetEmail: 'Pièce Jointe Email',
+    presetHigh: 'Haute Qualité',
+
+    // Result Card
+    resultSuccessTitle: 'PDF Compressé avec Succès !',
+    resultSuccessSub: 'Votre fichier PDF optimisé est prêt à être téléchargé.',
+    originalSize: 'Taille Originale',
+    newSize: 'Nouvelle Taille',
+    saved: 'Espace Économisé',
+    targetMatchNote: 'Taille Cible :',
+    targetMatchVariance: '(La taille réelle peut varier légèrement ±)',
+    keepSharpness: 'Netteté Maximale du Texte HD',
+    btnDownloadPdf: 'Télécharger le PDF Compressé',
+    btnCompressAnother: 'Compresser un Autre Fichier',
+
+    // QR Code Generator Page
+    qrHeroBadge: 'Lien Direct 100% • Zéro Publicité • Sans Temps d\'Attente',
+    qrHeroTitleLine1: 'Générateur de QR Code Gratuit en Ligne',
+    qrHeroTitleLine2: 'Lien Direct Permanent • 100% Professionnel',
+    qrHeroSub: 'Fini les pages de pub de 5 secondes ! Qubezip crée des QR codes permanents et propres. Copiez dans le presse-papiers ou téléchargez en .PNG, .SVG.',
+    qrTrustBoxTitle: 'Garantie 100% Professionnelle :',
+    qrTrustBoxSub: 'Les QR codes générés sont des liens directs permanents sans expiration ni publicité.',
+    qrInputLabel: 'Collez l\'URL ou tapez le texte pour le QR code',
+    qrCustomTitle: 'Options de Personnalisation',
+    qrFgColor: 'Couleur du QR',
+    qrBgColor: 'Couleur de Fond',
+    qrRes: 'Résolution (px)',
+    btnCopyClipboard: 'Copier l\'Image dans le Presse-papiers',
+    btnCopiedSuccess: 'Copié dans le Presse-papiers !',
+    btnDownloadPng: 'Télécharger .PNG',
+    btnDownloadJpeg: 'Télécharger .JPEG',
+    btnDownloadWebp: 'Télécharger .WEBP',
+    btnDownloadSvg: 'Télécharger .SVG',
+    qrNoAdsBadge: 'Lien Direct • Zéro Publicité',
+    qrCard1Title: 'Sans Interstitiel Publicitaire',
+    qrCard1Sub: 'Contrairement aux sites gratuits, le scan ouvre directement votre site web cible.',
+    qrCard2Title: 'Copie Instantanée',
+    qrCard2Sub: 'Cliquez sur "Copier l\'image" pour la coller directement dans WhatsApp, Mail ou Word.',
+    qrCard3Title: 'Formats Multiples',
+    qrCard3Sub: 'Téléchargez en .PNG, .JPEG, .WEBP ou vectoriel .SVG pour l\'impression.',
+
+    // SEO Content Highlights & Matrix
+    seoFeature1Title: 'Compresseur PDF par Taille Cible',
+    seoFeature1Sub: 'Compressez à 500 Ko, 1 Mo ou 2 Mo pour les candidatures et emails sans perte de netteté.',
+    seoFeature2Title: 'Convertisseur PDF en JPG Gratuit',
+    seoFeature2Sub: 'Convertissez chaque page en images haute définition. Téléchargement individuel ou ZIP.',
+    seoFeature3Title: 'Traitement Local 100% Sécurisé',
+    seoFeature3Sub: 'Tout s\'exécute localement dans votre navigateur. Aucun document n\'est envoyé sur un serveur.',
+    seoMatrixTitle: 'Outils en Ligne Populaires sur Qubezip',
+    seoMatrixSub: 'Outils gratuits 24/7 pour vos PDF et QR codes.',
+    seoMatrixQr: 'Générateur QR',
+    seoMatrixQrSub: 'Copier & Télécharger .PNG/SVG',
+    seoMatrix1mb: 'Compresser PDF à 1 Mo',
+    seoMatrix1mbSub: 'Candidatures & Inscriptions',
+    seoMatrix500kb: 'Compresser PDF à 500 Ko',
+    seoMatrix500kbSub: 'Portails Administratifs',
+    seoMatrixEmail: 'PDF pour Email',
+    seoMatrixEmailSub: 'Évite les Rejets de Pièces Jointes',
+
+    // FAQs
+    faqTitle: 'Foire Aux Questions (FAQ)',
+    faq1Q: 'Comment compresser un PDF à la taille cible ?',
+    faq1A: 'Téléchargez votre PDF, choisissez la taille comme 1 Mo ou 500 Ko et cliquez sur Compresser.',
+    faq2Q: 'Mes fichiers PDF sont-ils en sécurité ?',
+    faq2A: '100% sécurisés. Le traitement se fait localement dans votre navigateur sans aucun transfert de fichier.',
+    faq3Q: 'Pourquoi la taille finale peut-elle varier légèrement ?',
+    faq3A: 'Afin de préserver la lisibilité du texte et des polices, le système équilibre la taille avec la netteté.',
+    faq4Q: 'Quelle est la taille maximale de fichier prise en charge ?',
+    faq4A: 'Comme le traitement se fait sur votre appareil, nous prenons en charge les fichiers PDF jusqu\'à 200 Mo.',
+    faq5Q: 'Les QR codes contiennent-ils de la publicité ?',
+    faq5A: 'Absolument pas. Ce sont des liens directs permanents sans publicité ni expiration.',
+
+    // Ad Sidebars
+    adTitle: 'Espace Publicitaire',
+    adSub: 'Emplacement Disponible (160x600)',
+    adBtn: 'Annoncer Ici',
+
+    // Contact Advertising Page
+    adPageBadge: 'Advertising & Partnership Opportunities',
+    adPageTitle: 'Contact pour Publicité & Sponsorisation',
+    adPageSub: 'Touchez des milliers d\'utilisateurs gérant des fichiers PDF. Remplissez le formulaire ci-dessous.',
+    fieldName: 'Nom du Contact',
+    fieldCompany: 'Société / Marque / Site Web',
+    fieldEmail: 'Email de Contact',
+    fieldPhone: 'Téléphone / WhatsApp',
+    fieldMessage: 'Détails de la Demande',
+    placeholderSpecify: 'Veuillez préciser',
+    btnSubmitAd: 'Envoyer la Demande',
+    btnSubmittingAd: 'Envoi en cours...',
+    adSuccessTitle: 'Demande Envoyée avec Succès !',
+    adSuccessSub: 'Merci pour votre intérêt. Notre équipe vous recontactera rapidement.',
+
+    // Footer
+    footerRights: '© Qubezip. Tous droits réservés. Compresseur PDF & Générateur QR Gratuit.',
+    footerPrivacy: '100% Traitement dans le Navigateur • Aucun Enregistrement de Fichier',
   },
 
   es: {
