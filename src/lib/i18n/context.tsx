@@ -6,13 +6,14 @@ import { Language, dictionary } from './dictionary';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: typeof dictionary.th;
+  t: typeof dictionary.en;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('th');
+  // Default global initial state set to 'en' (English) to prevent 1-second Thai flash for international users
+  const [language, setLanguageState] = useState<Language>('en');
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   useEffect(() => {
