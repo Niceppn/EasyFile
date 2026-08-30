@@ -17,21 +17,46 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // 1. Check saved language preference in localStorage
-    const savedLang = localStorage.getItem('easyfile_lang') as Language | null;
+    const savedLang = localStorage.getItem('qubezip_lang') as Language | null;
 
     if (savedLang && (savedLang === 'th' || savedLang === 'en')) {
       setLanguageState(savedLang);
+      setIsInitialized(true);
     } else {
-      // 2. Auto-detect browser language
-      const browserLang = navigator.language || (navigator as any).userLanguage || '';
-      if (browserLang.toLowerCase().startsWith('th')) {
-        setLanguageState('th');
-      } else {
-        // Default to English for international users (en, ja, de, etc.)
-        setLanguageState('en');
-      }
+      // 2. Fetch Geo-IP Country Code from Cloudflare via /api/geo
+      fetch('/api/geo')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.country) {
+            if (data.country === 'TH') {
+              setLanguageState('th');
+            } else {
+              // Switzerland (CH), US, UK, JP, DE, etc. -> English
+              setLanguageState('en');
+            }
+          } else {
+            // Fallback to browser language
+            const browserLang = navigator.language || '';
+            if (browserLang.toLowerCase().startsWith('th')) {
+              setLanguageState('th');
+            } else {
+              setLanguageState('en');
+            }
+          }
+        })
+        .catch(() => {
+          // Fallback on network error
+          const browserLang = navigator.language || '';
+          if (browserLang.toLowerCase().startsWith('th')) {
+            setLanguageState('th');
+          } else {
+            setLanguageState('en');
+          }
+        })
+        .finally(() => {
+          setIsInitialized(true);
+        });
     }
-    setIsInitialized(true);
   }, []);
 
   const setLanguage = (lang: Language) => {
