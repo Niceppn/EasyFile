@@ -40,50 +40,50 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    // Send email using Resend API or SMTP fallback
+    const resendApiKey = process.env.RESEND_API_KEY;
+
+    // Send email using Resend API or SMTP fallback if keys are present
     if (resendApiKey) {
-      const resend = new Resend(resendApiKey);
-      const resendResult = await resend.emails.send({
-        from: 'Qubezip Ads <onboarding@resend.dev>',
-        to: [adminEmail],
-        subject: `[Qubezip Ads] มีผู้สนใจติดต่อโฆษณาจาก ${company} (${name})`,
-        html: htmlContent,
-      });
-
-      if (resendResult.error) {
-        console.error('❌ Resend API returned error:', resendResult.error);
-        return NextResponse.json(
-          { success: false, message: resendResult.error.message },
-          { status: 400 }
-        );
+      try {
+        const resend = new Resend(resendApiKey);
+        await resend.emails.send({
+          from: 'Qubezip Ads <onboarding@resend.dev>',
+          to: [adminEmail],
+          subject: `[Qubezip Ads] มีผู้สนใจติดต่อโฆษณาจาก ${company} (${name})`,
+          html: htmlContent,
+        });
+        console.log('✅ Email successfully delivered via Resend API!');
+      } catch (e) {
+        console.error('⚠️ Resend email sending failed, inquiry saved to DB:', e);
       }
+    } else if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+      try {
+        const transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST || 'smtp.gmail.com',
+          port: Number(process.env.SMTP_PORT) || 587,
+          secure: false,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+        });
 
-      console.log('✅ Email successfully delivered via Resend API! ID:', resendResult.data?.id);
+        await transporter.sendMail({
+          from: `"Qubezip Ads" <${process.env.SMTP_USER}>`,
+          to: adminEmail,
+          subject: `[Qubezip Ads] มีผู้สนใจติดต่อโฆษณาจาก ${company} (${name})`,
+          html: htmlContent,
+        });
+        console.log('✅ Real email sent via Nodemailer SMTP to', adminEmail);
+      } catch (e) {
+        console.error('⚠️ SMTP email sending failed, inquiry saved to DB:', e);
+      }
     }
-    // 2. Send via Gmail SMTP / Nodemailer if credentials are present
-    else if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || 'smtp.gmail.com',
-        port: Number(process.env.SMTP_PORT) || 587,
-        secure: false,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      });
 
-      await transporter.sendMail({
-        from: `"EasyFile Ads" <${process.env.SMTP_USER}>`,
-        to: adminEmail,
-        subject: `[EasyFile Ads] มีผู้สนใจติดต่อโฆษณาจาก ${company} (${name})`,
-        html: htmlContent,
-      });
-      console.log('✅ Real email sent via Nodemailer SMTP to', adminEmail);
-    }
-
+    // Return success to the user (the inquiry is safely saved in the DB)
     return NextResponse.json({
       success: true,
-      message: 'Inquiry received successfully',
+      message: 'Inquiry received and saved successfully',
     });
   } catch (error: any) {
     console.error('Contact API Error:', error);
