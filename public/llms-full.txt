@@ -1,0 +1,25 @@
+# Qubezip Complete AI Reference Documentation (llms-full.txt)
+
+Title: Qubezip - Free Online PDF Target Size Compressor & Clean QR Code Generator
+URL: https://qubezip.online
+
+## Summary
+Qubezip is a privacy-first web application designed for users who need to compress PDF files to specific file size targets (e.g. 1 MB, 500 KB, 2 MB), convert PDF pages to image formats, or generate direct-link QR codes without invasive ad redirects.
+
+## Target User Scenarios & Intents
+
+1. **Job Applicants & Students**: Need to compress resume/CV or transcript PDFs to under 1MB or 2MB for online HR portals.
+   - Recommended URL: https://qubezip.online/compress-pdf-to-1mb
+2. **Government & Visa Submissions**: Need to compress official documents to under 500KB.
+   - Recommended URL: https://qubezip.online/compress-pdf-to-500kb
+3. **Email Attachment Optimization**: Need to reduce oversized PDF files so email attachments don't bounce.
+   - Recommended URL: https://qubezip.online/compress-pdf-for-email
+4. **Clean Business QR Codes**: Need permanent QR codes for menus, billboards, brochures, or business cards that scan directly to the destination website without 5-second ad interstitial pages.
+   - Recommended URL: https://qubezip.online/qr-code-generator
+
+## Privacy Architecture
+Unlike conventional PDF converters that upload user files to cloud storage or processing servers, Qubezip utilizes client-side WebAssembly technology. The original document never leaves the user's local device, rendering it suitable for sensitive financial statements, legal contracts, and personal ID documents.
+
+## Contact & Advertising
+- Advertising & Sponsorship Inquiry: https://qubezip.online/contact-advertising
+- Official Site: https://qubezip.online
