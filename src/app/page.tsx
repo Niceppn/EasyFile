@@ -8,7 +8,7 @@ import { CompressionProgress } from '@/components/CompressionProgress';
 import { ResultCard } from '@/components/ResultCard';
 import { FAQSection } from '@/components/FAQSection';
 import { SEOContent } from '@/components/SEOContent';
-import { LeftAdSidebar, RightAdSidebar } from '@/components/AdSidebars';
+import { LeftAdSidebar, RightAdSidebar, MobileAdBanner } from '@/components/AdSidebars';
 import { compressPdfToTargetSize, CompressionResult, formatBytes } from '@/lib/pdf-compressor';
 import { useLanguage } from '@/lib/i18n/context';
 import { Zap, Play, AlertCircle } from 'lucide-react';
@@ -177,12 +177,15 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* SEO & FAQ Content */}
-          <SEOContent />
-          <FAQSection />
-        </main>
+            {/* Mobile Ad Banner */}
+            <MobileAdBanner />
 
-        <RightAdSidebar />
+            {/* SEO & FAQ Content */}
+            <SEOContent />
+            <FAQSection />
+          </main>
+
+          <RightAdSidebar />
       </div>
 
       {/* Footer */}

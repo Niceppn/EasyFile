@@ -55,3 +55,34 @@ export function RightAdSidebar() {
     </aside>
   );
 }
+
+export function MobileAdBanner() {
+  const { t } = useLanguage();
+
+  return (
+    <div className="xl:hidden w-full my-6 flex justify-center">
+      <Link
+        href="/contact-advertising"
+        className="w-full max-w-lg bg-gradient-to-r from-slate-50 via-slate-100 to-slate-50 hover:from-blue-50 hover:to-indigo-50 border-2 border-dashed border-slate-300 hover:border-blue-400 rounded-2xl p-4 transition-all flex items-center justify-between shadow-sm group"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+            <Megaphone className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-xs font-black text-slate-700 group-hover:text-blue-700 block">
+              {t.adBadge} (Mobile Banner)
+            </span>
+            <span className="text-[11px] text-slate-500 block">
+              {t.adContactBtn}
+            </span>
+          </div>
+        </div>
+        <div className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 bg-white px-3 py-1.5 rounded-full shadow-sm">
+          <PlusCircle className="w-3.5 h-3.5" />
+          <span>{t.adBtn}</span>
+        </div>
+      </Link>
+    </div>
+  );
+}
