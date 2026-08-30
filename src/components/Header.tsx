@@ -16,11 +16,11 @@ export function Header() {
         <Link href="/" className="flex items-center gap-4 hover:opacity-95 transition-opacity">
           <div className="relative h-16 sm:h-20 w-auto flex-shrink-0 flex items-center">
             <Image
-              src="/logo.png?v=2"
+              src="/logo.png?v=3"
               alt="Qubezip Logo"
               width={260}
               height={80}
-              className="h-16 sm:h-20 w-auto object-contain"
+              className="h-14 sm:h-16 w-auto object-contain"
               priority
               unoptimized
             />
