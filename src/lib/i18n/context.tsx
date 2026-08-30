@@ -96,9 +96,21 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // Update browser tab title dynamically whenever language changes
+  useEffect(() => {
+    const currentDict = dictionary[language] || dictionary.en;
+    if (currentDict && currentDict.docTitle) {
+      document.title = currentDict.docTitle;
+    }
+  }, [language]);
+
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('qubezip_lang', lang);
+    const currentDict = dictionary[lang] || dictionary.en;
+    if (currentDict && currentDict.docTitle) {
+      document.title = currentDict.docTitle;
+    }
   };
 
   const t = dictionary[language] || dictionary.en;

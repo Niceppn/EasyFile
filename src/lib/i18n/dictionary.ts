@@ -2,6 +2,8 @@ export type Language = 'th' | 'en' | 'ja' | 'ko' | 'fr' | 'es' | 'de' | 'zh';
 
 export const dictionary = {
   th: {
+    docTitle: 'Qubezip - บีบอัด PDF กำหนดขนาดได้ & สร้าง QR Code ฟรี',
+
     // Header & Nav
     headerBadge: 'ยูทิลิตี้ครบวงจร บีบอัด PDF • แปลง PDF เป็นภาพ • สร้าง QR Code',
     headerSub: 'เครื่องมือจัดการไฟล์ PDF และสร้าง QR Code ฟรีออนไลน์ 100%',
@@ -151,6 +153,8 @@ export const dictionary = {
   },
 
   en: {
+    docTitle: 'Qubezip - Compress PDF to Target Size & Free QR Generator',
+
     // Header & Nav
     headerBadge: 'PDF Utility Suite • Target Compressor • PDF to Image • QR Generator',
     headerSub: '100% Free & Secure Online PDF Utility & QR Code Tools',
@@ -300,6 +304,8 @@ export const dictionary = {
   },
 
   ja: {
+    docTitle: 'Qubezip - 無料PDF指定容量圧縮・QRコード作成',
+
     // Header & Nav (Japanese 🇯🇵)
     headerBadge: 'オールインワンPDFツール • 指定容量圧縮 • 画像変換 • QR作成',
     headerSub: '完全無料で安全なオンラインPDF圧縮＆QRコード作成ツール',
@@ -449,6 +455,8 @@ export const dictionary = {
   },
 
   ko: {
+    docTitle: 'Qubezip - 온라인 PDF 용량 무료 압축 & QR 코드 생성기',
+
     // Header & Nav (Korean 🇰🇷)
     headerBadge: '올인원 PDF 툴킷 • 용량 지정 압축 • 이미지 변환 • QR 생성',
     headerSub: '100% 무료 및 안전한 온라인 PDF 용량 압축 & QR 코드 생성기',
@@ -493,7 +501,7 @@ export const dictionary = {
     targetSub: '원하는 용량 버튼을 선택하거나 직접 용량을 입력하세요',
     targetBudget: '목표 용량:',
     customSizeLabel: '직접 입력:',
-    varianceNotice: '※ 텍스트 선명도를 유지하기 위해 압축 후 용량에 약간의 오차(±)가 발생할 수 있습니다.',
+    varianceNotice: '※ 텍스트 선명도를 유지하기 위해 압축 후 용량에 약간의 오차가 발생할 수 있습니다.',
     targetLargerWarning: '목표 용량이 원본보다 크거나 같으면 최적화만 적용됩니다.',
     btnCompress: 'PDF 압축 시작',
 
@@ -598,6 +606,8 @@ export const dictionary = {
   },
 
   fr: {
+    docTitle: 'Qubezip - Compresser PDF par Taille Cible & Générateur QR',
+
     // Header & Nav (French 🇫🇷)
     headerBadge: 'Suite PDF Complète • Compresseur par Taille Cible • PDF en Image • QR',
     headerSub: 'Outils PDF et Générateur de QR Code 100% Gratuits et Sécurisés',
@@ -747,6 +757,8 @@ export const dictionary = {
   },
 
   es: {
+    docTitle: 'Qubezip - Comprimir PDF por Tamaño Objetivo y QR Gratis',
+
     // Header & Nav (Spanish 🇪🇸)
     headerBadge: 'Suite PDF Completa • Compresor por Tamaño Target • PDF a Imagen • QR',
     headerSub: 'Herramientas PDF y Generador de QR 100% Gratis y Seguro Online',
@@ -896,6 +908,8 @@ export const dictionary = {
   },
 
   de: {
+    docTitle: 'Qubezip - PDF-Dateigröße Komprimieren & QR-Generator',
+
     // Header & Nav (German 🇩🇪)
     headerBadge: 'PDF-Komplettsuite • Zielgrößen-Komprimierer • PDF zu Bild • QR-Generator',
     headerSub: '100% Kostenlose & Sichere Online-PDF-Werkzeuge & QR-Code-Generator',
@@ -1045,6 +1059,8 @@ export const dictionary = {
   },
 
   zh: {
+    docTitle: 'Qubezip - 在线按目标容量压缩 PDF 与二维码生成器',
+
     // Header & Nav (Chinese 🇨🇳)
     headerBadge: '全能PDF工具包 • 按目标容量压缩 • PDF转图片 • 二维码生成',
     headerSub: '100% 免费安全的在线PDF处理与二维码生成工具',
