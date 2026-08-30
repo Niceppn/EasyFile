@@ -42,6 +42,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden max-w-full`}
     >
       <head>
+        <meta name="color-scheme" content="light" />
+        <meta name="theme-color" content="#ffffff" />
         {/* Standard Google AdSense Script without Next.js data-nscript attribute */}
         <script
           async
