@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '@/lib/i18n/context';
+import { Language } from '@/lib/i18n/dictionary';
 
-// High-resolution SVG Vector Flags
+// SVG Vector Flags
 function ThaiFlag() {
   return (
     <svg viewBox="0 0 900 600" className="w-4 h-3 rounded-[2px] shadow-xs inline-block flex-shrink-0 border border-slate-200">
@@ -43,12 +44,12 @@ function JapanFlag() {
   );
 }
 
-function FranceFlag() {
+function SpainFlag() {
   return (
     <svg viewBox="0 0 900 600" className="w-4 h-3 rounded-[2px] shadow-xs inline-block flex-shrink-0 border border-slate-200">
-      <rect width="300" height="600" fill="#002395" />
-      <rect x="300" width="300" height="600" fill="#FFFFFF" />
-      <rect x="600" width="300" height="600" fill="#ED2939" />
+      <rect width="900" height="150" fill="#AA1515" />
+      <rect y="150" width="900" height="300" fill="#F1BF00" />
+      <rect y="450" width="900" height="150" fill="#AA1515" />
     </svg>
   );
 }
@@ -63,16 +64,6 @@ function GermanyFlag() {
   );
 }
 
-function SpainFlag() {
-  return (
-    <svg viewBox="0 0 900 600" className="w-4 h-3 rounded-[2px] shadow-xs inline-block flex-shrink-0 border border-slate-200">
-      <rect width="900" height="150" fill="#AA1515" />
-      <rect y="150" width="900" height="300" fill="#F1BF00" />
-      <rect y="450" width="900" height="150" fill="#AA1515" />
-    </svg>
-  );
-}
-
 function ChinaFlag() {
   return (
     <svg viewBox="0 0 900 600" className="w-4 h-3 rounded-[2px] shadow-xs inline-block flex-shrink-0 border border-slate-200">
@@ -82,71 +73,92 @@ function ChinaFlag() {
   );
 }
 
-interface CountryInfo {
-  code: string;
-  label: string;
+interface LanguageOption {
+  code: Language;
+  name: string;
+  shortLabel: string;
   flag: React.ReactNode;
 }
 
+const LANGUAGES: LanguageOption[] = [
+  { code: 'th', name: 'ไทย (Thai)', shortLabel: 'TH', flag: <ThaiFlag /> },
+  { code: 'en', name: 'English (UK/US)', shortLabel: 'EN', flag: <UkFlag /> },
+  { code: 'ja', name: '日本語 (Japanese)', shortLabel: 'JP', flag: <JapanFlag /> },
+  { code: 'es', name: 'Español (Spanish)', shortLabel: 'ES', flag: <SpainFlag /> },
+  { code: 'de', name: 'Deutsch (German)', shortLabel: 'DE', flag: <GermanyFlag /> },
+  { code: 'zh', name: '中文 (Chinese)', shortLabel: 'CN', flag: <ChinaFlag /> },
+];
+
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
-  const [visitorCountry, setVisitorCountry] = useState<CountryInfo>({
-    code: 'TH',
-    label: 'TH',
-    flag: <ThaiFlag />,
-  });
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const currentLangObj = LANGUAGES.find((l) => l.code === language) || LANGUAGES[0];
 
   useEffect(() => {
-    const browserLang = (navigator.language || (navigator as any).userLanguage || '').toLowerCase();
-
-    if (browserLang.startsWith('ja')) {
-      setVisitorCountry({ code: 'JA', label: 'JP', flag: <JapanFlag /> });
-    } else if (browserLang.startsWith('fr')) {
-      setVisitorCountry({ code: 'FR', label: 'FR', flag: <FranceFlag /> });
-    } else if (browserLang.startsWith('de')) {
-      setVisitorCountry({ code: 'DE', label: 'DE', flag: <GermanyFlag /> });
-    } else if (browserLang.startsWith('es')) {
-      setVisitorCountry({ code: 'ES', label: 'ES', flag: <SpainFlag /> });
-    } else if (browserLang.startsWith('zh')) {
-      setVisitorCountry({ code: 'ZH', label: 'CN', flag: <ChinaFlag /> });
-    } else if (browserLang.startsWith('th')) {
-      setVisitorCountry({ code: 'TH', label: 'TH', flag: <ThaiFlag /> });
-    } else {
-      setVisitorCountry({ code: 'TH', label: 'TH', flag: <ThaiFlag /> });
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
     }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
-    <div className="inline-flex items-center p-1 bg-slate-100 rounded-full border border-slate-200 shadow-inner">
-      {/* Local Visitor Country Button */}
+    <div className="relative inline-block text-left" ref={dropdownRef}>
+      {/* Current Selected Language Pill Trigger */}
       <button
         type="button"
-        onClick={() => setLanguage('th')}
-        className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black transition-all ${
-          language === 'th'
-            ? 'bg-white text-blue-700 shadow-sm'
-            : 'text-slate-500 hover:text-slate-800'
-        }`}
-        title={`Switch to ${visitorCountry.label}`}
+        onClick={() => setIsOpen(!isOpen)}
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-full border border-slate-200 text-xs font-black text-slate-800 transition-all shadow-xs cursor-pointer"
+        aria-haspopup="true"
+        aria-expanded={isOpen}
       >
-        {visitorCountry.flag}
-        <span>{visitorCountry.label}</span>
+        {currentLangObj.flag}
+        <span>{currentLangObj.shortLabel}</span>
+        <svg
+          className={`w-3 h-3 text-slate-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
 
-      {/* Global English Default Button */}
-      <button
-        type="button"
-        onClick={() => setLanguage('en')}
-        className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black transition-all ${
-          language === 'en'
-            ? 'bg-white text-blue-700 shadow-sm'
-            : 'text-slate-500 hover:text-slate-800'
-        }`}
-        title="Switch to English (Default)"
-      >
-        <UkFlag />
-        <span>EN</span>
-      </button>
+      {/* Language Selector Dropdown Menu */}
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="px-3 py-1 text-[10px] font-bold tracking-wider text-slate-400 uppercase border-b border-slate-100 mb-1">
+            Select Language / 言語選択
+          </div>
+          {LANGUAGES.map((lang) => (
+            <button
+              key={lang.code}
+              type="button"
+              onClick={() => {
+                setLanguage(lang.code);
+                setIsOpen(false);
+              }}
+              className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium transition-colors cursor-pointer ${
+                language === lang.code
+                  ? 'bg-blue-50 text-blue-700 font-bold'
+                  : 'text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              {lang.flag}
+              <span className="flex-1 text-left">{lang.name}</span>
+              {language === lang.code && (
+                <svg className="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
