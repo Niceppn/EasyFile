@@ -4,9 +4,9 @@ import { Header } from '@/components/Header';
 import { PdfToImageConverter } from '@/components/PdfToImageConverter';
 import { FAQSection } from '@/components/FAQSection';
 import { SEOContent } from '@/components/SEOContent';
-import { LeftAdSidebar, RightAdSidebar } from '@/components/AdSidebars';
+import { LeftAdSidebar, RightAdSidebar, MobileAdBanner } from '@/components/AdSidebars';
 import { useLanguage } from '@/lib/i18n/context';
-import { Image as ImageIcon, Sparkles, ShieldCheck, Download, FileArchive } from 'lucide-react';
+import { Image as ImageIcon } from 'lucide-react';
 
 export default function PdfToImagePage() {
   const { t } = useLanguage();
@@ -14,7 +14,7 @@ export default function PdfToImagePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'EasyFile - แปลง PDF เป็น JPG / PNG ฟรีออนไลน์',
+    name: 'Qubezip - Convert PDF to Image',
     operatingSystem: 'All',
     applicationCategory: 'BusinessApplication',
     offers: {
@@ -23,7 +23,7 @@ export default function PdfToImagePage() {
       priceCurrency: 'THB',
     },
     description:
-      'เครื่องมือแปลงไฟล์ PDF เป็นไฟล์รูปภาพ .JPG, .PNG, .WEBP ฟรีออนไลน์ แยกทุกหน้า โหลดแบบ ZIP ได้ใน 1 คลิก',
+      'Free online PDF to image converter. Extract PDF pages to .JPG, .PNG, .WEBP with 1-click ZIP download.',
   };
 
   return (
@@ -63,6 +63,9 @@ export default function PdfToImagePage() {
           <div className="max-w-3xl mx-auto">
             <PdfToImageConverter />
           </div>
+
+          {/* Mobile Ad Banner */}
+          <MobileAdBanner />
 
           <SEOContent />
           <FAQSection />

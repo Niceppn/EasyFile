@@ -4,7 +4,7 @@ import { Header } from '@/components/Header';
 import { QrCodeGenerator } from '@/components/QrCodeGenerator';
 import { FAQSection } from '@/components/FAQSection';
 import { SEOContent } from '@/components/SEOContent';
-import { LeftAdSidebar, RightAdSidebar } from '@/components/AdSidebars';
+import { LeftAdSidebar, RightAdSidebar, MobileAdBanner } from '@/components/AdSidebars';
 import { useLanguage } from '@/lib/i18n/context';
 import { ShieldCheck, Download, Copy, Ban } from 'lucide-react';
 
@@ -14,7 +14,7 @@ export default function QrCodePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'EasyFile - QR Code Generator (No Ads)',
+    name: 'Qubezip - QR Code Generator (No Ads)',
     operatingSystem: 'All',
     applicationCategory: 'BusinessApplication',
     offers: {
@@ -102,6 +102,9 @@ export default function QrCodePage() {
               </p>
             </div>
           </div>
+
+          {/* Mobile Ad Banner */}
+          <MobileAdBanner />
 
           <SEOContent />
           <FAQSection />
