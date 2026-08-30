@@ -21,34 +21,44 @@ export function GoogleAdUnit({
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const checkAndPushAd = () => {
-      if (isPushed.current) return;
+    const el = adRef.current;
+    if (!el) return;
 
-      const el = adRef.current;
-      // Only push to adsbygoogle queue if the container is visible and has width > 0
-      if (el && el.offsetWidth > 0 && el.offsetParent !== null) {
-        try {
-          // @ts-ignore
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
-          isPushed.current = true;
-        } catch (err) {
-          console.error('Google AdSense Unit push error:', err);
-        }
-      }
+    // Use IntersectionObserver to push ONLY when the ad unit is actually visible in viewport & has width > 100px
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isPushed.current) {
+            const rect = entry.boundingClientRect;
+            if (rect.width > 100) {
+              try {
+                // @ts-ignore
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+                isPushed.current = true;
+                observer.disconnect();
+              } catch (err) {
+                // Silently swallow any transient AdSense queue errors
+              }
+            }
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
     };
-
-    // Delay slightly to ensure layout & DOM dimensions are calculated
-    const timer = setTimeout(checkAndPushAd, 300);
-
-    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className={`w-full overflow-hidden min-h-[90px] flex justify-center items-center text-center my-2 ${className}`}>
+    <div className={`w-full overflow-hidden min-h-[90px] min-w-[250px] flex justify-center items-center text-center my-2 ${className}`}>
       <ins
         ref={adRef}
         className="adsbygoogle"
-        style={{ display: 'block', width: '100%' }}
+        style={{ display: 'block', width: '100%', minHeight: '90px' }}
         data-ad-client="ca-pub-4042640078267186"
         data-ad-slot={slot}
         data-ad-format={format}
