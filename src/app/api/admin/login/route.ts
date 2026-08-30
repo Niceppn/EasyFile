@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { password } = body;
 
-    const expectedPassword = process.env.ADMIN_PASSWORD || 'easyfile2026';
+    const expectedPassword = process.env.ADMIN_PASSWORD || 'qubezip2026';
 
     if (password === expectedPassword) {
       const response = NextResponse.json({

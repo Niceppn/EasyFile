@@ -185,7 +185,7 @@ export default function EasyAdminPortalPage() {
               <ShieldCheck className="w-8 h-8" />
             </div>
             <h1 className="text-2xl font-black tracking-tight text-white">
-              EasyFile Admin Gate
+              Qubezip Admin Gate
             </h1>
             <p className="text-xs text-slate-400">
               พื้นที่สำหรับผู้ดูแลระบบเท่านั้น กรุณากรอกรหัสผ่านเพื่อเข้าใช้งาน
@@ -238,7 +238,7 @@ export default function EasyAdminPortalPage() {
             </div>
             <div>
               <h1 className="text-lg font-black text-white flex items-center gap-2">
-                <span>EasyFile Security & Control Center</span>
+                <span>Qubezip Security & Control Center</span>
                 <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">
                   Secret Route
                 </span>

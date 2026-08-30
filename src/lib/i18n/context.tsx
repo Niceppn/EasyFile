@@ -36,7 +36,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem('easyfile_lang', lang);
+    localStorage.setItem('qubezip_lang', lang);
   };
 
   const t = dictionary[language];

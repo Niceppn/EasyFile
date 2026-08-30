@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /easy-admin-portal-998/
+Disallow: /qube-admin-portal-998/
 Disallow: /api/
 
-Sitemap: https://easyfile.click/sitemap.xml
+Sitemap: https://qubezip.online/sitemap.xml

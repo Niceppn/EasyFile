@@ -27,27 +27,26 @@ export async function POST(request: Request) {
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px;">
-        <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">📢 มีผู้สนใจติดต่อลงโฆษณาบน EasyFile!</h2>
-        <p><strong>ชื่อผู้ติดต่อ:</strong> ${name}</p>
-        <p><strong>บริษัท / แบรนด์ / เว็บไซต์:</strong> ${company}</p>
-        <p><strong>อีเมลติดต่อกลับ:</strong> <a href="mailto:${email}">${email}</a></p>
-        <p><strong>เบอร์โทรศัพท์ / Line ID:</strong> ${phone}</p>
-        <p><strong>รายละเอียดเพิ่มเติม:</strong></p>
-        <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
-          ${message ? message.replace(/\n/g, '<br/>') : 'ไม่ได้ระบุ'}
-        </div>
-        <hr style="margin-top: 20px; border: none; border-top: 1px solid #eee;"/>
-        <p style="font-size: 12px; color: #666;">ข้อความนี้ถูกส่งโดยอัตโนมัติจากระบบ EasyFile Advertising Inquiry System</p>
+        <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">📢 มีผู้สนใจติดต่อลงโฆษณาบน Qubezip!</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+          <tr><td style="padding: 8px; font-weight: bold; width: 140px; color: #475569;">ชื่อผู้ติดต่อ:</td><td style="padding: 8px; color: #1e293b;">${name}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #475569;">บริษัท / แบรนด์:</td><td style="padding: 8px; color: #2563eb; font-weight: bold;">${company}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #475569;">อีเมล:</td><td style="padding: 8px; color: #1e293b;"><a href="mailto:${email}">${email}</a></td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #475569;">เบอร์โทร / Line:</td><td style="padding: 8px; color: #1e293b;">${phone}</td></tr>
+          <tr><td style="padding: 8px; font-weight: bold; color: #475569; vertical-align: top;">รายละเอียด:</td><td style="padding: 8px; color: #334155;">${message || '-'}</td></tr>
+        </table>
+        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;"/>
+        <p style="font-size: 12px; color: #666;">ข้อความนี้ถูกส่งโดยอัตโนมัติจากระบบ Qubezip Advertising Inquiry System</p>
       </div>
     `;
 
-    // 1. Send via Resend API if RESEND_API_KEY is present
-    if (process.env.RESEND_API_KEY) {
-      const resend = new Resend(process.env.RESEND_API_KEY);
+    // Send email using Resend API or SMTP fallback
+    if (resendApiKey) {
+      const resend = new Resend(resendApiKey);
       const resendResult = await resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: adminEmail,
-        subject: `[EasyFile Ads] มีผู้สนใจติดต่อโฆษณาจาก ${company} (${name})`,
+        from: 'Qubezip Ads <onboarding@resend.dev>',
+        to: [adminEmail],
+        subject: `[Qubezip Ads] มีผู้สนใจติดต่อโฆษณาจาก ${company} (${name})`,
         html: htmlContent,
       });
 

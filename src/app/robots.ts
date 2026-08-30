@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/easy-admin-portal-998/', '/api/'],
+      disallow: ['/qube-admin-portal-998/', '/api/'],
     },
-    sitemap: 'https://easyfile.click/sitemap.xml',
+    sitemap: 'https://qubezip.online/sitemap.xml',
   };
 }

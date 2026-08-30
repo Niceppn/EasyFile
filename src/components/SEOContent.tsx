@@ -15,7 +15,8 @@ export function SEOContent({ title, targetPresetText }: SEOContentProps) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'EasyFile - PDF Compressor & QR Code Generator',
+    name: 'Qubezip - PDF Compressor & QR Code Generator',
+    url: 'https://qubezip.online',
     operatingSystem: 'All',
     applicationCategory: 'BusinessApplication',
     offers: {

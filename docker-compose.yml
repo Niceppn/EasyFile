@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  easyfile:
+  qubezip:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: easyfile-app
+    container_name: qubezip-app
     restart: always
     ports:
       - "3000:3000"
@@ -13,10 +13,10 @@ services:
       - NODE_ENV=production
       - CONTACT_ADMIN_EMAIL=${CONTACT_ADMIN_EMAIL:-pphutana01@gmail.com}
       - RESEND_API_KEY=${RESEND_API_KEY}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-easyfile2026}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-qubezip2026}
     volumes:
-      - easyfile-data:/app/.data
+      - qubezip-data:/app/.data
 
 volumes:
-  easyfile-data:
+  qubezip-data:
     driver: local

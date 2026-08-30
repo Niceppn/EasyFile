@@ -205,7 +205,7 @@ export function getStatsSummary() {
   // Recent Generated QR Code Links
   const recentQrEvents = qrGenerateEvents.slice(-50).reverse().map((e) => ({
     id: e.id,
-    url: e.details || 'https://easyfile.click',
+    url: e.details || 'https://qubezip.online',
     country: e.country,
     timestamp: e.timestamp,
   }));

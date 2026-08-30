@@ -17,7 +17,7 @@ export function Header() {
           <div className="relative h-16 sm:h-20 w-auto flex-shrink-0 flex items-center">
             <Image
               src="/logo.png?v=2"
-              alt="EasyFile Logo"
+              alt="Qubezip Logo"
               width={260}
               height={80}
               className="h-16 sm:h-20 w-auto object-contain"

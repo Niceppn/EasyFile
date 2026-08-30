@@ -72,9 +72,9 @@ export const dictionary = {
     qrHeroBadge: 'ลิงก์ตรงแท้ 100% • ไม่มีหน้าโฆษณาคั่น • ไม่ต้องกดข้ามโฆษณา',
     qrHeroTitleLine1: 'สร้าง QR Code ออนไลน์ ฟรี',
     qrHeroTitleLine2: 'ลิงก์ตรง ไม่มีโฆษณาคั่น ดูมืออาชีพ 100%',
-    qrHeroSub: 'หมดปัญหาผู้ใช้สแกนแล้วเจอหน้าโฆษณา 5 วินาที หรือต้องกดข้าม! EasyFile สร้าง QR Code ลิงก์ตรงถาวร สแกนเปิดเข้าเว็บเป้าหมายของคุณทันที คัดลอกภาพลง Clipboard หรือดาวน์โหลดไฟล์ .PNG, .JPEG, .WEBP, .SVG ได้ฟรี',
+    qrHeroSub: 'หมดปัญหาผู้ใช้สแกนแล้วเจอหน้าโฆษณา 5 วินาที หรือต้องกดข้าม! Qubezip สร้าง QR Code ลิงก์ตรงถาวร สแกนเปิดเข้าเว็บเป้าหมายของคุณทันที คัดลอกภาพลง Clipboard หรือดาวน์โหลดไฟล์ .PNG, .JPEG, .WEBP, .SVG ได้ฟรี',
     qrTrustBoxTitle: 'การันตีความโปรและมืออาชีพ 100%:',
-    qrTrustBoxSub: 'QR Code ที่สร้างจาก EasyFile เป็นลิงก์ตรงแท้ สแกนแล้วเปิดเข้าเว็บทันที ไม่มีหน้าโฆษณาคั่น • ไม่ต้องกดข้ามโฆษณา • ไม่มีวันหมดอายุ',
+    qrTrustBoxSub: 'QR Code ที่สร้างจาก Qubezip เป็นลิงก์ตรงแท้ สแกนแล้วเปิดเข้าเว็บทันที ไม่มีหน้าโฆษณาคั่น • ไม่ต้องกดข้ามโฆษณา • ไม่มีวันหมดอายุ',
     qrInputLabel: 'วางลิงก์ (URL) หรือพิมพ์ข้อความที่ต้องการสร้าง QR Code',
     qrCustomTitle: 'ปรับแต่งสไตล์และสีสัน (Customization)',
     qrFgColor: 'สี QR Code (Foreground)',
@@ -101,7 +101,7 @@ export const dictionary = {
     seoFeature2Sub: 'แปลงทุกหน้าในไฟล์ PDF เป็นรูปภาพคุณภาพสูง ดาวน์โหลดเป็นรายหน้า หรือโหลดไฟล์รวม .ZIP ใน 1 คลิก',
     seoFeature3Title: 'ปลอดภัย 100% ประมวลผลบนเครื่อง',
     seoFeature3Sub: 'การประมวลผลทั้งหมดทำงานบนเบราว์เซอร์ของคุณโดยตรง เอกสารไม่ถูกส่งเข้าเซิร์ฟเวอร์',
-    seoMatrixTitle: 'เครื่องมือยูทิลิตี้ยอดนิยมบน EasyFile',
+    seoMatrixTitle: 'เครื่องมือยูทิลิตี้ยอดนิยมบน Qubezip',
     seoMatrixSub: 'เลือกใช้งานเครื่องมือบีบอัดไฟล์และสร้าง QR Code ได้ฟรีตลอด 24 ชั่วโมง',
     seoMatrixQr: 'สร้าง QR Code',
     seoMatrixQrSub: 'คัดลอก & โหลด .PNG/SVG',
@@ -119,11 +119,11 @@ export const dictionary = {
     faq2Q: 'ไฟล์ PDF ของฉันปลอดภัยหรือไม่ในการใช้งาน?',
     faq2A: 'ปลอดภัย 100%! การประมวลผลการบีบอัดไฟล์ทั้งหมดทำในเว็บเบราว์เซอร์บนเครื่องคอมพิวเตอร์หรือมือถือของคุณเองโดยตรงผ่านเทคโนโลยี HTML5 Canvas & WebAssembly โดยไม่มีการส่งไฟล์ของคุณขึ้นไปยังเซิร์ฟเวอร์ภายนอกใดๆ ทั้งสิ้น',
     faq3Q: 'ทำไมขนาดไฟล์ที่ได้อาจแตกต่างจากเป้าหมายเล็กน้อย?',
-    faq3A: 'ขนาดไฟล์ PDF ขึ้นอยู่กับองค์ประกอบภายในไฟล์ เช่น ข้อความ เวกเตอร์ ฟอนต์ที่ฝังมา หรือรูปภาพความละเอียดสูง ระบบ EasyFile จะทำการคำนวณและปรับลดขนาดลงให้ใกล้เคียงเป้าหมายที่สุดโดยยังคงรักษาความคมชัดและความอ่านง่ายของเอกสารไว้',
+    faq3A: 'ขนาดไฟล์ PDF ขึ้นอยู่กับองค์ประกอบภายในไฟล์ เช่น ข้อความ เวกเตอร์ ฟอนต์ที่ฝังมา หรือรูปภาพความละเอียดสูง ระบบ Qubezip จะทำการคำนวณและปรับลดขนาดลงให้ใกล้เคียงเป้าหมายที่สุดโดยยังคงรักษาความคมชัดและความอ่านง่ายของเอกสารไว้',
     faq4Q: 'ขนาดไฟล์ PDF สูงสุดที่รองรับคือเท่าไหร่?',
     faq4A: 'เนื่องจากการประมวลผลทำบนเครื่องของคุณเอง ระบบจึงรองรับไฟล์ PDF ขนาดใหญ่ได้สูงสุดถึง 200 MB โดยไม่ต้องเสียเวลารออัปโหลดไฟล์ขึ้นเซิร์ฟเวอร์',
     faq5Q: 'QR Code ที่สร้างจะมีหน้าโฆษณาแทรก หรือต้องกดข้ามก่อนเข้าเว็บหรือไม่?',
-    faq5A: 'ไม่มีแน่นอน! QR Code จาก EasyFile เป็นลิงก์ตรงแท้ 100% สแกนแล้วเปิดเข้าสู่เว็บไซต์เป้าหมายของคุณทันที โดยไม่มีหน้าโฆษณาคั่น ไม่ต้องรอนับถอยหลัง 5 วินาที ไม่ต้องกดข้ามโฆษณา และไม่มีวันหมดอายุ',
+    faq5A: 'ไม่มีแน่นอน! QR Code จาก Qubezip เป็นลิงก์ตรงแท้ 100% สแกนแล้วเปิดเข้าสู่เว็บไซต์เป้าหมายของคุณทันที โดยไม่มีหน้าโฆษณาคั่น ไม่ต้องรอนับถอยหลัง 5 วินาที ไม่ต้องกดข้ามโฆษณา และไม่มีวันหมดอายุ',
 
     // Ad Sidebars
     adTitle: 'พื้นที่โฆษณา',
@@ -268,11 +268,11 @@ export const dictionary = {
     faq2Q: 'Are my PDF files safe?',
     faq2A: '100% Safe! All PDF compression is performed locally inside your browser using HTML5 Canvas & WebAssembly. Your files are never uploaded to any remote server.',
     faq3Q: 'Why might the output size vary slightly from the target?',
-    faq3A: 'Final size depends on embedded text, fonts, and vector elements. EasyFile optimizes streams to match your target budget while preserving maximum text legibility.',
+    faq3A: 'Final size depends on embedded text, fonts, and vector elements. Qubezip optimizes streams to match your target budget while preserving maximum text legibility.',
     faq4Q: 'What is the maximum supported PDF file size?',
-    faq4A: 'Because processing happens on your local device, EasyFile supports large PDF files up to 200 MB without server upload delays.',
+    faq4A: 'Because processing happens on your local device, Qubezip supports large PDF files up to 200 MB without server upload delays.',
     faq5Q: 'Do generated QR codes contain ad screens or skip-ad redirects?',
-    faq5A: 'Absolutely NOT! QR codes created on EasyFile are 100% direct static links. Scans immediately to your target website without ad popups, countdowns, or expiration.',
+    faq5A: 'Absolutely NOT! QR codes created on Qubezip are 100% direct static links. Scans immediately to your target website without ad popups, countdowns, or expiration.',
 
     // Ad Sidebars
     adTitle: 'Ad Space',
@@ -295,7 +295,7 @@ export const dictionary = {
     adSuccessSub: 'Thank you for your interest! Our team will get back to you shortly.',
 
     // Footer
-    footerRights: '© EasyFile. All rights reserved. Free PDF Compressor & QR Code Generator.',
+    footerRights: '© Qubezip. All rights reserved. Free PDF Compressor & QR Code Generator.',
     footerPrivacy: '100% In-Browser Compression • Zero Upload Data Logging',
   },
 };

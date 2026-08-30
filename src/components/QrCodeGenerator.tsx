@@ -7,7 +7,7 @@ import { useLanguage } from '@/lib/i18n/context';
 
 export function QrCodeGenerator() {
   const { t } = useLanguage();
-  const [text, setText] = useState<string>('https://easyfile.click');
+  const [text, setText] = useState<string>('https://qubezip.online');
   const [fgColor, setFgColor] = useState<string>('#0f172a');
   const [bgColor, setBgColor] = useState<string>('#ffffff');
   const [size, setSize] = useState<number>(500);

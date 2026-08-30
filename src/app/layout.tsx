@@ -15,12 +15,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "EasyFile - บีบอัด PDF กำหนดขนาดได้ & สร้าง QR Code ฟรี",
-    template: "%s | EasyFile",
+    default: "Qubezip - บีบอัด PDF กำหนดขนาดได้ & สร้าง QR Code ฟรี",
+    template: "%s | Qubezip",
   },
   description:
-    "เครื่องมือย่อขนาดไฟล์ PDF เลือกขนาดไฟล์เป้าหมายได้ตามต้องการ และสร้าง QR Code ฟรีออนไลน์ ไม่มีโฆษณาคั่น ปลอดภัย 100%",
-  keywords: ["บีบอัด PDF", "บีบอัด PDF 1MB", "บีบอัด PDF 500KB", "สร้าง QR Code", "QR Code ฟรี", "EasyFile"],
+    "เครื่องมือบีบอัด PDF ออนไลน์ กำหนดขนาดได้ตามต้องการ (1MB, 500KB) ปลอดภัย 100% ประมวลผลบนเบราว์เซอร์ พร้อมระบบสร้าง QR Code ฟรี ลิงก์ตรง ไม่มีโฆษณา",
+  keywords: ["บีบอัด PDF", "บีบอัด PDF 1MB", "บีบอัด PDF 500KB", "สร้าง QR Code", "QR Code ฟรี", "Qubezip"],
   icons: {
     icon: "/logo.png?v=2",
     shortcut: "/logo.png?v=2",
