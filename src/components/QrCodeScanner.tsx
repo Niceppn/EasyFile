@@ -102,7 +102,7 @@ export function QrCodeScanner() {
             body: JSON.stringify({
               eventType: 'QR_GENERATE',
               status: 'SUCCESS',
-              url: `SCANNED: ${code.data}`,
+              url: `[READ QR] ${code.data}`,
             }),
           }).catch(() => {});
         } catch (e) {}

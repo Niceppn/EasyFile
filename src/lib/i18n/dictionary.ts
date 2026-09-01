@@ -9,7 +9,7 @@ export const dictionary = {
     headerSub: 'เครื่องมือจัดการไฟล์ PDF และสร้าง QR Code ฟรีออนไลน์ 100%',
     navCompressPdf: 'บีบอัด PDF',
     navPdfToImage: 'แปลง PDF เป็นภาพ',
-    navQrGenerator: 'สร้าง QR Code',
+    navQrGenerator: 'สร้าง & สแกน QR Code',
     navContactAd: 'ติดต่อโฆษณา',
 
     // Hero Homepage
@@ -160,7 +160,7 @@ export const dictionary = {
     headerSub: '100% Free & Secure Online PDF Utility & QR Code Tools',
     navCompressPdf: 'Compress PDF',
     navPdfToImage: 'PDF to Image',
-    navQrGenerator: 'QR Code Generator',
+    navQrGenerator: 'QR Code Gen / Read',
     navContactAd: 'Advertise',
 
     // Hero Homepage

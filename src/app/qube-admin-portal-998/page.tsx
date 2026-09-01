@@ -22,6 +22,7 @@ import {
   Copy,
   Check,
   Zap,
+  ScanLine,
 } from 'lucide-react';
 
 interface StatsData {
@@ -244,7 +245,7 @@ export default function EasyAdminPortalPage() {
                 </span>
               </h1>
               <p className="text-xs text-slate-400">
-                ระบบตรวจจับ IP เฝ้าระวังการยิง Server รายการบีบอัด PDF, แปลงรูปภาพ, QR Code และสถิติ Real-time
+                ระบบตรวจจับ IP เฝ้าระวังการยิง Server รายการบีบอัด PDF, แปลงรูปภาพ, สแกน & สร้าง QR Code และสถิติ Real-time
               </p>
             </div>
           </div>
@@ -254,7 +255,7 @@ export default function EasyAdminPortalPage() {
               type="button"
               onClick={fetchStats}
               disabled={isLoadingStats}
-              className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors text-xs font-bold flex items-center gap-2 border border-slate-700"
+              className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors text-xs font-bold flex items-center gap-2 border border-slate-700 cursor-pointer"
               title="อัปเดตข้อมูลล่าสุด"
             >
               <RefreshCw className={`w-4 h-4 ${isLoadingStats ? 'animate-spin' : ''}`} />
@@ -267,7 +268,7 @@ export default function EasyAdminPortalPage() {
                 document.cookie = 'admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
                 setIsAuthenticated(false);
               }}
-              className="p-2.5 rounded-xl bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 transition-colors text-xs font-bold flex items-center gap-1.5 border border-rose-500/30"
+              className="p-2.5 rounded-xl bg-rose-500/20 text-rose-400 hover:bg-rose-500/30 transition-colors text-xs font-bold flex items-center gap-1.5 border border-rose-500/30 cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
               <span>ออกจากระบบ</span>
@@ -321,7 +322,7 @@ export default function EasyAdminPortalPage() {
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-2">
             <div className="flex items-center justify-between text-slate-400">
-              <span className="text-xs font-bold uppercase tracking-wider">สร้าง QR Code</span>
+              <span className="text-xs font-bold uppercase tracking-wider">สร้าง & สแกน QR Code</span>
               <QrCode className="w-5 h-5 text-amber-400" />
             </div>
             <div className="text-3xl font-black text-white">
@@ -333,7 +334,7 @@ export default function EasyAdminPortalPage() {
           </div>
         </div>
 
-        {/* 📄 NEW SECTION: Recent PDF Compression Activity Table */}
+        {/* 📄 Recent PDF Compression Activity Table */}
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div className="flex items-center gap-2">
@@ -398,7 +399,7 @@ export default function EasyAdminPortalPage() {
           </div>
         </div>
 
-        {/* 🖼️ NEW SECTION: Recent PDF to Image Activity Table */}
+        {/* 🖼️ Recent PDF to Image Activity Table */}
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div className="flex items-center gap-2">
@@ -459,13 +460,13 @@ export default function EasyAdminPortalPage() {
           </div>
         </div>
 
-        {/* 🔗 Recent Generated QR Code Target Links & Paths */}
+        {/* 🔗 Recent Generated & Scanned QR Code Target Links */}
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div className="flex items-center gap-2">
               <LinkIcon className="w-5 h-5 text-amber-400" />
               <h2 className="text-base font-bold text-white">
-                รายการลิงก์ / Path ที่ผู้ใช้สร้าง QR Code ล่าสุด (Generated QR Code Links)
+                รายการลิงก์ / Path ที่ผู้ใช้สร้าง & สแกนอ่าน QR Code ล่าสุด
               </h2>
             </div>
             <span className="text-xs text-slate-400 font-semibold">
@@ -477,47 +478,66 @@ export default function EasyAdminPortalPage() {
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="border-b border-slate-800 text-slate-400 font-bold uppercase text-[10px]">
-                  <th className="py-3 px-3">เวลาที่สร้าง</th>
-                  <th className="py-3 px-3">ประเทศผู้สร้าง</th>
+                  <th className="py-3 px-3">เวลาที่ใช้งาน</th>
+                  <th className="py-3 px-3">ประเภทกิจกรรม</th>
+                  <th className="py-3 px-3">ประเทศผู้ใช้งาน</th>
                   <th className="py-3 px-3">ลิงก์ / ข้อความเป้าหมาย (Target Link / Path)</th>
                   <th className="py-3 px-3 text-right">เปิดลิงก์</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60 font-medium">
                 {stats?.recentQrEvents && stats.recentQrEvents.length > 0 ? (
-                  stats.recentQrEvents.map((qr) => (
-                    <tr key={qr.id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="py-3.5 px-3 text-slate-400 whitespace-nowrap">
-                        {new Date(qr.timestamp).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' })}
-                      </td>
-                      <td className="py-3.5 px-3 font-bold text-white whitespace-nowrap">
-                        <CountryFlagBadge country={qr.country} />
-                        <span>{qr.country}</span>
-                      </td>
-                      <td className="py-3.5 px-3 font-mono text-amber-300 font-bold max-w-md truncate">
-                        {qr.url}
-                      </td>
-                      <td className="py-3.5 px-3 text-right">
-                        {qr.url.startsWith('http') ? (
-                          <a
-                            href={qr.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-400 hover:text-white border border-amber-500/30 text-xs font-bold transition-all"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5" />
-                            <span>เปิดดู</span>
-                          </a>
-                        ) : (
-                          <span className="text-slate-500 text-[11px]">ข้อความทั่วไป</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))
+                  stats.recentQrEvents.map((qr) => {
+                    const isScanned = qr.url.startsWith('SCANNED:') || qr.url.startsWith('[READ QR]');
+                    const cleanUrl = qr.url.replace(/^SCANNED:\s*/, '').replace(/^\[READ QR\]\s*/, '');
+
+                    return (
+                      <tr key={qr.id} className="hover:bg-slate-800/40 transition-colors">
+                        <td className="py-3.5 px-3 text-slate-400 whitespace-nowrap">
+                          {new Date(qr.timestamp).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' })}
+                        </td>
+                        <td className="py-3.5 px-3 whitespace-nowrap">
+                          {isScanned ? (
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center gap-1 w-fit">
+                              <ScanLine className="w-3 h-3" />
+                              <span>📷 สแกนอ่าน QR</span>
+                            </span>
+                          ) : (
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center gap-1 w-fit">
+                              <QrCode className="w-3 h-3" />
+                              <span>✏️ สร้าง QR Code</span>
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3.5 px-3 font-bold text-white whitespace-nowrap">
+                          <CountryFlagBadge country={qr.country} />
+                          <span>{qr.country}</span>
+                        </td>
+                        <td className="py-3.5 px-3 font-mono text-amber-300 font-bold max-w-md truncate">
+                          {cleanUrl}
+                        </td>
+                        <td className="py-3.5 px-3 text-right">
+                          {cleanUrl.startsWith('http') ? (
+                            <a
+                              href={cleanUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-400 hover:text-white border border-amber-500/30 text-xs font-bold transition-all"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span>เปิดดู</span>
+                            </a>
+                          ) : (
+                            <span className="text-slate-500 text-[11px]">ข้อความทั่วไป</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
-                    <td colSpan={4} className="py-8 text-center text-slate-500">
-                      ยังไม่มีรายการสร้าง QR Code เข้ามาในระบบ
+                    <td colSpan={5} className="py-8 text-center text-slate-500">
+                      ยังไม่มีรายการสร้างหรือสแกน QR Code เข้ามาในระบบ
                     </td>
                   </tr>
                 )}
@@ -551,7 +571,6 @@ export default function EasyAdminPortalPage() {
             )}
           </div>
 
-          {/* Top Targeted Paths Summary Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800/80">
               <div className="text-xs text-slate-400 font-bold mb-1">การเรียกดูทั้งหมด</div>
@@ -575,7 +594,6 @@ export default function EasyAdminPortalPage() {
             </div>
           </div>
 
-          {/* IP Security Log Table */}
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
@@ -602,7 +620,7 @@ export default function EasyAdminPortalPage() {
                           <button
                             type="button"
                             onClick={() => handleCopyIp(log.ip)}
-                            className="p-1 rounded text-slate-500 hover:text-slate-300"
+                            className="p-1 rounded text-slate-500 hover:text-slate-300 cursor-pointer"
                             title="คัดลอก IP"
                           >
                             {copiedIp === log.ip ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -655,7 +673,6 @@ export default function EasyAdminPortalPage() {
 
         {/* Section 2: Country Distribution & Feature Rates */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Country Distribution Table */}
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
@@ -695,7 +712,6 @@ export default function EasyAdminPortalPage() {
             </div>
           </div>
 
-          {/* Feature Success Rate Metrics */}
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
@@ -735,7 +751,7 @@ export default function EasyAdminPortalPage() {
 
               <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800/80 space-y-2">
                 <div className="flex items-center justify-between text-xs font-bold">
-                  <span className="text-slate-200">สร้าง QR Code (QR Generator)</span>
+                  <span className="text-slate-200">สร้าง & สแกน QR Code (QR Tools)</span>
                   <span className="text-amber-400">{stats?.qrGenerate.successRate}% Success</span>
                 </div>
                 <div className="w-full h-2.5 rounded-full bg-slate-800 overflow-hidden">
@@ -797,11 +813,11 @@ export default function EasyAdminPortalPage() {
                       </td>
                       <td className="py-3.5 px-3 text-right">
                         <a
-                          href={`mailto:${inq.email}?subject=ตอบกลับผู้สนใจลงโฆษณาบน EasyFile (${inq.company})`}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 text-xs font-bold transition-all"
+                          href={`mailto:${inq.email}?subject=ตอบกลับผู้สนใจลงโฆษณาบน Qubezip (${inq.company})`}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-xs transition-colors"
                         >
                           <Mail className="w-3.5 h-3.5" />
-                          <span>ตอบกลับ</span>
+                          <span>ตอบอีเมล</span>
                         </a>
                       </td>
                     </tr>
@@ -809,7 +825,7 @@ export default function EasyAdminPortalPage() {
                 ) : (
                   <tr>
                     <td colSpan={6} className="py-8 text-center text-slate-500">
-                      ยังไม่มีรายการผู้ติดต่อโฆษณาเข้ามาในระบบ
+                      ยังไม่มีผู้สนใจลงโฆษณาติดต่อเข้ามา
                     </td>
                   </tr>
                 )}
