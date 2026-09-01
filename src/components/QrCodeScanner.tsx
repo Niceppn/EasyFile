@@ -13,13 +13,16 @@ import {
   AlertCircle,
   RefreshCw,
   ClipboardCheck,
+  Scan,
+  ShieldCheck,
 } from 'lucide-react';
 
 export function QrCodeScanner() {
   const { t } = useLanguage();
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isScanningLaser, setIsScanningLaser] = useState<boolean>(false);
   const [decodedData, setDecodedData] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [isScanning, setIsScanning] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
@@ -38,7 +41,7 @@ export function QrCodeScanner() {
     });
   };
 
-  // Binarize (High contrast Black & White)
+  // Create Binarized (High contrast Black & White)
   const createThresholdedCanvas = (
     img: HTMLImageElement,
     w: number,
@@ -68,173 +71,167 @@ export function QrCodeScanner() {
   };
 
   // Hybrid Dual-Engine QR Scanner (ZXing + jsQR Multi-Pass)
-  const processImageElement = async (img: HTMLImageElement) => {
-    setIsScanning(true);
-    setErrorMsg(null);
-    let decodedResultText: string | null = null;
+  const decodeQrFromImage = async (img: HTMLImageElement): Promise<string | null> => {
+    let resultText: string | null = null;
 
-    try {
-      // ENGINE 1: ZXing Barcode Engine (Decodes Corner Brackets, Speech Bubbles & Noisy Screenshots)
+    // ENGINE 1: ZXing Barcode Engine
+    if (zxingReaderRef.current) {
+      try {
+        const zResult = await zxingReaderRef.current.decodeFromImageElement(img);
+        if (zResult && zResult.getText()) {
+          return zResult.getText();
+        }
+      } catch (e) {}
+    }
+
+    // ENGINE 2: jsQR Engine & Multi-Crop Binarization Passes
+    const canvas = canvasRef.current || document.createElement('canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return null;
+
+    const origW = img.naturalWidth || img.width;
+    const origH = img.naturalHeight || img.height;
+
+    const scales = [1.0];
+    if (origW > 1200 || origH > 1200) scales.push(1000 / Math.max(origW, origH));
+    if (origW > 600 || origH > 600) scales.push(600 / Math.max(origW, origH));
+    if (origW > 350 || origH > 350) scales.push(350 / Math.max(origW, origH));
+
+    for (const scale of scales) {
+      if (resultText) break;
+      const w = Math.round(origW * scale);
+      const h = Math.round(origH * scale);
+
+      canvas.width = w;
+      canvas.height = h;
+      ctx.drawImage(img, 0, 0, w, h);
+
+      // Pass 1: Raw Canvas Data
+      const rawImageData = ctx.getImageData(0, 0, w, h);
+      const code = scanImageDataWithJsQR(rawImageData);
+      if (code && code.data) {
+        return code.data;
+      }
+
+      // Pass 2: Binarized Canvas Element with ZXing
       if (zxingReaderRef.current) {
         try {
-          const zxingResult = await zxingReaderRef.current.decodeFromImageElement(img);
-          if (zxingResult && zxingResult.getText()) {
-            decodedResultText = zxingResult.getText();
+          const binarizedCanvas = createThresholdedCanvas(img, w, h, 128);
+          const binarizedImg = new Image();
+          binarizedImg.src = binarizedCanvas.toDataURL();
+          await new Promise((res) => {
+            binarizedImg.onload = res;
+            binarizedImg.onerror = res;
+          });
+          const zResult = await zxingReaderRef.current.decodeFromImageElement(binarizedImg);
+          if (zResult && zResult.getText()) {
+            return zResult.getText();
           }
-        } catch (e) {
-          // ZXing didn't find QR code on raw image element, try canvas & binarized
-        }
-      }
-
-      // ENGINE 2: jsQR Engine & Multi-Crop Binarization Passes
-      if (!decodedResultText) {
-        const canvas = canvasRef.current || document.createElement('canvas');
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        if (ctx) {
-          const origW = img.naturalWidth || img.width;
-          const origH = img.naturalHeight || img.height;
-
-          const scales = [1.0];
-          if (origW > 1200 || origH > 1200) scales.push(1000 / Math.max(origW, origH));
-          if (origW > 600 || origH > 600) scales.push(600 / Math.max(origW, origH));
-          if (origW > 350 || origH > 350) scales.push(350 / Math.max(origW, origH));
-
-          for (const scale of scales) {
-            if (decodedResultText) break;
-            const w = Math.round(origW * scale);
-            const h = Math.round(origH * scale);
-
-            canvas.width = w;
-            canvas.height = h;
-            ctx.drawImage(img, 0, 0, w, h);
-
-            // Pass 1: Raw Canvas Data
-            const rawImageData = ctx.getImageData(0, 0, w, h);
-            let code = scanImageDataWithJsQR(rawImageData);
-
-            if (code && code.data) {
-              decodedResultText = code.data;
-              break;
-            }
-
-            // Pass 2: Binarized Canvas Element with ZXing
-            if (!decodedResultText && zxingReaderRef.current) {
-              try {
-                const binarizedCanvas = createThresholdedCanvas(img, w, h, 128);
-                const binarizedImg = new Image();
-                binarizedImg.src = binarizedCanvas.toDataURL();
-                await new Promise((res) => {
-                  binarizedImg.onload = res;
-                  binarizedImg.onerror = res;
-                });
-                const zResult = await zxingReaderRef.current.decodeFromImageElement(binarizedImg);
-                if (zResult && zResult.getText()) {
-                  decodedResultText = zResult.getText();
-                  break;
-                }
-              } catch (e) {}
-            }
-
-            // Pass 3: Sub-Region Crops (Crop bottom 80% to strip top speech bubbles like "ประกาศรับสมัคร")
-            if (!decodedResultText && (w > 120 && h > 120)) {
-              const cropBoxes = [
-                { x: 0, y: Math.round(h * 0.25), cw: w, ch: Math.round(h * 0.75) },
-                { x: Math.round(w * 0.1), y: Math.round(h * 0.15), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
-                { x: Math.round(w * 0.15), y: Math.round(h * 0.3), cw: Math.round(w * 0.7), ch: Math.round(h * 0.7) },
-              ];
-
-              for (const box of cropBoxes) {
-                if (decodedResultText) break;
-                if (box.cw < 50 || box.ch < 50) continue;
-
-                const cropCanvas = document.createElement('canvas');
-                cropCanvas.width = box.cw;
-                cropCanvas.height = box.ch;
-                const cropCtx = cropCanvas.getContext('2d', { willReadFrequently: true });
-                if (!cropCtx) continue;
-
-                cropCtx.drawImage(img, box.x / scale, box.y / scale, box.cw / scale, box.ch / scale, 0, 0, box.cw, box.ch);
-                const cropImageData = cropCtx.getImageData(0, 0, box.cw, box.ch);
-                const cCode = scanImageDataWithJsQR(cropImageData);
-
-                if (cCode && cCode.data) {
-                  decodedResultText = cCode.data;
-                  break;
-                }
-
-                // Try ZXing on crop
-                if (!decodedResultText && zxingReaderRef.current) {
-                  try {
-                    const cropImg = new Image();
-                    cropImg.src = cropCanvas.toDataURL();
-                    await new Promise((res) => {
-                      cropImg.onload = res;
-                      cropImg.onerror = res;
-                    });
-                    const zCropResult = await zxingReaderRef.current.decodeFromImageElement(cropImg);
-                    if (zCropResult && zCropResult.getText()) {
-                      decodedResultText = zCropResult.getText();
-                      break;
-                    }
-                  } catch (e) {}
-                }
-              }
-            }
-          }
-        }
-      }
-
-      if (decodedResultText) {
-        setDecodedData(decodedResultText);
-        setErrorMsg(null);
-
-        // Track QR Code scan event in admin analytics
-        try {
-          fetch('/api/analytics/track', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              eventType: 'QR_GENERATE',
-              status: 'SUCCESS',
-              url: `[READ QR] ${decodedResultText}`,
-            }),
-          }).catch(() => {});
         } catch (e) {}
-      } else {
-        setDecodedData(null);
-        setErrorMsg(
-          t.qrReaderError ||
-            'ไม่พบข้อมูล QR Code ในรูปภาพนี้ กรุณาครอบรูปเฉพาะ QR Code หรือใช้รูปภาพอื่นที่มี QR Code ชัดเจน'
-        );
       }
-    } catch (err) {
-      console.error(err);
-      setErrorMsg(t.qrReaderError || 'Failed to process image');
-    } finally {
-      setIsScanning(false);
+
+      // Pass 3: Sub-Region Crops (Crop bottom 80% to strip top speech bubbles like "ประกาศรับสมัคร")
+      if (w > 120 && h > 120) {
+        const cropBoxes = [
+          { x: 0, y: Math.round(h * 0.2), cw: w, ch: Math.round(h * 0.8) },
+          { x: Math.round(w * 0.1), y: Math.round(h * 0.15), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
+          { x: Math.round(w * 0.15), y: Math.round(h * 0.3), cw: Math.round(w * 0.7), ch: Math.round(h * 0.7) },
+          { x: Math.round(w * 0.2), y: Math.round(h * 0.35), cw: Math.round(w * 0.6), ch: Math.round(h * 0.65) },
+        ];
+
+        for (const box of cropBoxes) {
+          if (box.cw < 40 || box.ch < 40) continue;
+
+          const cropCanvas = document.createElement('canvas');
+          cropCanvas.width = box.cw;
+          cropCanvas.height = box.ch;
+          const cropCtx = cropCanvas.getContext('2d', { willReadFrequently: true });
+          if (!cropCtx) continue;
+
+          cropCtx.drawImage(img, box.x / scale, box.y / scale, box.cw / scale, box.ch / scale, 0, 0, box.cw, box.ch);
+          const cropImageData = cropCtx.getImageData(0, 0, box.cw, box.ch);
+          const cCode = scanImageDataWithJsQR(cropImageData);
+          if (cCode && cCode.data) {
+            return cCode.data;
+          }
+
+          if (zxingReaderRef.current) {
+            try {
+              const cropImg = new Image();
+              cropImg.src = cropCanvas.toDataURL();
+              await new Promise((res) => {
+                cropImg.onload = res;
+                cropImg.onerror = res;
+              });
+              const zCropResult = await zxingReaderRef.current.decodeFromImageElement(cropImg);
+              if (zCropResult && zCropResult.getText()) {
+                return zCropResult.getText();
+              }
+            } catch (e) {}
+          }
+        }
+      }
     }
+
+    return null;
   };
 
-  // Process File Object
+  // Main Handler for pasted or uploaded files
   const processFile = (file: File) => {
     if (!file.type.startsWith('image/')) {
       setErrorMsg(t.qrReaderError || 'Please select a valid image file');
       return;
     }
 
-    setIsScanning(true);
     setErrorMsg(null);
+    setDecodedData(null);
+    setIsScanningLaser(true);
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      const result = e.target?.result as string;
+      const dataUrl = e.target?.result as string;
+      setImagePreview(dataUrl);
+
       const img = new Image();
-      img.onload = () => processImageElement(img);
-      img.onerror = () => {
-        setErrorMsg(t.qrReaderError || 'Error loading image');
-        setIsScanning(false);
+      img.onload = async () => {
+        // Run decoder & simulate laser scan effect for 1.2s for high-tech laser UX
+        const startTime = Date.now();
+        const decodedText = await decodeQrFromImage(img);
+        const elapsedTime = Date.now() - startTime;
+        const remainingDelay = Math.max(0, 1200 - elapsedTime);
+
+        setTimeout(() => {
+          setIsScanningLaser(false);
+          if (decodedText) {
+            setDecodedData(decodedText);
+            setErrorMsg(null);
+
+            // Track QR Code scan event in admin analytics
+            try {
+              fetch('/api/analytics/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  eventType: 'QR_GENERATE',
+                  status: 'SUCCESS',
+                  url: `[READ QR] ${decodedText}`,
+                }),
+              }).catch(() => {});
+            } catch (e) {}
+          } else {
+            setDecodedData(null);
+            setErrorMsg(
+              t.qrReaderError ||
+                'ไม่พบข้อมูล QR Code ในรูปภาพนี้ กรุณาครอบรูปเฉพาะ QR Code หรือใช้รูปภาพอื่นที่มี QR Code ชัดเจน'
+            );
+          }
+        }, remainingDelay);
       };
-      img.src = result;
+      img.onerror = () => {
+        setIsScanningLaser(false);
+        setErrorMsg(t.qrReaderError || 'Error loading image');
+      };
+      img.src = dataUrl;
     };
     reader.readAsDataURL(file);
   };
@@ -292,8 +289,10 @@ export function QrCodeScanner() {
   };
 
   const handleReset = () => {
+    setImagePreview(null);
     setDecodedData(null);
     setErrorMsg(null);
+    setIsScanningLaser(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -312,8 +311,8 @@ export function QrCodeScanner() {
         className="hidden"
       />
 
-      {/* Main Upload / Paste Box */}
-      {!decodedData && (
+      {/* Main Upload / Drag & Drop / Ctrl+V Paste Box (Shown when no image preview) */}
+      {!imagePreview && (
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -327,11 +326,7 @@ export function QrCodeScanner() {
         >
           <div className="max-w-md mx-auto space-y-4">
             <div className="w-16 h-16 rounded-3xl bg-blue-100/80 text-blue-600 flex items-center justify-center mx-auto shadow-xs border border-blue-200">
-              {isScanning ? (
-                <RefreshCw className="w-8 h-8 animate-spin text-blue-600" />
-              ) : (
-                <QrCode className="w-8 h-8 text-blue-600" />
-              )}
+              <QrCode className="w-8 h-8 text-blue-600" />
             </div>
 
             <div>
@@ -352,92 +347,140 @@ export function QrCodeScanner() {
         </div>
       )}
 
-      {/* Error Message Alert */}
-      {errorMsg && (
-        <div className="flex items-center gap-2.5 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-sm font-bold shadow-xs">
-          <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
-          <span className="flex-1 text-xs sm:text-sm">{errorMsg}</span>
-          <button
-            type="button"
-            onClick={handleReset}
-            className="px-3 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded-xl text-xs font-bold transition-colors cursor-pointer whitespace-nowrap"
-          >
-            {t.qrReaderScanAnother || 'ลองอีกครั้ง'}
-          </button>
-        </div>
-      )}
+      {/* Image Preview & Scanning Laser Beam Container */}
+      {imagePreview && (
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-md text-center space-y-6 animate-in fade-in zoom-in-95 duration-200">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-extrabold text-slate-700">
+            {isScanningLaser ? (
+              <>
+                <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-600" />
+                <span className="text-blue-600">กำลังย้ายภาพเข้าตำแหน่ง & สแกนอ่าน QR Code...</span>
+              </>
+            ) : decodedData ? (
+              <>
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-emerald-700 font-black">✓ สแกนสำเร็จ สรุปภาพและลิงก์เรียบร้อย</span>
+              </>
+            ) : (
+              <>
+                <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
+                <span className="text-rose-600">ผลการสแกนรูปภาพ</span>
+              </>
+            )}
+          </div>
 
-      {/* Decoded QR Code Result Card */}
-      {decodedData && (
-        <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-md space-y-6 animate-in fade-in slide-in-from-bottom-3 duration-200">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-                <Sparkles className="w-5 h-5 text-emerald-600" />
+          {/* Pasted Image Preview Card with Animated Scanning Laser Sweep */}
+          <div className="relative max-w-sm mx-auto rounded-2xl overflow-hidden border-2 border-slate-300 shadow-md bg-slate-900 group">
+            <img
+              src={imagePreview}
+              alt="Pasted QR Code Preview"
+              className="w-full max-h-72 object-contain mx-auto block"
+            />
+
+            {/* Glowing Laser Scan Beam Animation Line */}
+            {isScanningLaser && (
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="w-full h-1 bg-emerald-400 shadow-[0_0_15px_#34d399,0_0_30px_#10b981] animate-[scanLine_1.2s_ease-in-out_infinite]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/10 via-emerald-500/20 to-transparent animate-[pulse_1s_infinite]" />
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-black text-slate-900">
-                  {t.qrReaderResultTitle || 'ลิงก์ / ข้อความที่ถอดรหัสได้จาก QR Code'}
-                </h3>
-                <p className="text-xs text-slate-500 font-semibold">
-                  100% Client-Side Decoded • Zero Server Storage
-                </p>
+            )}
+          </div>
+
+          {/* Decoded QR Code Result Details Box */}
+          {decodedData && (
+            <div className="space-y-4 text-left border-t border-slate-100 pt-6 animate-in fade-in slide-in-from-bottom-2">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-black text-slate-900 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-emerald-600" />
+                  <span>{t.qrReaderResultTitle || 'ลิงก์ / ข้อความที่ได้จาก QR Code:'}</span>
+                </h4>
+                <span className="text-[11px] font-bold text-slate-500">ประเภท: QR Code</span>
+              </div>
+
+              {/* Decoded Target Link Display Box */}
+              <div className="p-4 rounded-2xl bg-slate-900 text-amber-300 font-mono text-xs sm:text-sm break-all border border-slate-800 shadow-inner select-all">
+                {decodedData}
+              </div>
+
+              {/* Action Buttons: Open Link in New Tab & Copy Link */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                {isUrl && (
+                  <a
+                    href={decodedData}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 px-5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>{t.qrReaderOpenTab || 'เปิดลิงก์ในแท็บใหม่ (Open in New Tab)'}</span>
+                  </a>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className={`w-full py-3.5 px-5 rounded-2xl font-black text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                    isCopied
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
+                  }`}
+                >
+                  {isCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4 text-slate-600" />}
+                  <span>
+                    {isCopied
+                      ? (t.qrReaderCopied || 'คัดลอกเรียบร้อย!')
+                      : (t.qrReaderCopy || 'คัดลอกลิงก์ (Copy Link)')}
+                  </span>
+                </button>
+              </div>
+
+              <div className="pt-2 text-center">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="text-xs font-bold text-slate-500 hover:text-blue-600 underline cursor-pointer"
+                >
+                  {t.qrReaderScanAnother || 'สแกนรูปภาพอื่นเพิ่ม'}
+                </button>
               </div>
             </div>
+          )}
 
-            <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              ✓ ถอดรหัสสำเร็จ
-            </span>
-          </div>
-
-          {/* Decoded Data Display Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 text-amber-300 font-mono text-sm sm:text-base break-all border border-slate-800 shadow-inner select-all">
-            {decodedData}
-          </div>
-
-          {/* Action Buttons: Open in New Tab & Copy Link */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            {isUrl && (
-              <a
-                href={decodedData}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 px-5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <ExternalLink className="w-4 h-4" />
-                <span>{t.qrReaderOpenTab || 'เปิดลิงก์ในแท็บใหม่ (Open in New Tab)'}</span>
-              </a>
-            )}
-
-            <button
-              type="button"
-              onClick={handleCopyLink}
-              className={`w-full py-3.5 px-5 rounded-2xl font-black text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                isCopied
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
-              }`}
-            >
-              {isCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4 text-slate-600" />}
-              <span>
-                {isCopied
-                  ? (t.qrReaderCopied || 'คัดลอกเรียบร้อย!')
-                  : (t.qrReaderCopy || 'คัดลอกลิงก์ (Copy Link)')}
-              </span>
-            </button>
-          </div>
-
-          <div className="pt-2 text-center">
-            <button
-              type="button"
-              onClick={handleReset}
-              className="text-xs font-bold text-slate-500 hover:text-blue-600 underline cursor-pointer"
-            >
-              {t.qrReaderScanAnother || 'สแกนรูปภาพอื่นเพิ่ม'}
-            </button>
-          </div>
+          {/* Error Alert inside Image Preview State */}
+          {errorMsg && (
+            <div className="space-y-4 text-left border-t border-slate-100 pt-4">
+              <div className="flex items-center gap-2.5 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-bold shadow-xs">
+                <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
+                <span className="flex-1">{errorMsg}</span>
+              </div>
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer"
+                >
+                  {t.qrReaderScanAnother || 'สแกนภาพอื่นใหม่'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
+
+      {/* Laser Scanning CSS Animation Keyframes */}
+      <style jsx global>{`
+        @keyframes scanLine {
+          0% {
+            top: 0%;
+          }
+          50% {
+            top: 96%;
+          }
+          100% {
+            top: 0%;
+          }
+        }
+      `}</style>
     </div>
   );
 }
