@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, DragEvent, ChangeEvent } from 'react';
 import jsQR from 'jsqr';
+import { BrowserQRCodeReader } from '@zxing/library';
 import { useLanguage } from '@/lib/i18n/context';
 import {
   ExternalLink,
@@ -24,23 +25,36 @@ export function QrCodeScanner() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const zxingReaderRef = useRef<BrowserQRCodeReader | null>(null);
+
+  useEffect(() => {
+    zxingReaderRef.current = new BrowserQRCodeReader();
+  }, []);
 
   // Helper to run jsQR on an ImageData object
-  const scanImageData = (imageData: ImageData) => {
+  const scanImageDataWithJsQR = (imageData: ImageData) => {
     return jsQR(imageData.data, imageData.width, imageData.height, {
       inversionAttempts: 'attemptBoth',
     });
   };
 
-  // Create Binarized (Black & White high-contrast) ImageData
-  const createThresholdedImageData = (
-    ctx: CanvasRenderingContext2D,
+  // Binarize (High contrast Black & White)
+  const createThresholdedCanvas = (
+    img: HTMLImageElement,
     w: number,
     h: number,
     threshold = 128
   ) => {
-    const origData = ctx.getImageData(0, 0, w, h);
-    const data = new Uint8ClampedArray(origData.data);
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = w;
+    tempCanvas.height = h;
+    const ctx = tempCanvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return tempCanvas;
+
+    ctx.drawImage(img, 0, 0, w, h);
+    const imgData = ctx.getImageData(0, 0, w, h);
+    const data = imgData.data;
+
     for (let i = 0; i < data.length; i += 4) {
       const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
       const val = avg >= threshold ? 255 : 0;
@@ -48,82 +62,130 @@ export function QrCodeScanner() {
       data[i + 1] = val;
       data[i + 2] = val;
     }
-    return new ImageData(data, w, h);
+
+    ctx.putImageData(imgData, 0, 0);
+    return tempCanvas;
   };
 
-  // Robust Multi-Pass & Sub-Region Crop QR Decoder
-  const processImageElement = (img: HTMLImageElement) => {
+  // Hybrid Dual-Engine QR Scanner (ZXing + jsQR Multi-Pass)
+  const processImageElement = async (img: HTMLImageElement) => {
+    setIsScanning(true);
+    setErrorMsg(null);
+    let decodedResultText: string | null = null;
+
     try {
-      const canvas = canvasRef.current || document.createElement('canvas');
-      const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      if (!ctx) {
-        setErrorMsg(t.qrReaderError || 'Failed to initialize canvas');
-        setIsScanning(false);
-        return;
+      // ENGINE 1: ZXing Barcode Engine (Decodes Corner Brackets, Speech Bubbles & Noisy Screenshots)
+      if (zxingReaderRef.current) {
+        try {
+          const zxingResult = await zxingReaderRef.current.decodeFromImageElement(img);
+          if (zxingResult && zxingResult.getText()) {
+            decodedResultText = zxingResult.getText();
+          }
+        } catch (e) {
+          // ZXing didn't find QR code on raw image element, try canvas & binarized
+        }
       }
 
-      const origW = img.naturalWidth || img.width;
-      const origH = img.naturalHeight || img.height;
+      // ENGINE 2: jsQR Engine & Multi-Crop Binarization Passes
+      if (!decodedResultText) {
+        const canvas = canvasRef.current || document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        if (ctx) {
+          const origW = img.naturalWidth || img.width;
+          const origH = img.naturalHeight || img.height;
 
-      // Target scales to attempt
-      const scales = [1.0];
-      if (origW > 1200 || origH > 1200) scales.push(1000 / Math.max(origW, origH));
-      if (origW > 600 || origH > 600) scales.push(600 / Math.max(origW, origH));
-      if (origW > 400 || origH > 400) scales.push(400 / Math.max(origW, origH));
+          const scales = [1.0];
+          if (origW > 1200 || origH > 1200) scales.push(1000 / Math.max(origW, origH));
+          if (origW > 600 || origH > 600) scales.push(600 / Math.max(origW, origH));
+          if (origW > 350 || origH > 350) scales.push(350 / Math.max(origW, origH));
 
-      let code = null;
+          for (const scale of scales) {
+            if (decodedResultText) break;
+            const w = Math.round(origW * scale);
+            const h = Math.round(origH * scale);
 
-      for (const scale of scales) {
-        if (code) break;
-        const w = Math.round(origW * scale);
-        const h = Math.round(origH * scale);
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(img, 0, 0, w, h);
 
-        canvas.width = w;
-        canvas.height = h;
-        ctx.drawImage(img, 0, 0, w, h);
+            // Pass 1: Raw Canvas Data
+            const rawImageData = ctx.getImageData(0, 0, w, h);
+            let code = scanImageDataWithJsQR(rawImageData);
 
-        // Pass A: Normal Image Data
-        const rawImageData = ctx.getImageData(0, 0, w, h);
-        code = scanImageData(rawImageData);
+            if (code && code.data) {
+              decodedResultText = code.data;
+              break;
+            }
 
-        // Pass B: Binarized High-Contrast Image Data
-        if (!code) {
-          const binarized = createThresholdedImageData(ctx, w, h, 128);
-          code = scanImageData(binarized);
-        }
+            // Pass 2: Binarized Canvas Element with ZXing
+            if (!decodedResultText && zxingReaderRef.current) {
+              try {
+                const binarizedCanvas = createThresholdedCanvas(img, w, h, 128);
+                const binarizedImg = new Image();
+                binarizedImg.src = binarizedCanvas.toDataURL();
+                await new Promise((res) => {
+                  binarizedImg.onload = res;
+                  binarizedImg.onerror = res;
+                });
+                const zResult = await zxingReaderRef.current.decodeFromImageElement(binarizedImg);
+                if (zResult && zResult.getText()) {
+                  decodedResultText = zResult.getText();
+                  break;
+                }
+              } catch (e) {}
+            }
 
-        // Pass C: Sub-Region Crops (Center 80%, Bottom 80%, Top 80%) to ignore Snipping Tool headers/banners
-        if (!code && (w > 150 && h > 150)) {
-          const cropBoxes = [
-            { x: Math.round(w * 0.1), y: Math.round(h * 0.1), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
-            { x: Math.round(w * 0.1), y: Math.round(h * 0.2), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
-            { x: 0, y: Math.round(h * 0.15), cw: w, ch: Math.round(h * 0.85) },
-          ];
+            // Pass 3: Sub-Region Crops (Crop bottom 80% to strip top speech bubbles like "ประกาศรับสมัคร")
+            if (!decodedResultText && (w > 120 && h > 120)) {
+              const cropBoxes = [
+                { x: 0, y: Math.round(h * 0.25), cw: w, ch: Math.round(h * 0.75) },
+                { x: Math.round(w * 0.1), y: Math.round(h * 0.15), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
+                { x: Math.round(w * 0.15), y: Math.round(h * 0.3), cw: Math.round(w * 0.7), ch: Math.round(h * 0.7) },
+              ];
 
-          for (const box of cropBoxes) {
-            if (code) break;
-            if (box.cw < 50 || box.ch < 50) continue;
+              for (const box of cropBoxes) {
+                if (decodedResultText) break;
+                if (box.cw < 50 || box.ch < 50) continue;
 
-            const cropCanvas = document.createElement('canvas');
-            cropCanvas.width = box.cw;
-            cropCanvas.height = box.ch;
-            const cropCtx = cropCanvas.getContext('2d', { willReadFrequently: true });
-            if (!cropCtx) continue;
+                const cropCanvas = document.createElement('canvas');
+                cropCanvas.width = box.cw;
+                cropCanvas.height = box.ch;
+                const cropCtx = cropCanvas.getContext('2d', { willReadFrequently: true });
+                if (!cropCtx) continue;
 
-            cropCtx.drawImage(img, box.x / scale, box.y / scale, box.cw / scale, box.ch / scale, 0, 0, box.cw, box.ch);
-            const cropImageData = cropCtx.getImageData(0, 0, box.cw, box.ch);
-            code = scanImageData(cropImageData);
+                cropCtx.drawImage(img, box.x / scale, box.y / scale, box.cw / scale, box.ch / scale, 0, 0, box.cw, box.ch);
+                const cropImageData = cropCtx.getImageData(0, 0, box.cw, box.ch);
+                const cCode = scanImageDataWithJsQR(cropImageData);
 
-            if (!code) {
-              const binarizedCrop = createThresholdedImageData(cropCtx, box.cw, box.ch, 128);
-              code = scanImageData(binarizedCrop);
+                if (cCode && cCode.data) {
+                  decodedResultText = cCode.data;
+                  break;
+                }
+
+                // Try ZXing on crop
+                if (!decodedResultText && zxingReaderRef.current) {
+                  try {
+                    const cropImg = new Image();
+                    cropImg.src = cropCanvas.toDataURL();
+                    await new Promise((res) => {
+                      cropImg.onload = res;
+                      cropImg.onerror = res;
+                    });
+                    const zCropResult = await zxingReaderRef.current.decodeFromImageElement(cropImg);
+                    if (zCropResult && zCropResult.getText()) {
+                      decodedResultText = zCropResult.getText();
+                      break;
+                    }
+                  } catch (e) {}
+                }
+              }
             }
           }
         }
       }
 
-      if (code && code.data) {
-        setDecodedData(code.data);
+      if (decodedResultText) {
+        setDecodedData(decodedResultText);
         setErrorMsg(null);
 
         // Track QR Code scan event in admin analytics
@@ -134,7 +196,7 @@ export function QrCodeScanner() {
             body: JSON.stringify({
               eventType: 'QR_GENERATE',
               status: 'SUCCESS',
-              url: `[READ QR] ${code.data}`,
+              url: `[READ QR] ${decodedResultText}`,
             }),
           }).catch(() => {});
         } catch (e) {}
