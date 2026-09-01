@@ -30,7 +30,9 @@ export function QrCodeScanner() {
   const zxingReaderRef = useRef<BrowserQRCodeReader | null>(null);
 
   useEffect(() => {
-    zxingReaderRef.current = new BrowserQRCodeReader();
+    try {
+      zxingReaderRef.current = new BrowserQRCodeReader();
+    } catch (e) {}
   }, []);
 
   // Fast Binarization Threshold on Canvas
@@ -52,18 +54,8 @@ export function QrCodeScanner() {
     ctx.putImageData(imgData, 0, 0);
   };
 
-  // Ultra-Fast In-Memory QR Decoder Engine (0ms execution, zero DOM image conversions)
+  // Synchronous + ZXing Fallback QR Engine
   const decodeQrFromImage = async (img: HTMLImageElement): Promise<string | null> => {
-    const reader = zxingReaderRef.current || new BrowserQRCodeReader();
-
-    // 1. Try direct ZXing scan on image element
-    try {
-      const zResult = await reader.decodeFromImageElement(img);
-      if (zResult && zResult.getText()) {
-        return zResult.getText();
-      }
-    } catch (e) {}
-
     const canvas = canvasRef.current || document.createElement('canvas');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return null;
@@ -75,6 +67,7 @@ export function QrCodeScanner() {
     if (origW > 1000 || origH > 1000) scales.push(800 / Math.max(origW, origH));
     if (origW > 500 || origH > 500) scales.push(450 / Math.max(origW, origH));
 
+    // PHASE 1: Super Fast jsQR Direct Canvas & Crop Scans (< 10ms execution)
     for (const scale of scales) {
       const w = Math.round(origW * scale);
       const h = Math.round(origH * scale);
@@ -83,22 +76,14 @@ export function QrCodeScanner() {
       canvas.height = h;
       ctx.drawImage(img, 0, 0, w, h);
 
-      // Pass A: jsQR on raw canvas
+      // Pass 1: Raw Canvas Data jsQR
       const rawData = ctx.getImageData(0, 0, w, h);
       const jsQrCode = jsQR(rawData.data, w, h, { inversionAttempts: 'attemptBoth' });
       if (jsQrCode && jsQrCode.data) {
         return jsQrCode.data;
       }
 
-      // Pass B: ZXing on Canvas directly (0ms)
-      try {
-        const zCanvasResult = await reader.decodeFromCanvas(canvas);
-        if (zCanvasResult && zCanvasResult.getText()) {
-          return zCanvasResult.getText();
-        }
-      } catch (e) {}
-
-      // Pass C: Sub-Region Crops (Crop bottom 80% to strip top speech bubbles like "ประกาศรับสมัคร")
+      // Pass 2: Sub-Region Crops (Crop bottom 80% / center 80% to strip top speech bubbles)
       const cropBoxes = [
         { x: 0, y: Math.round(h * 0.2), cw: w, ch: Math.round(h * 0.8) },
         { x: Math.round(w * 0.1), y: Math.round(h * 0.1), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
@@ -122,27 +107,24 @@ export function QrCodeScanner() {
           return cropJsQr.data;
         }
 
-        try {
-          const zCropResult = await reader.decodeFromCanvas(cropCanvas);
-          if (zCropResult && zCropResult.getText()) {
-            return zCropResult.getText();
-          }
-        } catch (e) {}
-
-        // Binarize Crop Canvas
+        // Binarized Crop Canvas jsQR
         applyBinarizationOnCanvas(cropCtx, box.cw, box.ch, 128);
         const binarizedCropJsQr = jsQR(cropCtx.getImageData(0, 0, box.cw, box.ch).data, box.cw, box.ch, { inversionAttempts: 'attemptBoth' });
         if (binarizedCropJsQr && binarizedCropJsQr.data) {
           return binarizedCropJsQr.data;
         }
-
-        try {
-          const zBinarizedResult = await reader.decodeFromCanvas(cropCanvas);
-          if (zBinarizedResult && zBinarizedResult.getText()) {
-            return zBinarizedResult.getText();
-          }
-        } catch (e) {}
       }
+    }
+
+    // PHASE 2: ZXing Engine Fallback with 200ms strict timeout
+    if (zxingReaderRef.current) {
+      try {
+        const reader = zxingReaderRef.current;
+        const zxingPromise = reader.decodeFromImageElement(img).then(res => res?.getText() || null).catch(() => null);
+        const timeoutPromise = new Promise<string | null>((res) => setTimeout(() => res(null), 250));
+        const zText = await Promise.race([zxingPromise, timeoutPromise]);
+        if (zText) return zText;
+      } catch (e) {}
     }
 
     return null;
@@ -166,11 +148,14 @@ export function QrCodeScanner() {
 
       const img = new Image();
       img.onload = async () => {
-        // Fast execution + 600ms laser animation effect
         const startTime = Date.now();
-        const decodedText = await decodeQrFromImage(img);
+
+        // Wrap decoding with a strict 600ms safety timeout to prevent hanging UI
+        const timeoutPromise = new Promise<string | null>((res) => setTimeout(() => res(null), 600));
+        const decodedText = await Promise.race([decodeQrFromImage(img), timeoutPromise]);
+
         const elapsedTime = Date.now() - startTime;
-        const remainingDelay = Math.max(0, 600 - elapsedTime);
+        const remainingDelay = Math.max(0, 400 - elapsedTime);
 
         setTimeout(() => {
           setIsScanningLaser(false);
