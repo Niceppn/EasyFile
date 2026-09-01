@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, DragEvent, ChangeEvent } from 'react';
 import jsQR from 'jsqr';
 import { useLanguage } from '@/lib/i18n/context';
 import {
-  Upload,
   ExternalLink,
   Copy,
   Check,
@@ -13,7 +12,6 @@ import {
   AlertCircle,
   RefreshCw,
   ClipboardCheck,
-  ShieldCheck,
 } from 'lucide-react';
 
 export function QrCodeScanner() {
@@ -27,18 +25,33 @@ export function QrCodeScanner() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Multi-pass QR Code Decoder for High-Res, Inverted, or Blurry Images
-  const decodeCanvasImageData = (
-    ctx: CanvasRenderingContext2D,
-    w: number,
-    h: number
-  ) => {
-    const imageData = ctx.getImageData(0, 0, w, h);
-    return jsQR(imageData.data, w, h, {
+  // Helper to run jsQR on an ImageData object
+  const scanImageData = (imageData: ImageData) => {
+    return jsQR(imageData.data, imageData.width, imageData.height, {
       inversionAttempts: 'attemptBoth',
     });
   };
 
+  // Create Binarized (Black & White high-contrast) ImageData
+  const createThresholdedImageData = (
+    ctx: CanvasRenderingContext2D,
+    w: number,
+    h: number,
+    threshold = 128
+  ) => {
+    const origData = ctx.getImageData(0, 0, w, h);
+    const data = new Uint8ClampedArray(origData.data);
+    for (let i = 0; i < data.length; i += 4) {
+      const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      const val = avg >= threshold ? 255 : 0;
+      data[i] = val;
+      data[i + 1] = val;
+      data[i + 2] = val;
+    }
+    return new ImageData(data, w, h);
+  };
+
+  // Robust Multi-Pass & Sub-Region Crop QR Decoder
   const processImageElement = (img: HTMLImageElement) => {
     try {
       const canvas = canvasRef.current || document.createElement('canvas');
@@ -52,48 +65,67 @@ export function QrCodeScanner() {
       const origW = img.naturalWidth || img.width;
       const origH = img.naturalHeight || img.height;
 
-      // Pass 1: Original Resolution
-      canvas.width = origW;
-      canvas.height = origH;
-      ctx.drawImage(img, 0, 0, origW, origH);
-      let code = decodeCanvasImageData(ctx, origW, origH);
+      // Target scales to attempt
+      const scales = [1.0];
+      if (origW > 1200 || origH > 1200) scales.push(1000 / Math.max(origW, origH));
+      if (origW > 600 || origH > 600) scales.push(600 / Math.max(origW, origH));
+      if (origW > 400 || origH > 400) scales.push(400 / Math.max(origW, origH));
 
-      // Pass 2: Downscaled to max 1000px if original is large
-      if (!code && (origW > 1000 || origH > 1000)) {
-        const scale = Math.min(1000 / origW, 1000 / origH);
-        const scaledW = Math.round(origW * scale);
-        const scaledH = Math.round(origH * scale);
-        canvas.width = scaledW;
-        canvas.height = scaledH;
-        ctx.drawImage(img, 0, 0, scaledW, scaledH);
-        code = decodeCanvasImageData(ctx, scaledW, scaledH);
-      }
+      let code = null;
 
-      // Pass 3: Downscaled to max 600px
-      if (!code && (origW > 600 || origH > 600)) {
-        const scale = Math.min(600 / origW, 600 / origH);
-        const scaledW = Math.round(origW * scale);
-        const scaledH = Math.round(origH * scale);
-        canvas.width = scaledW;
-        canvas.height = scaledH;
-        ctx.drawImage(img, 0, 0, scaledW, scaledH);
-        code = decodeCanvasImageData(ctx, scaledW, scaledH);
-      }
+      for (const scale of scales) {
+        if (code) break;
+        const w = Math.round(origW * scale);
+        const h = Math.round(origH * scale);
 
-      // Pass 4: Downscaled to 400px
-      if (!code && (origW > 400 || origH > 400)) {
-        const scale = Math.min(400 / origW, 400 / origH);
-        const scaledW = Math.round(origW * scale);
-        const scaledH = Math.round(origH * scale);
-        canvas.width = scaledW;
-        canvas.height = scaledH;
-        ctx.drawImage(img, 0, 0, scaledW, scaledH);
-        code = decodeCanvasImageData(ctx, scaledW, scaledH);
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(img, 0, 0, w, h);
+
+        // Pass A: Normal Image Data
+        const rawImageData = ctx.getImageData(0, 0, w, h);
+        code = scanImageData(rawImageData);
+
+        // Pass B: Binarized High-Contrast Image Data
+        if (!code) {
+          const binarized = createThresholdedImageData(ctx, w, h, 128);
+          code = scanImageData(binarized);
+        }
+
+        // Pass C: Sub-Region Crops (Center 80%, Bottom 80%, Top 80%) to ignore Snipping Tool headers/banners
+        if (!code && (w > 150 && h > 150)) {
+          const cropBoxes = [
+            { x: Math.round(w * 0.1), y: Math.round(h * 0.1), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
+            { x: Math.round(w * 0.1), y: Math.round(h * 0.2), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
+            { x: 0, y: Math.round(h * 0.15), cw: w, ch: Math.round(h * 0.85) },
+          ];
+
+          for (const box of cropBoxes) {
+            if (code) break;
+            if (box.cw < 50 || box.ch < 50) continue;
+
+            const cropCanvas = document.createElement('canvas');
+            cropCanvas.width = box.cw;
+            cropCanvas.height = box.ch;
+            const cropCtx = cropCanvas.getContext('2d', { willReadFrequently: true });
+            if (!cropCtx) continue;
+
+            cropCtx.drawImage(img, box.x / scale, box.y / scale, box.cw / scale, box.ch / scale, 0, 0, box.cw, box.ch);
+            const cropImageData = cropCtx.getImageData(0, 0, box.cw, box.ch);
+            code = scanImageData(cropImageData);
+
+            if (!code) {
+              const binarizedCrop = createThresholdedImageData(cropCtx, box.cw, box.ch, 128);
+              code = scanImageData(binarizedCrop);
+            }
+          }
+        }
       }
 
       if (code && code.data) {
         setDecodedData(code.data);
         setErrorMsg(null);
+
         // Track QR Code scan event in admin analytics
         try {
           fetch('/api/analytics/track', {
@@ -262,11 +294,11 @@ export function QrCodeScanner() {
       {errorMsg && (
         <div className="flex items-center gap-2.5 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-sm font-bold shadow-xs">
           <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
-          <span className="flex-1">{errorMsg}</span>
+          <span className="flex-1 text-xs sm:text-sm">{errorMsg}</span>
           <button
             type="button"
             onClick={handleReset}
-            className="px-3 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+            className="px-3 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded-xl text-xs font-bold transition-colors cursor-pointer whitespace-nowrap"
           >
             {t.qrReaderScanAnother || 'ลองอีกครั้ง'}
           </button>
