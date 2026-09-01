@@ -209,9 +209,9 @@ export function QrCodeScanner() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                  eventType: 'QR_GENERATE',
-                  status: 'SUCCESS',
-                  url: `[READ QR] ${decodedText}`,
+                  type: 'qr_generate',
+                  status: 'success',
+                  details: `[READ QR] ${decodedText}`,
                 }),
               }).catch(() => {});
             } catch (e) {}

@@ -1,10 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next';
 import { recordAnalyticsEvent, AnalyticsEvent } from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { type, status = 'success', details } = body;
+    const type = body.type || body.eventType || 'qr_generate';
+    const status = body.status || 'success';
+    const details = body.details || body.url || '';
 
     // Detect visitor country from HTTP Headers
     const cfCountry = request.headers.get('cf-ipcountry');
