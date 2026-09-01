@@ -1,20 +1,23 @@
 'use client';
 
+import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { QrCodeGenerator } from '@/components/QrCodeGenerator';
+import { QrCodeScanner } from '@/components/QrCodeScanner';
 import { FAQSection } from '@/components/FAQSection';
 import { SEOContent } from '@/components/SEOContent';
 import { LeftAdSidebar, RightAdSidebar, MobileAdBanner } from '@/components/AdSidebars';
 import { useLanguage } from '@/lib/i18n/context';
-import { ShieldCheck, Download, Copy, Ban } from 'lucide-react';
+import { ShieldCheck, Download, Copy, Ban, QrCode, ScanLine, Edit3 } from 'lucide-react';
 
 export default function QrCodePage() {
   const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState<'create' | 'read'>('create');
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'Qubezip - QR Code Generator (No Ads)',
+    name: 'Qubezip - QR Code Generator & Scanner',
     operatingSystem: 'All',
     applicationCategory: 'BusinessApplication',
     offers: {
@@ -23,7 +26,7 @@ export default function QrCodePage() {
       priceCurrency: 'THB',
     },
     description:
-      'Free online QR Code Generator. 100% direct permanent links with zero ad popups or countdowns.',
+      'Free online QR Code Generator and QR Code Reader. 100% direct permanent links with zero ad popups or countdowns.',
   };
 
   return (
@@ -41,7 +44,7 @@ export default function QrCodePage() {
 
         <main className="flex-1 max-w-4xl w-full">
           {/* Main Hero Title */}
-          <div className="text-center max-w-3xl mx-auto mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100/80 text-emerald-800 text-xs font-extrabold mb-4 border border-emerald-200">
               <ShieldCheck className="w-4 h-4 fill-current text-emerald-600" />
               <span>{t.qrHeroBadge}</span>
@@ -59,9 +62,38 @@ export default function QrCodePage() {
             </p>
           </div>
 
-          {/* Core Generator Tool Container */}
+          {/* Mode Switcher Tabs (Create QR vs Read/Scan QR) */}
+          <div className="max-w-md mx-auto mb-8 bg-slate-200/80 p-1.5 rounded-2xl flex items-center justify-between border border-slate-300 shadow-inner">
+            <button
+              type="button"
+              onClick={() => setActiveTab('create')}
+              className={`flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === 'create'
+                  ? 'bg-white text-blue-700 shadow-md scale-[1.02]'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Edit3 className="w-4 h-4" />
+              <span>{t.qrTabCreate || 'สร้าง QR Code'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab('read')}
+              className={`flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === 'read'
+                  ? 'bg-white text-emerald-700 shadow-md scale-[1.02]'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <ScanLine className="w-4 h-4" />
+              <span>{t.qrTabRead || 'สแกน / อ่าน QR Code'}</span>
+            </button>
+          </div>
+
+          {/* Core Generator / Scanner Tool Container */}
           <div className="max-w-3xl mx-auto">
-            <QrCodeGenerator />
+            {activeTab === 'create' ? <QrCodeGenerator /> : <QrCodeScanner />}
           </div>
 
           {/* Feature Explainer Cards */}
