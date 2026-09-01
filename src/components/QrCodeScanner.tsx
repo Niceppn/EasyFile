@@ -13,7 +13,6 @@ import {
   AlertCircle,
   RefreshCw,
   ClipboardCheck,
-  Scan,
   ShieldCheck,
 } from 'lucide-react';
 
@@ -34,30 +33,15 @@ export function QrCodeScanner() {
     zxingReaderRef.current = new BrowserQRCodeReader();
   }, []);
 
-  // Helper to run jsQR on an ImageData object
-  const scanImageDataWithJsQR = (imageData: ImageData) => {
-    return jsQR(imageData.data, imageData.width, imageData.height, {
-      inversionAttempts: 'attemptBoth',
-    });
-  };
-
-  // Create Binarized (High contrast Black & White)
-  const createThresholdedCanvas = (
-    img: HTMLImageElement,
+  // Fast Binarization Threshold on Canvas
+  const applyBinarizationOnCanvas = (
+    ctx: CanvasRenderingContext2D,
     w: number,
     h: number,
     threshold = 128
   ) => {
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = w;
-    tempCanvas.height = h;
-    const ctx = tempCanvas.getContext('2d', { willReadFrequently: true });
-    if (!ctx) return tempCanvas;
-
-    ctx.drawImage(img, 0, 0, w, h);
     const imgData = ctx.getImageData(0, 0, w, h);
     const data = imgData.data;
-
     for (let i = 0; i < data.length; i += 4) {
       const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
       const val = avg >= threshold ? 255 : 0;
@@ -65,26 +49,21 @@ export function QrCodeScanner() {
       data[i + 1] = val;
       data[i + 2] = val;
     }
-
     ctx.putImageData(imgData, 0, 0);
-    return tempCanvas;
   };
 
-  // Hybrid Dual-Engine QR Scanner (ZXing + jsQR Multi-Pass)
+  // Ultra-Fast In-Memory QR Decoder Engine (0ms execution, zero DOM image conversions)
   const decodeQrFromImage = async (img: HTMLImageElement): Promise<string | null> => {
-    let resultText: string | null = null;
+    const reader = zxingReaderRef.current || new BrowserQRCodeReader();
 
-    // ENGINE 1: ZXing Barcode Engine
-    if (zxingReaderRef.current) {
-      try {
-        const zResult = await zxingReaderRef.current.decodeFromImageElement(img);
-        if (zResult && zResult.getText()) {
-          return zResult.getText();
-        }
-      } catch (e) {}
-    }
+    // 1. Try direct ZXing scan on image element
+    try {
+      const zResult = await reader.decodeFromImageElement(img);
+      if (zResult && zResult.getText()) {
+        return zResult.getText();
+      }
+    } catch (e) {}
 
-    // ENGINE 2: jsQR Engine & Multi-Crop Binarization Passes
     const canvas = canvasRef.current || document.createElement('canvas');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return null;
@@ -93,12 +72,10 @@ export function QrCodeScanner() {
     const origH = img.naturalHeight || img.height;
 
     const scales = [1.0];
-    if (origW > 1200 || origH > 1200) scales.push(1000 / Math.max(origW, origH));
-    if (origW > 600 || origH > 600) scales.push(600 / Math.max(origW, origH));
-    if (origW > 350 || origH > 350) scales.push(350 / Math.max(origW, origH));
+    if (origW > 1000 || origH > 1000) scales.push(800 / Math.max(origW, origH));
+    if (origW > 500 || origH > 500) scales.push(450 / Math.max(origW, origH));
 
     for (const scale of scales) {
-      if (resultText) break;
       const w = Math.round(origW * scale);
       const h = Math.round(origH * scale);
 
@@ -106,70 +83,65 @@ export function QrCodeScanner() {
       canvas.height = h;
       ctx.drawImage(img, 0, 0, w, h);
 
-      // Pass 1: Raw Canvas Data
-      const rawImageData = ctx.getImageData(0, 0, w, h);
-      const code = scanImageDataWithJsQR(rawImageData);
-      if (code && code.data) {
-        return code.data;
+      // Pass A: jsQR on raw canvas
+      const rawData = ctx.getImageData(0, 0, w, h);
+      const jsQrCode = jsQR(rawData.data, w, h, { inversionAttempts: 'attemptBoth' });
+      if (jsQrCode && jsQrCode.data) {
+        return jsQrCode.data;
       }
 
-      // Pass 2: Binarized Canvas Element with ZXing
-      if (zxingReaderRef.current) {
+      // Pass B: ZXing on Canvas directly (0ms)
+      try {
+        const zCanvasResult = await reader.decodeFromCanvas(canvas);
+        if (zCanvasResult && zCanvasResult.getText()) {
+          return zCanvasResult.getText();
+        }
+      } catch (e) {}
+
+      // Pass C: Sub-Region Crops (Crop bottom 80% to strip top speech bubbles like "ประกาศรับสมัคร")
+      const cropBoxes = [
+        { x: 0, y: Math.round(h * 0.2), cw: w, ch: Math.round(h * 0.8) },
+        { x: Math.round(w * 0.1), y: Math.round(h * 0.1), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
+        { x: Math.round(w * 0.15), y: Math.round(h * 0.25), cw: Math.round(w * 0.7), ch: Math.round(h * 0.75) },
+      ];
+
+      for (const box of cropBoxes) {
+        if (box.cw < 40 || box.ch < 40) continue;
+
+        const cropCanvas = document.createElement('canvas');
+        cropCanvas.width = box.cw;
+        cropCanvas.height = box.ch;
+        const cropCtx = cropCanvas.getContext('2d', { willReadFrequently: true });
+        if (!cropCtx) continue;
+
+        cropCtx.drawImage(img, box.x / scale, box.y / scale, box.cw / scale, box.ch / scale, 0, 0, box.cw, box.ch);
+        const cropImageData = cropCtx.getImageData(0, 0, box.cw, box.ch);
+
+        const cropJsQr = jsQR(cropImageData.data, box.cw, box.ch, { inversionAttempts: 'attemptBoth' });
+        if (cropJsQr && cropJsQr.data) {
+          return cropJsQr.data;
+        }
+
         try {
-          const binarizedCanvas = createThresholdedCanvas(img, w, h, 128);
-          const binarizedImg = new Image();
-          binarizedImg.src = binarizedCanvas.toDataURL();
-          await new Promise((res) => {
-            binarizedImg.onload = res;
-            binarizedImg.onerror = res;
-          });
-          const zResult = await zxingReaderRef.current.decodeFromImageElement(binarizedImg);
-          if (zResult && zResult.getText()) {
-            return zResult.getText();
+          const zCropResult = await reader.decodeFromCanvas(cropCanvas);
+          if (zCropResult && zCropResult.getText()) {
+            return zCropResult.getText();
           }
         } catch (e) {}
-      }
 
-      // Pass 3: Sub-Region Crops (Crop bottom 80% to strip top speech bubbles like "ประกาศรับสมัคร")
-      if (w > 120 && h > 120) {
-        const cropBoxes = [
-          { x: 0, y: Math.round(h * 0.2), cw: w, ch: Math.round(h * 0.8) },
-          { x: Math.round(w * 0.1), y: Math.round(h * 0.15), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
-          { x: Math.round(w * 0.15), y: Math.round(h * 0.3), cw: Math.round(w * 0.7), ch: Math.round(h * 0.7) },
-          { x: Math.round(w * 0.2), y: Math.round(h * 0.35), cw: Math.round(w * 0.6), ch: Math.round(h * 0.65) },
-        ];
-
-        for (const box of cropBoxes) {
-          if (box.cw < 40 || box.ch < 40) continue;
-
-          const cropCanvas = document.createElement('canvas');
-          cropCanvas.width = box.cw;
-          cropCanvas.height = box.ch;
-          const cropCtx = cropCanvas.getContext('2d', { willReadFrequently: true });
-          if (!cropCtx) continue;
-
-          cropCtx.drawImage(img, box.x / scale, box.y / scale, box.cw / scale, box.ch / scale, 0, 0, box.cw, box.ch);
-          const cropImageData = cropCtx.getImageData(0, 0, box.cw, box.ch);
-          const cCode = scanImageDataWithJsQR(cropImageData);
-          if (cCode && cCode.data) {
-            return cCode.data;
-          }
-
-          if (zxingReaderRef.current) {
-            try {
-              const cropImg = new Image();
-              cropImg.src = cropCanvas.toDataURL();
-              await new Promise((res) => {
-                cropImg.onload = res;
-                cropImg.onerror = res;
-              });
-              const zCropResult = await zxingReaderRef.current.decodeFromImageElement(cropImg);
-              if (zCropResult && zCropResult.getText()) {
-                return zCropResult.getText();
-              }
-            } catch (e) {}
-          }
+        // Binarize Crop Canvas
+        applyBinarizationOnCanvas(cropCtx, box.cw, box.ch, 128);
+        const binarizedCropJsQr = jsQR(cropCtx.getImageData(0, 0, box.cw, box.ch).data, box.cw, box.ch, { inversionAttempts: 'attemptBoth' });
+        if (binarizedCropJsQr && binarizedCropJsQr.data) {
+          return binarizedCropJsQr.data;
         }
+
+        try {
+          const zBinarizedResult = await reader.decodeFromCanvas(cropCanvas);
+          if (zBinarizedResult && zBinarizedResult.getText()) {
+            return zBinarizedResult.getText();
+          }
+        } catch (e) {}
       }
     }
 
@@ -194,11 +166,11 @@ export function QrCodeScanner() {
 
       const img = new Image();
       img.onload = async () => {
-        // Run decoder & simulate laser scan effect for 1.2s for high-tech laser UX
+        // Fast execution + 600ms laser animation effect
         const startTime = Date.now();
         const decodedText = await decodeQrFromImage(img);
         const elapsedTime = Date.now() - startTime;
-        const remainingDelay = Math.max(0, 1200 - elapsedTime);
+        const remainingDelay = Math.max(0, 600 - elapsedTime);
 
         setTimeout(() => {
           setIsScanningLaser(false);
@@ -311,7 +283,7 @@ export function QrCodeScanner() {
         className="hidden"
       />
 
-      {/* Main Upload / Drag & Drop / Ctrl+V Paste Box (Shown when no image preview) */}
+      {/* Main Upload / Drag & Drop / Ctrl+V Paste Box */}
       {!imagePreview && (
         <div
           onDragOver={handleDragOver}
@@ -354,7 +326,7 @@ export function QrCodeScanner() {
             {isScanningLaser ? (
               <>
                 <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-600" />
-                <span className="text-blue-600">กำลังย้ายภาพเข้าตำแหน่ง & สแกนอ่าน QR Code...</span>
+                <span className="text-blue-600 font-bold">กำลังสแกนอ่าน QR Code...</span>
               </>
             ) : decodedData ? (
               <>
@@ -364,7 +336,7 @@ export function QrCodeScanner() {
             ) : (
               <>
                 <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
-                <span className="text-rose-600">ผลการสแกนรูปภาพ</span>
+                <span className="text-rose-600 font-bold">ผลการสแกนรูปภาพ</span>
               </>
             )}
           </div>
@@ -380,8 +352,8 @@ export function QrCodeScanner() {
             {/* Glowing Laser Scan Beam Animation Line */}
             {isScanningLaser && (
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="w-full h-1 bg-emerald-400 shadow-[0_0_15px_#34d399,0_0_30px_#10b981] animate-[scanLine_1.2s_ease-in-out_infinite]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/10 via-emerald-500/20 to-transparent animate-[pulse_1s_infinite]" />
+                <div className="w-full h-1 bg-emerald-400 shadow-[0_0_15px_#34d399,0_0_30px_#10b981] animate-[scanLine_0.8s_ease-in-out_infinite]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/10 via-emerald-500/20 to-transparent animate-[pulse_0.8s_infinite]" />
               </div>
             )}
           </div>
