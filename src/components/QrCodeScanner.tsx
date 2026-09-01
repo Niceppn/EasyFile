@@ -63,17 +63,21 @@ export function QrCodeScanner() {
     const origW = img.naturalWidth || img.width;
     const origH = img.naturalHeight || img.height;
 
+    // Multi-scale passes (1.0x, 2.0x upscale for small Snipping Tool images, 0.6x downscale for 4K)
     const scales = [1.0];
-    if (origW > 1000 || origH > 1000) scales.push(800 / Math.max(origW, origH));
+    if (origW < 800 && origH < 800) scales.push(2.0);
+    if (origW > 1200 || origH > 1200) scales.push(800 / Math.max(origW, origH));
     if (origW > 500 || origH > 500) scales.push(450 / Math.max(origW, origH));
 
-    // PHASE 1: Super Fast jsQR Direct Canvas & Crop Scans (< 10ms execution)
+    const reader = zxingReaderRef.current;
+
     for (const scale of scales) {
       const w = Math.round(origW * scale);
       const h = Math.round(origH * scale);
 
       canvas.width = w;
       canvas.height = h;
+      ctx.imageSmoothingEnabled = false;
       ctx.drawImage(img, 0, 0, w, h);
 
       // Pass 1: Raw Canvas Data jsQR
@@ -83,15 +87,30 @@ export function QrCodeScanner() {
         return jsQrCode.data;
       }
 
-      // Pass 2: Sub-Region Crops (Crop bottom 80% / center 80% to strip top speech bubbles)
+      // Pass 2: ZXing on full canvas directly
+      if (reader) {
+        try {
+          const zCanvasResult = await reader.decodeFromCanvas(canvas);
+          if (zCanvasResult && zCanvasResult.getText()) {
+            return zCanvasResult.getText();
+          }
+        } catch (e) {}
+      }
+
+      // Pass 3: Comprehensive Sub-Region Crops (To strip top speech bubbles like "ประกาศรับสมัคร" & L-brackets)
       const cropBoxes = [
-        { x: 0, y: Math.round(h * 0.2), cw: w, ch: Math.round(h * 0.8) },
-        { x: Math.round(w * 0.1), y: Math.round(h * 0.1), cw: Math.round(w * 0.8), ch: Math.round(h * 0.8) },
-        { x: Math.round(w * 0.15), y: Math.round(h * 0.25), cw: Math.round(w * 0.7), ch: Math.round(h * 0.75) },
+        // Cut top 35% (Strips "ประกาศรับสมัคร" speech bubble completely)
+        { x: Math.round(w * 0.05), y: Math.round(h * 0.35), cw: Math.round(w * 0.9), ch: Math.round(h * 0.65) },
+        // Cut top 25%
+        { x: 0, y: Math.round(h * 0.25), cw: w, ch: Math.round(h * 0.75) },
+        // Center 70% x 70%
+        { x: Math.round(w * 0.15), y: Math.round(h * 0.3), cw: Math.round(w * 0.7), ch: Math.round(h * 0.65) },
+        // Center 60% x 60% (Ultra-tight QR matrix crop)
+        { x: Math.round(w * 0.2), y: Math.round(h * 0.35), cw: Math.round(w * 0.6), ch: Math.round(h * 0.6) },
       ];
 
       for (const box of cropBoxes) {
-        if (box.cw < 40 || box.ch < 40) continue;
+        if (box.cw < 30 || box.ch < 30) continue;
 
         const cropCanvas = document.createElement('canvas');
         cropCanvas.width = box.cw;
@@ -99,12 +118,24 @@ export function QrCodeScanner() {
         const cropCtx = cropCanvas.getContext('2d', { willReadFrequently: true });
         if (!cropCtx) continue;
 
+        cropCtx.imageSmoothingEnabled = false;
         cropCtx.drawImage(img, box.x / scale, box.y / scale, box.cw / scale, box.ch / scale, 0, 0, box.cw, box.ch);
         const cropImageData = cropCtx.getImageData(0, 0, box.cw, box.ch);
 
+        // jsQR on Crop
         const cropJsQr = jsQR(cropImageData.data, box.cw, box.ch, { inversionAttempts: 'attemptBoth' });
         if (cropJsQr && cropJsQr.data) {
           return cropJsQr.data;
+        }
+
+        // ZXing on Crop
+        if (reader) {
+          try {
+            const zCropResult = await reader.decodeFromCanvas(cropCanvas);
+            if (zCropResult && zCropResult.getText()) {
+              return zCropResult.getText();
+            }
+          } catch (e) {}
         }
 
         // Binarized Crop Canvas jsQR
@@ -113,17 +144,26 @@ export function QrCodeScanner() {
         if (binarizedCropJsQr && binarizedCropJsQr.data) {
           return binarizedCropJsQr.data;
         }
+
+        // ZXing on Binarized Crop Canvas
+        if (reader) {
+          try {
+            const zBinarizedResult = await reader.decodeFromCanvas(cropCanvas);
+            if (zBinarizedResult && zBinarizedResult.getText()) {
+              return zBinarizedResult.getText();
+            }
+          } catch (e) {}
+        }
       }
     }
 
-    // PHASE 2: ZXing Engine Fallback with 200ms strict timeout
-    if (zxingReaderRef.current) {
+    // Fallback: ZXing on original image element
+    if (reader) {
       try {
-        const reader = zxingReaderRef.current;
-        const zxingPromise = reader.decodeFromImageElement(img).then(res => res?.getText() || null).catch(() => null);
-        const timeoutPromise = new Promise<string | null>((res) => setTimeout(() => res(null), 250));
-        const zText = await Promise.race([zxingPromise, timeoutPromise]);
-        if (zText) return zText;
+        const zResult = await reader.decodeFromImageElement(img);
+        if (zResult && zResult.getText()) {
+          return zResult.getText();
+        }
       } catch (e) {}
     }
 
@@ -150,8 +190,8 @@ export function QrCodeScanner() {
       img.onload = async () => {
         const startTime = Date.now();
 
-        // Wrap decoding with a strict 600ms safety timeout to prevent hanging UI
-        const timeoutPromise = new Promise<string | null>((res) => setTimeout(() => res(null), 600));
+        // Wrap decoding with a strict 1000ms safety timeout
+        const timeoutPromise = new Promise<string | null>((res) => setTimeout(() => res(null), 1000));
         const decodedText = await Promise.race([decodeQrFromImage(img), timeoutPromise]);
 
         const elapsedTime = Date.now() - startTime;
