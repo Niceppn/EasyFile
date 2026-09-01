@@ -14,7 +14,6 @@ import {
   RefreshCw,
   ClipboardCheck,
   ShieldCheck,
-  FileImage,
 } from 'lucide-react';
 
 export function QrCodeScanner() {
@@ -24,30 +23,73 @@ export function QrCodeScanner() {
   const [isScanning, setIsScanning] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [pastedPreview, setPastedPreview] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Decode QR Code from an HTMLImageElement
+  // Multi-pass QR Code Decoder for High-Res, Inverted, or Blurry Images
+  const decodeCanvasImageData = (
+    ctx: CanvasRenderingContext2D,
+    w: number,
+    h: number
+  ) => {
+    const imageData = ctx.getImageData(0, 0, w, h);
+    return jsQR(imageData.data, w, h, {
+      inversionAttempts: 'attemptBoth',
+    });
+  };
+
   const processImageElement = (img: HTMLImageElement) => {
     try {
       const canvas = canvasRef.current || document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       if (!ctx) {
         setErrorMsg(t.qrReaderError || 'Failed to initialize canvas');
         setIsScanning(false);
         return;
       }
 
-      canvas.width = img.naturalWidth || img.width;
-      canvas.height = img.naturalHeight || img.height;
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const origW = img.naturalWidth || img.width;
+      const origH = img.naturalHeight || img.height;
 
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const code = jsQR(imageData.data, imageData.width, imageData.height, {
-        inversionAttempts: 'attemptBoth',
-      });
+      // Pass 1: Original Resolution
+      canvas.width = origW;
+      canvas.height = origH;
+      ctx.drawImage(img, 0, 0, origW, origH);
+      let code = decodeCanvasImageData(ctx, origW, origH);
+
+      // Pass 2: Downscaled to max 1000px if original is large
+      if (!code && (origW > 1000 || origH > 1000)) {
+        const scale = Math.min(1000 / origW, 1000 / origH);
+        const scaledW = Math.round(origW * scale);
+        const scaledH = Math.round(origH * scale);
+        canvas.width = scaledW;
+        canvas.height = scaledH;
+        ctx.drawImage(img, 0, 0, scaledW, scaledH);
+        code = decodeCanvasImageData(ctx, scaledW, scaledH);
+      }
+
+      // Pass 3: Downscaled to max 600px
+      if (!code && (origW > 600 || origH > 600)) {
+        const scale = Math.min(600 / origW, 600 / origH);
+        const scaledW = Math.round(origW * scale);
+        const scaledH = Math.round(origH * scale);
+        canvas.width = scaledW;
+        canvas.height = scaledH;
+        ctx.drawImage(img, 0, 0, scaledW, scaledH);
+        code = decodeCanvasImageData(ctx, scaledW, scaledH);
+      }
+
+      // Pass 4: Downscaled to 400px
+      if (!code && (origW > 400 || origH > 400)) {
+        const scale = Math.min(400 / origW, 400 / origH);
+        const scaledW = Math.round(origW * scale);
+        const scaledH = Math.round(origH * scale);
+        canvas.width = scaledW;
+        canvas.height = scaledH;
+        ctx.drawImage(img, 0, 0, scaledW, scaledH);
+        code = decodeCanvasImageData(ctx, scaledW, scaledH);
+      }
 
       if (code && code.data) {
         setDecodedData(code.data);
@@ -66,7 +108,10 @@ export function QrCodeScanner() {
         } catch (e) {}
       } else {
         setDecodedData(null);
-        setErrorMsg(t.qrReaderError || 'No valid QR code found in this image.');
+        setErrorMsg(
+          t.qrReaderError ||
+            'ไม่พบข้อมูล QR Code ในรูปภาพนี้ กรุณาครอบรูปเฉพาะ QR Code หรือใช้รูปภาพอื่นที่มี QR Code ชัดเจน'
+        );
       }
     } catch (err) {
       console.error(err);
@@ -89,7 +134,6 @@ export function QrCodeScanner() {
     const reader = new FileReader();
     reader.onload = (e) => {
       const result = e.target?.result as string;
-      setPastedPreview(result);
       const img = new Image();
       img.onload = () => processImageElement(img);
       img.onerror = () => {
@@ -156,7 +200,6 @@ export function QrCodeScanner() {
   const handleReset = () => {
     setDecodedData(null);
     setErrorMsg(null);
-    setPastedPreview(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -223,9 +266,9 @@ export function QrCodeScanner() {
           <button
             type="button"
             onClick={handleReset}
-            className="px-3 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded-xl text-xs font-bold transition-colors"
+            className="px-3 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded-xl text-xs font-bold transition-colors cursor-pointer"
           >
-            {t.btnCompressAnother || 'ลองใหม่'}
+            {t.qrReaderScanAnother || 'ลองอีกครั้ง'}
           </button>
         </div>
       )}
