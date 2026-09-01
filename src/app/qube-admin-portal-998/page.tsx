@@ -104,18 +104,20 @@ interface StatsData {
 }
 
 function CountryFlagBadge({ country }: { country: string }) {
-  const flags: Record<string, string> = {
-    TH: '🇹🇭',
-    JP: '🇯🇵',
-    US: '🇺🇸',
-    FR: '🇫🇷',
-    DE: '🇩🇪',
-    ES: '🇪🇸',
-    CN: '🇨🇳',
-    GB: '🇬🇧',
-    RU: '🇷🇺',
-  };
-  return <span className="mr-1.5">{flags[country] || '🌐'}</span>;
+  const code = (country || 'TH').toLowerCase();
+  if (code === 'unknown' || !code) {
+    return <span className="mr-1.5">🌐</span>;
+  }
+  return (
+    <img
+      src={`https://flagcdn.com/24x18/${code}.png`}
+      alt={country}
+      className="w-5 h-3.5 object-cover rounded-xs inline-block mr-1.5 border border-slate-700/60 shadow-2xs"
+      onError={(e) => {
+        (e.target as HTMLElement).style.display = 'none';
+      }}
+    />
+  );
 }
 
 export default function EasyAdminPortalPage() {
