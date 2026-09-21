@@ -1,0 +1,178 @@
+[
+  {
+    "image_path": "D:\\EasyFile\\grid_samples\\grid_electric_meter.jpg",
+    "results": [
+      {
+        "model_id": "gpt-5.6-luna",
+        "model_name": "OpenAI GPT-5.6 Luna",
+        "reading": "[ก่อน] 94364 kWh | [หลัง] 94362 kWh",
+        "raw": "{\"before\":\"94364\",\"after\":\"94362\",\"unit\":\"kWh\",\"confidence\":\"high\"}",
+        "latency_ms": 6114,
+        "prompt_tokens": 1237,
+        "completion_tokens": 187,
+        "total_tokens": 1424,
+        "cost_usd": 0.00047180000000000003,
+        "cost_thb": 0.016513,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-haiku-4-5",
+        "model_name": "Anthropic Claude Haiku 4.5",
+        "reading": "[ก่อน] 94364 kWh | [หลัง] 94364 kWh",
+        "raw": "```json\n{\n  \"before\": \"94364\",\n  \"after\": \"94364\",\n  \"unit\": \"kWh\",\n  \"confidence\": \"high\",\n  \"notes\": \"Both meter readings are identical at 94364 kWh. No electricity consumption recorded between the two readings taken on 17 August 2026 at 13:20 (Before) and 13:52 (After). Mitsubishi Electric Watthour Meter Type MH-96, Three-Phase 4-Wire.\"\n}\n```",
+        "latency_ms": 3887,
+        "prompt_tokens": 1489,
+        "completion_tokens": 128,
+        "total_tokens": 1617,
+        "cost_usd": 0.0023419,
+        "cost_thb": 0.0819665,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-sonnet-5",
+        "model_name": "Anthropic Claude Sonnet 5",
+        "reading": "[ก่อน] 94364 kWh | [หลัง] 94362 kWh",
+        "raw": "```json\n{\"before\": \"94364\", \"after\": \"94362\", \"unit\": \"kWh\", \"confidence\": \"medium\"}\n```",
+        "latency_ms": 23443,
+        "prompt_tokens": 1518,
+        "completion_tokens": 41,
+        "total_tokens": 1559,
+        "cost_usd": 0.003446,
+        "cost_thb": 0.12061,
+        "status": "success"
+      }
+    ]
+  },
+  {
+    "image_path": "D:\\EasyFile\\grid_samples\\grid_ph_chlorine.jpg",
+    "results": [
+      {
+        "model_id": "gpt-5.6-luna",
+        "model_name": "OpenAI GPT-5.6 Luna",
+        "reading": "[ก่อน] pH:8.2, Cl:0.2 | [หลัง] pH:7.6, Cl:1.0",
+        "raw": "{\"before\":{\"ph\":\"8.2\",\"cl\":\"0.2\"},\"after\":{\"ph\":\"7.6\",\"cl\":\"1.0\"},\"confidence\":\"high\"}",
+        "latency_ms": 6861,
+        "prompt_tokens": 1370,
+        "completion_tokens": 311,
+        "total_tokens": 1681,
+        "cost_usd": 0.0006472,
+        "cost_thb": 0.022652000000000002,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-haiku-4-5",
+        "model_name": "Anthropic Claude Haiku 4.5",
+        "reading": "{\n  \"before\": {\n    \"ph\": \"7.6\",\n    \"cl\": \"1.5\"\n  },\n  \"after\": {\n    \"ph\": \"7.6\",\n    \"cl\": \"1.0\"\n  },\n  \"confidence\": \"high\"\n}\n```\n\n**Analysis:**\n- **Before [1]**: Red cap (pH) liquid level aligns with 7.6 mark; Yellow cap (Cl) liquid level aligns with 1.5 ppm mark\n- **After [2]**: Red cap (pH) liquid level aligns with 7.6 mark (IDEAL label visible); Yellow cap (Cl) liquid level aligns with 1.0 ppm mark\n- **Observation**: pH remained stable at ideal 7.6; Chlorine decreased from 1.5 to 1.0 ppm (within acceptable range 0.6-3.0 ppm)",
+        "raw": "```json\n{\n  \"before\": {\n    \"ph\": \"7.6\",\n    \"cl\": \"1.5\"\n  },\n  \"after\": {\n    \"ph\": \"7.6\",\n    \"cl\": \"1.0\"\n  },\n  \"confidence\": \"high\"\n}\n```\n\n**Analysis:**\n- **Before [1]**: Red cap (pH) liquid level aligns with 7.6 mark; Yellow cap (Cl) liquid level aligns with 1.5 ppm mark\n- **After [2]**: Red cap (pH) liquid level aligns with 7.6 mark (IDEAL label visible); Yellow cap (Cl) liquid level aligns with 1.0 ppm mark\n- **Observation**: pH remained stable at ideal 7.6; Chlorine decreased from 1.5 to 1.0 ppm (within acceptable range 0.6-3.0 ppm)",
+        "latency_ms": 4346,
+        "prompt_tokens": 1653,
+        "completion_tokens": 224,
+        "total_tokens": 1877,
+        "cost_usd": 0.0030503,
+        "cost_thb": 0.10676050000000001,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-sonnet-5",
+        "model_name": "Anthropic Claude Sonnet 5",
+        "reading": "[ก่อน] pH:8.2, Cl:0.2 | [หลัง] pH:7.8, Cl:3.0",
+        "raw": "```json\n{\"before\": {\"ph\": \"8.2\", \"cl\": \"0.2\"}, \"after\": {\"ph\": \"7.8\", \"cl\": \"3.0\"}, \"confidence\": \"medium\"}\n```",
+        "latency_ms": 6493,
+        "prompt_tokens": 1697,
+        "completion_tokens": 66,
+        "total_tokens": 1763,
+        "cost_usd": 0.004054,
+        "cost_thb": 0.14189000000000002,
+        "status": "success"
+      }
+    ]
+  },
+  {
+    "image_path": "D:\\EasyFile\\grid_samples\\grid_salt.jpg",
+    "results": [
+      {
+        "model_id": "gpt-5.6-luna",
+        "model_name": "OpenAI GPT-5.6 Luna",
+        "reading": "[ก่อน] 3570 ppm | [หลัง] 3570 ppm",
+        "raw": "{\"before\":\"3570\",\"after\":\"3570\",\"unit\":\"ppm\",\"confidence\":\"high\"}",
+        "latency_ms": 4308,
+        "prompt_tokens": 1243,
+        "completion_tokens": 56,
+        "total_tokens": 1299,
+        "cost_usd": 0.00031580000000000003,
+        "cost_thb": 0.011053,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-haiku-4-5",
+        "model_name": "Anthropic Claude Haiku 4.5",
+        "reading": "{\n  \"before\": \"3570\",\n  \"after\": \"3570\",\n  \"unit\": \"ppm\",\n  \"confidence\": \"high\"\n}\n```\n\n**Analysis Notes:**\n- Both Before [1] and After [2] readings show identical salt concentration values\n- Digital display clearly shows: **3570 ppm** (parts per million)\n- Temperature reading: 23.8°C (shown in lower display)\n- Device: KEDIDA salt meter with ATC (Automatic Temperature Compensation)\n- No change detected between before and after measurements\n- High confidence due to clear, legible digital display in both images",
+        "raw": "```json\n{\n  \"before\": \"3570\",\n  \"after\": \"3570\",\n  \"unit\": \"ppm\",\n  \"confidence\": \"high\"\n}\n```\n\n**Analysis Notes:**\n- Both Before [1] and After [2] readings show identical salt concentration values\n- Digital display clearly shows: **3570 ppm** (parts per million)\n- Temperature reading: 23.8°C (shown in lower display)\n- Device: KEDIDA salt meter with ATC (Automatic Temperature Compensation)\n- No change detected between before and after measurements\n- High confidence due to clear, legible digital display in both images",
+        "latency_ms": 4182,
+        "prompt_tokens": 1487,
+        "completion_tokens": 149,
+        "total_tokens": 1636,
+        "cost_usd": 0.0024552,
+        "cost_thb": 0.085932,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-sonnet-5",
+        "model_name": "Anthropic Claude Sonnet 5",
+        "reading": "[ก่อน] 3570 mg/L | [หลัง] 3570 mg/L",
+        "raw": "```json\n{\"before\": \"3570\", \"after\": \"3570\", \"unit\": \"mg/L\", \"confidence\": \"high\"}\n```",
+        "latency_ms": 5528,
+        "prompt_tokens": 1517,
+        "completion_tokens": 41,
+        "total_tokens": 1558,
+        "cost_usd": 0.003444,
+        "cost_thb": 0.12054,
+        "status": "success"
+      }
+    ]
+  },
+  {
+    "image_path": "D:\\EasyFile\\grid_samples\\grid_water_meter.jpg",
+    "results": [
+      {
+        "model_id": "gpt-5.6-luna",
+        "model_name": "OpenAI GPT-5.6 Luna",
+        "reading": "[ก่อน] 1805.607 m3 | [หลัง] 1806.020 m3",
+        "raw": "{\"before\":\"1805.607\",\"after\":\"1806.020\",\"unit\":\"m3\",\"confidence\":\"high\"}",
+        "latency_ms": 6520,
+        "prompt_tokens": 1250,
+        "completion_tokens": 183,
+        "total_tokens": 1433,
+        "cost_usd": 0.00046960000000000003,
+        "cost_thb": 0.016436000000000003,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-haiku-4-5",
+        "model_name": "Anthropic Claude Haiku 4.5",
+        "reading": "{\n  \"before\": \"1805.607\",\n  \"after\": \"1806.020\",\n  \"unit\": \"m3\",\n  \"confidence\": \"high\"\n}\n```\n\n**Analysis Details:**\n- **Before [1]**: Reading shows 1805.607 m³ (black digits: 1805, red decimal digits: 607)\n- **After [2]**: Reading shows 1806.020 m³ (black digits: 1806, red decimal digits: 020)\n- **Water consumption**: 0.413 m³ (413 liters)\n- **Time interval**: 32 minutes (13:20 to 13:52)\n- **Confidence**: High - both meter displays are clear and readable",
+        "raw": "```json\n{\n  \"before\": \"1805.607\",\n  \"after\": \"1806.020\",\n  \"unit\": \"m3\",\n  \"confidence\": \"high\"\n}\n```\n\n**Analysis Details:**\n- **Before [1]**: Reading shows 1805.607 m³ (black digits: 1805, red decimal digits: 607)\n- **After [2]**: Reading shows 1806.020 m³ (black digits: 1806, red decimal digits: 020)\n- **Water consumption**: 0.413 m³ (413 liters)\n- **Time interval**: 32 minutes (13:20 to 13:52)\n- **Confidence**: High - both meter displays are clear and readable",
+        "latency_ms": 3752,
+        "prompt_tokens": 1508,
+        "completion_tokens": 179,
+        "total_tokens": 1687,
+        "cost_usd": 0.0026433000000000003,
+        "cost_thb": 0.09251550000000001,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-sonnet-5",
+        "model_name": "Anthropic Claude Sonnet 5",
+        "reading": "[ก่อน] 1805.607 m3 | [หลัง] 1806.020 m3",
+        "raw": "```json\n{\"before\": \"1805.607\", \"after\": \"1806.020\", \"unit\": \"m3\", \"confidence\": \"high\"}\n```",
+        "latency_ms": 9212,
+        "prompt_tokens": 1537,
+        "completion_tokens": 43,
+        "total_tokens": 1580,
+        "cost_usd": 0.003504,
+        "cost_thb": 0.12264,
+        "status": "success"
+      }
+    ]
+  }
+]

@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 import { useLanguage } from '@/lib/i18n/context';
 import { Send, CheckCircle2, Building2, Mail, Phone, User, MessageSquare, AlertCircle } from 'lucide-react';
 
@@ -197,11 +198,7 @@ export default function ContactAdvertisingPage() {
         </div>
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-8 mt-12">
-        <div className="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 font-medium">
-          <p>{t.footerRights}</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

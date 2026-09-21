@@ -1,0 +1,48 @@
+[
+  {
+    "date": "2026-08-17",
+    "house": "P12-S01_เฟส 12 แปลง S01",
+    "image_path": "D:\\EasyFile\\grid6_composites\\2026-08-17_P12-S01_เฟส 12 แปลง S01_grid6.jpg",
+    "results": [
+      {
+        "model_id": "gpt-5.6-luna",
+        "model_name": "OpenAI GPT-5.6 Luna",
+        "reading": "💧น้ำ: [1805.607 -> 1806.020]  |  ⚡ไฟ: [94364 -> 94362]  |  🧪ค่าน้ำ: ก่อน(pH:8.2, Cl:0.2) | หลัง(pH:7.6, Cl:1.0)",
+        "raw": "{\n  \"water\": {\n    \"before\": \"1805.607\",\n    \"after\": \"1806.020\",\n    \"unit\": \"m3\"\n  },\n  \"electric\": {\n    \"before\": \"94364\",\n    \"after\": \"94362\",\n    \"unit\": \"kWh\"\n  },\n  \"water_chemistry\": {\n    \"before\": {\n      \"ph\": \"8.2\",\n      \"chlorine\": \"0.2\"\n    },\n    \"after\": {\n      \"ph\": \"7.6\",\n      \"chlorine\": \"1.0\"\n    }\n  },\n  \"confidence\": \"high\"\n}",
+        "latency_ms": 16935,
+        "prompt_tokens": 2673,
+        "completion_tokens": 970,
+        "total_tokens": 3643,
+        "cost_usd": 0.0016986,
+        "cost_thb": 0.059451,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-haiku-4-5",
+        "model_name": "Anthropic Claude Haiku 4.5",
+        "reading": "💧น้ำ: [1805.607 -> 1806.020]  |  ⚡ไฟ: [94367 -> 94368]  |  🧪ค่าน้ำ: ก่อน(pH:8.0, Cl:0.6) | หลัง(pH:7.6, Cl:1.5)",
+        "raw": "```json\n{\n  \"water\": {\n    \"before\": \"1805.607\",\n    \"after\": \"1806.020\",\n    \"unit\": \"m3\"\n  },\n  \"electric\": {\n    \"before\": \"94367\",\n    \"after\": \"94368\",\n    \"unit\": \"kWh\"\n  },\n  \"water_chemistry\": {\n    \"before\": {\n      \"ph\": \"8.0\",\n      \"chlorine\": \"0.6\"\n    },\n    \"after\": {\n      \"ph\": \"7.6\",\n      \"chlorine\": \"1.5\"\n    }\n  },\n  \"confidence\": \"high\"\n}\n```",
+        "latency_ms": 3870,
+        "prompt_tokens": 2402,
+        "completion_tokens": 167,
+        "total_tokens": 2569,
+        "cost_usd": 0.0035607000000000004,
+        "cost_thb": 0.12462450000000001,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-sonnet-5",
+        "model_name": "Anthropic Claude Sonnet 5",
+        "reading": "💧น้ำ: [1805.607 -> 1806.020]  |  ⚡ไฟ: [94364 -> 94362]  |  🧪ค่าน้ำ: ก่อน(pH:8.2, Cl:0.2) | หลัง(pH:7.8, Cl:1.0)",
+        "raw": "```json\n{\n  \"water\": {\"before\": \"1805.607\", \"after\": \"1806.020\", \"unit\": \"m3\"},\n  \"electric\": {\"before\": \"94364\", \"after\": \"94362\", \"unit\": \"kWh\"},\n  \"water_chemistry\": {\n    \"before\": {\"ph\": \"8.2\", \"chlorine\": \"0.2\"},\n    \"after\": {\"ph\": \"7.8\", \"chlorine\": \"1.0\"}\n  },\n  \"confidence\": \"high\"\n}\n```",
+        "latency_ms": 8750,
+        "prompt_tokens": 3409,
+        "completion_tokens": 152,
+        "total_tokens": 3561,
+        "cost_usd": 0.008338,
+        "cost_thb": 0.29183,
+        "status": "success"
+      }
+    ]
+  }
+]

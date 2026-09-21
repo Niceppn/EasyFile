@@ -1,0 +1,101 @@
+[
+  {
+    "date": "2026-08-17",
+    "house": "P12-S01_เฟส 12 แปลง S01",
+    "pool_type": "สระว่ายน้ำระบบเกลือ (4-Grid)",
+    "grid_jobs": [
+      {
+        "title": "มิเตอร์น้ำ & มิเตอร์ไฟฟ้า (4-Grid)",
+        "image_path": "D:\\EasyFile\\grid_composites\\2026-08-17_P12-S01_เฟส 12 แปลง S01_utilities_4grid.jpg",
+        "prompt": "รูปภาพนี้คือภาพ Grid รวมมิเตอร์สาธารณูปโภค 4 ช่อง (2x2):\n1. [บนซ้าย] มิเตอร์น้ำ (ก่อนปฏิบัติงาน)\n2. [บนขวา] มิเตอร์น้ำ (หลังปฏิบัติงาน)\n3. [ล่างซ้าย] มิเตอร์ไฟฟ้า (ก่อนปฏิบัติงาน)\n4. [ล่างขวา] มิเตอร์ไฟฟ้า (หลังปฏิบัติงาน)\n\nกรุณาอ่านตัวเลขมิเตอร์น้ำ (รวมทศนิยม m3) และมิเตอร์ไฟฟ้า (kWh) ของทั้งก่อนและหลังอย่างละเอียด\nตอบเป็น JSON รูปแบบ:\n{\n  \"water\": {\"before\": \"1805.607\", \"after\": \"1806.020\", \"unit\": \"m3\"},\n  \"electric\": {\"before\": \"94364\", \"after\": \"94362\", \"unit\": \"kWh\"},\n  \"confidence\": \"high/medium/low\"\n}",
+        "results": [
+          {
+            "model_id": "gpt-5.6-luna",
+            "model_name": "OpenAI GPT-5.6 Luna",
+            "reading": "💧น้ำ: [1805.607 -> 1806.020]  |  ⚡ไฟ: [94364 -> 94362]",
+            "raw": "{\n  \"water\": {\n    \"before\": \"1805.607\",\n    \"after\": \"1806.020\",\n    \"unit\": \"m3\"\n  },\n  \"electric\": {\n    \"before\": \"94364\",\n    \"after\": \"94362\",\n    \"unit\": \"kWh\"\n  },\n  \"confidence\": \"high\"\n}",
+            "latency_ms": 7898,
+            "prompt_tokens": 2322,
+            "completion_tokens": 212,
+            "total_tokens": 2534,
+            "cost_usd": 0.0007187999999999999,
+            "cost_thb": 0.025157999999999996,
+            "status": "success"
+          },
+          {
+            "model_id": "claude-haiku-4-5",
+            "model_name": "Anthropic Claude Haiku 4.5",
+            "reading": "💧น้ำ: [1805.607 -> 1806.020]  |  ⚡ไฟ: [94367 -> 94361]",
+            "raw": "```json\n{\n  \"water\": {\n    \"before\": \"1805.607\",\n    \"after\": \"1806.020\",\n    \"unit\": \"m3\"\n  },\n  \"electric\": {\n    \"before\": \"94367\",\n    \"after\": \"94361\",\n    \"unit\": \"kWh\"\n  },\n  \"confidence\": \"high\"\n}\n```\n\n**หมายเหตุการอ่าน:**\n- **มิเตอร์น้ำ (ก่อน)**: 1805.607 m³ - อ่านจากหน้าปัดชัดเจน\n- **มิเตอร์น้ำ (หลัง)**: 1806.020 m³ - อ่านจากหน้าปัดชัดเจน\n- **มิเตอร์ไฟฟ้า (ก่อน)**: 94367 kWh - อ่านจากหน้าปัด Mitsubishi\n- **มิเตอร์ไฟฟ้า (หลัง)**: 94361 kWh - อ่านจากหน้าปัด Mitsubishi",
+            "latency_ms": 5960,
+            "prompt_tokens": 1992,
+            "completion_tokens": 318,
+            "total_tokens": 2310,
+            "cost_usd": 0.0039402000000000005,
+            "cost_thb": 0.13790700000000003,
+            "status": "success"
+          },
+          {
+            "model_id": "claude-sonnet-5",
+            "model_name": "Anthropic Claude Sonnet 5",
+            "reading": "💧น้ำ: [1805.607 -> 1806.020]  |  ⚡ไฟ: [94364 -> 94365]",
+            "raw": "```json\n{\n  \"water\": {\"before\": \"1805.607\", \"after\": \"1806.020\", \"unit\": \"m3\"},\n  \"electric\": {\"before\": \"94364\", \"after\": \"94365\", \"unit\": \"kWh\"},\n  \"confidence\": \"high\"\n}\n```",
+            "latency_ms": 10904,
+            "prompt_tokens": 2770,
+            "completion_tokens": 84,
+            "total_tokens": 2854,
+            "cost_usd": 0.00638,
+            "cost_thb": 0.2233,
+            "status": "success"
+          }
+        ]
+      },
+      {
+        "title": "ค่าน้ำ pH/คลอรีน & เกลือ (4-Grid)",
+        "image_path": "D:\\EasyFile\\grid_composites\\2026-08-17_P12-S01_เฟส 12 แปลง S01_pool_salt_4grid.jpg",
+        "prompt": "รูปภาพนี้คือภาพ Grid รวมการตรวจวัดค่าน้ำสระว่ายน้ำระบบเกลือ 4 ช่อง (2x2):\n1. [บนซ้าย] ค่าน้ำ pH/คลอรีน (ก่อนปฏิบัติงาน)\n2. [บนขวา] ค่าน้ำ pH/คลอรีน (หลังปฏิบัติงาน)\n3. [ล่างซ้าย] ค่าเกลือ Salt (ก่อนปฏิบัติงาน)\n4. [ล่างขวา] ค่าเกลือ Salt (หลังปฏิบัติงาน)\n\nกฎการอ่านชุดวัดค่าน้ำ:\n- หลอดฝาสีแดง = ค่า pH (สเกลบนแถบ: 6.8, 7.2, 7.6, 7.8, 8.2)\n- หลอดฝาสีเหลือง = ค่า Chlorine/Cl (สเกลบนแถบ: 0.2, 0.6, 1.0, 1.5, 3.0 ppm - ต่ำสุดคือ 0.2 ห้ามตอบ 0 หรือ 0.0 เด็ดขาด)\n- จอดิจิทัลวัดเกลือ = ตัวเลขค่า Salt (ppm)\n\nตอบเป็น JSON รูปแบบ:\n{\n  \"water_chemistry\": {\n    \"before\": {\"ph\": \"8.2\", \"cl\": \"0.2\"},\n    \"after\": {\"ph\": \"7.6\", \"cl\": \"1.0\"}\n  },\n  \"salt\": {\"before\": \"3570\", \"after\": \"3570\", \"unit\": \"ppm\"},\n  \"confidence\": \"high/medium/low\"\n}",
+        "results": [
+          {
+            "model_id": "gpt-5.6-luna",
+            "model_name": "OpenAI GPT-5.6 Luna",
+            "reading": "🧪ค่าน้ำ: ก่อน(pH:8.2, Cl:0.2) | หลัง(pH:7.2, Cl:1.0)  |  🧂เกลือ: [3570 -> 3570 ppm]",
+            "raw": "{\n  \"water_chemistry\": {\n    \"before\": {\n      \"ph\": \"8.2\",\n      \"cl\": \"0.2\"\n    },\n    \"after\": {\n      \"ph\": \"7.2\",\n      \"cl\": \"1.0\"\n    }\n  },\n  \"salt\": {\n    \"before\": \"3570\",\n    \"after\": \"3570\",\n    \"unit\": \"ppm\"\n  },\n  \"confidence\": \"high\"\n}",
+            "latency_ms": 8348,
+            "prompt_tokens": 2473,
+            "completion_tokens": 320,
+            "total_tokens": 2793,
+            "cost_usd": 0.0008786,
+            "cost_thb": 0.030751,
+            "status": "success"
+          },
+          {
+            "model_id": "claude-haiku-4-5",
+            "model_name": "Anthropic Claude Haiku 4.5",
+            "reading": "🧪ค่าน้ำ: ก่อน(pH:8.2, Cl:0.2) | หลัง(pH:7.6, Cl:1.0)  |  🧂เกลือ: [3570 -> 3570 ppm]",
+            "raw": "```json\n{\n  \"water_chemistry\": {\n    \"before\": {\n      \"ph\": \"8.2\",\n      \"cl\": \"0.2\"\n    },\n    \"after\": {\n      \"ph\": \"7.6\",\n      \"cl\": \"1.0\"\n    }\n  },\n  \"salt\": {\n    \"before\": \"3570\",\n    \"after\": \"3570\",\n    \"unit\": \"ppm\"\n  },\n  \"confidence\": \"high\"\n}\n```",
+            "latency_ms": 3747,
+            "prompt_tokens": 2171,
+            "completion_tokens": 124,
+            "total_tokens": 2295,
+            "cost_usd": 0.0030701000000000005,
+            "cost_thb": 0.10745350000000002,
+            "status": "success"
+          },
+          {
+            "model_id": "claude-sonnet-5",
+            "model_name": "Anthropic Claude Sonnet 5",
+            "reading": "🧪ค่าน้ำ: ก่อน(pH:8.2, Cl:0.2) | หลัง(pH:7.8, Cl:3.0)  |  🧂เกลือ: [3570 -> 3570 ppm]",
+            "raw": "```json\n{\n  \"water_chemistry\": {\n    \"before\": {\"ph\": \"8.2\", \"cl\": \"0.2\"},\n    \"after\": {\"ph\": \"7.8\", \"cl\": \"3.0\"}\n  },\n  \"salt\": {\"before\": \"3570\", \"after\": \"3570\", \"unit\": \"ppm\"},\n  \"confidence\": \"high\"\n}\n```",
+            "latency_ms": 22537,
+            "prompt_tokens": 2972,
+            "completion_tokens": 115,
+            "total_tokens": 3087,
+            "cost_usd": 0.007094,
+            "cost_thb": 0.24828999999999998,
+            "status": "success"
+          }
+        ]
+      }
+    ]
+  }
+]

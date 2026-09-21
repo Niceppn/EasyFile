@@ -8,6 +8,7 @@ import { CompressionProgress } from '@/components/CompressionProgress';
 import { ResultCard } from '@/components/ResultCard';
 import { FAQSection } from '@/components/FAQSection';
 import { SEOContent } from '@/components/SEOContent';
+import { Footer } from '@/components/Footer';
 import { LeftAdSidebar, RightAdSidebar, MobileAdBanner } from '@/components/AdSidebars';
 import { compressPdfToTargetSize, CompressionResult, formatBytes } from '@/lib/pdf-compressor';
 import { useLanguage } from '@/lib/i18n/context';
@@ -189,12 +190,7 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-8 mt-20">
-        <div className="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2 font-medium">
-          <p>{t.footerRights}</p>
-          <p className="text-slate-400">{t.footerPrivacy}</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

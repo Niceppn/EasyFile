@@ -6,6 +6,7 @@ import { QrCodeGenerator } from '@/components/QrCodeGenerator';
 import { QrCodeScanner } from '@/components/QrCodeScanner';
 import { FAQSection } from '@/components/FAQSection';
 import { SEOContent } from '@/components/SEOContent';
+import { Footer } from '@/components/Footer';
 import { LeftAdSidebar, RightAdSidebar, MobileAdBanner } from '@/components/AdSidebars';
 import { useLanguage } from '@/lib/i18n/context';
 import { ShieldCheck, Download, Copy, Ban, QrCode, ScanLine, Edit3 } from 'lucide-react';
@@ -145,12 +146,8 @@ export default function QrCodePage() {
         <RightAdSidebar />
       </div>
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-8 mt-20">
-        <div className="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 font-medium">
-          <p>{t.footerRights}</p>
-        </div>
-      </footer>
+      {/* Universal Footer */}
+      <Footer />
     </div>
   );
 }

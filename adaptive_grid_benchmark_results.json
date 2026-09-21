@@ -1,0 +1,53 @@
+[
+  {
+    "date": "2026-08-17",
+    "house": "P12-S01_เฟส 12 แปลง S01",
+    "pool_type": "สระว่ายน้ำระบบเกลือ (Salt Pool)",
+    "grid_mode": "8-Grid (สระเกลือ)",
+    "image_path": "D:\\EasyFile\\grid_adaptive_composites\\2026-08-17_P12-S01_เฟส 12 แปลง S01_grid8.jpg",
+    "results": [
+      {
+        "model_id": "gpt-5.6-luna",
+        "model_name": "OpenAI GPT-5.6 Luna",
+        "reading": "💧น้ำ: [1805.607 (98%) -> 1806.020 (96%)]  |  ⚡ไฟ: [94364 (99%) -> 94362 (94%)]  |  🧪ค่าน้ำ: ก่อน(8.2, 0.2 [91%]) | หลัง(7.6, 1.0 [94%])  |  🧂เกลือ: [3570 (99%) -> 3570 (99%) ppm]",
+        "raw": "{\n  \"water\": {\n    \"before\": \"1805.607\",\n    \"after\": \"1806.020\",\n    \"unit\": \"m3\",\n    \"confidence_pct\": {\n      \"before\": 98,\n      \"after\": 96\n    }\n  },\n  \"electric\": {\n    \"before\": \"94364\",\n    \"after\": \"94362\",\n    \"unit\": \"kWh\",\n    \"confidence_pct\": {\n      \"before\": 99,\n      \"after\": 94\n    }\n  },\n  \"water_chemistry\": {\n    \"before\": {\n      \"ph\": \"8.2\",\n      \"chlorine\": \"0.2\"\n    },\n    \"after\": {\n      \"ph\": \"7.6\",\n      \"chlorine\": \"1.0\"\n    },\n    \"confidence_pct\": {\n      \"before\": 91,\n      \"after\": 94\n    }\n  },\n  \"salt\": {\n    \"before\": \"3570\",\n    \"after\": \"3570\",\n    \"unit\": \"ppm\",\n    \"confidence_pct\": {\n      \"before\": 99,\n      \"after\": 99\n    }\n  },\n  \"overall_confidence_pct\": 96\n}",
+        "latency_ms": 8622,
+        "prompt_tokens": 2383,
+        "completion_tokens": 463,
+        "total_tokens": 2846,
+        "cost_usd": 0.0010322,
+        "cost_thb": 0.036127,
+        "overall_confidence": 96,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-haiku-4-5",
+        "model_name": "Anthropic Claude Haiku 4.5",
+        "reading": "💧น้ำ: [1805.607 (92%) -> 1806.020 (88%)]  |  ⚡ไฟ: [94364 (85%) -> 94364 (85%)]  |  🧪ค่าน้ำ: ก่อน(8.2, 0.2 [78%]) | หลัง(7.6, 1.5 [75%])  |  🧂เกลือ: [3570 (90%) -> 3570 (90%) ppm]",
+        "raw": "```json\n{\n  \"water\": {\n    \"before\": \"1805.607\",\n    \"after\": \"1806.020\",\n    \"unit\": \"m3\",\n    \"confidence_pct\": {\n      \"before\": 92,\n      \"after\": 88\n    }\n  },\n  \"electric\": {\n    \"before\": \"94364\",\n    \"after\": \"94364\",\n    \"unit\": \"kWh\",\n    \"confidence_pct\": {\n      \"before\": 85,\n      \"after\": 85\n    }\n  },\n  \"water_chemistry\": {\n    \"before\": {\n      \"ph\": \"8.2\",\n      \"chlorine\": \"0.2\"\n    },\n    \"after\": {\n      \"ph\": \"7.6\",\n      \"chlorine\": \"1.5\"\n    },\n    \"confidence_pct\": {\n      \"before\": 78,\n      \"after\": 75\n    }\n  },\n  \"salt\": {\n    \"before\": \"3570\",\n    \"after\": \"3570\",\n    \"unit\": \"ppm\",\n    \"confidence_pct\": {\n      \"before\": 90,\n      \"after\": 90\n    }\n  },\n  \"overall_confidence_pct\": 85,\n  \"notes\": \"Image quality and angle make precise readings challenging. Water meter decimals partially obscured. Electric meter display unclear. pH/Chlorine test tubes difficult to read exact values due to lighting and angle. Salt meter readings appear stable.\"\n}\n```",
+        "latency_ms": 5972,
+        "prompt_tokens": 2544,
+        "completion_tokens": 368,
+        "total_tokens": 2912,
+        "cost_usd": 0.004822399999999999,
+        "cost_thb": 0.16878399999999996,
+        "overall_confidence": 85,
+        "status": "success"
+      },
+      {
+        "model_id": "claude-sonnet-5",
+        "model_name": "Anthropic Claude Sonnet 5",
+        "reading": "💧น้ำ: [805.607 (97%) -> 806.020 (96%)]  |  ⚡ไฟ: [94364 (95%) -> 94362 (85%)]  |  🧪ค่าน้ำ: ก่อน(8.2, 0.2 [90%]) | หลัง(7.6, 1.0 [92%])  |  🧂เกลือ: [3570 (98%) -> 3570 (98%) ppm]",
+        "raw": "```json\n{\n  \"water\": {\n    \"before\": \"805.607\", \"after\": \"806.020\", \"unit\": \"m3\",\n    \"confidence_pct\": {\"before\": 97, \"after\": 96}\n  },\n  \"electric\": {\n    \"before\": \"94364\", \"after\": \"94362\", \"unit\": \"kWh\",\n    \"confidence_pct\": {\"before\": 95, \"after\": 85}\n  },\n  \"water_chemistry\": {\n    \"before\": {\"ph\": \"8.2\", \"chlorine\": \"0.2\"},\n    \"after\": {\"ph\": \"7.6\", \"chlorine\": \"1.0\"},\n    \"confidence_pct\": {\"before\": 90, \"after\": 92}\n  },\n  \"salt\": {\n    \"before\": \"3570\", \"after\": \"3570\", \"unit\": \"ppm\",\n    \"confidence_pct\": {\"before\": 98, \"after\": 98}\n  },\n  \"overall_confidence_pct\": 93\n}\n```",
+        "latency_ms": 10068,
+        "prompt_tokens": 2992,
+        "completion_tokens": 421,
+        "total_tokens": 3413,
+        "cost_usd": 0.010194,
+        "cost_thb": 0.35679,
+        "overall_confidence": 93,
+        "status": "success"
+      }
+    ]
+  }
+]

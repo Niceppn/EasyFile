@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Chutina Hybrid AI Classification Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background: #f8fafc; color: #1e293b; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .stat-box { padding: 16px; border-radius: 8px; text-align: center; }
+        .stat-val { font-size: 28px; font-weight: bold; margin-top: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th, td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+        th { background: #f1f5f9; font-weight: 600; color: #475569; }
+        tr:hover { background: #f8fafc; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🏊‍♂️ Chutina Hybrid AI 3-Tier Classification Benchmark Report</h2>
+        <p style="color:#64748b;">ทดสอบการคัดแยกรูปภาพ 103 รูป ด้วยระบบ Hybrid Auto-Fallback (ฟรี 0 บาท ➡️ สำรอง 0.01 บาท ➡️ Luna Routing)</p>
+        
+        <div class="grid">
+            <div class="stat-box" style="background:#eff6ff;color:#1e40af;">
+                <div>รูปภาพทั้งหมด</div>
+                <div class="stat-val">99 รูป</div>
+            </div>
+            <div class="stat-box" style="background:#f0fdf4;color:#166534;">
+                <div>ความแม่นยำ (Accuracy)</div>
+                <div class="stat-val">94.9% (94/99)</div>
+            </div>
+            <div class="stat-box" style="background:#faf5ff;color:#6b21a8;">
+                <div>ส่งต่อให้ Luna (Stage 2)</div>
+                <div class="stat-val">54 รูป</div>
+            </div>
+            <div class="stat-box" style="background:#fef2f2;color:#991b1b;">
+                <div>Auto-Fallback ทำงาน</div>
+                <div class="stat-val">32 ครั้ง</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>📋 รายละเอียดผลการทดสอบแยกรายรูป (103 รูป)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Batch</th>
+                    <th>ชื่อไฟล์</th>
+                    <th>Ground Truth</th>
+                    <th>AI Classification</th>
+                    <th>ผลลัพธ์</th>
+                    <th>โหนดที่ใช้</th>
+                    <th>Luna Stage 2</th>
+                    <th>เวลา</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788440636703.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.97s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788441878078.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.55s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788442033682.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.67s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788442176567.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.1s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788442332230.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.92s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788442561856.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.59s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788442736122.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.8s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788442870803.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.78s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788443033864.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.87s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 1</td>
+            <td style="font-family:monospace;font-size:12px;">electric_after_1788443220214.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.72s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788440636702.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.4s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788441878077.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.3s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788442033682.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.73s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788442176566.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>3.31s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788442332229.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.64s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788442561855.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.76s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788442736121.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.62s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788442870802.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.2s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788443033862.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.39s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 2</td>
+            <td style="font-family:monospace;font-size:12px;">electric_before_1788443220213.jpg</td>
+            <td><b>electric_meter</b></td>
+            <td><b>electric_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.02s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788440636707.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.36s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788441878083.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.68s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788442033687.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.64s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788442176570.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.93s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788442332234.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.93s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788442561859.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.56s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788442736126.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.86s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788442870806.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.49s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788443033869.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.41s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 3</td>
+            <td style="font-family:monospace;font-size:12px;">extra_2_1788443220219.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.62s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788440636708.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.02s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788441878084.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>4.68s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788442033688.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.42s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788442176571.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.5s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788442332234.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.31s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788442561860.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.45s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788442736127.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>13.05s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788442870807.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.71s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788443033870.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.53s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 4</td>
+            <td style="font-family:monospace;font-size:12px;">extra_3_1788443220220.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.39s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788440636709.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.92s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788441878085.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.24s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788442033688.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.91s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788442176572.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.67s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788442332235.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.54s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788442561861.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>1.76s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788442736127.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.42s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788442870808.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.72s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788443033871.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.6s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 5</td>
+            <td style="font-family:monospace;font-size:12px;">extra_4_1788443220221.jpg</td>
+            <td><b>pool_service</b></td>
+            <td><b>pool_service</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.94s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788440516.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.62s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788441777.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.44s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788441934.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.05s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788442092.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.2s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788442242.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.0s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788442428.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.45s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788442636.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>2.76s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788442778.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.49s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788442938.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.3s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 6</td>
+            <td style="font-family:monospace;font-size:12px;">house_1788443118.jpeg</td>
+            <td><b>house_number</b></td>
+            <td><b>house_number</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>3.43s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788440636705.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.31s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788441878080.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.39s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788442033684.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.88s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788442176569.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.3s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788442332232.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>1.83s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788442561858.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.39s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788442736124.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.23s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788442870804.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:11px;">Free Tier</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>2.33s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788443033866.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>6.64s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 7</td>
+            <td style="font-family:monospace;font-size:12px;">ph_after_1788443220217.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.15s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788440636704.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>9.13s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788441878079.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.6s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788442033683.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>7.21s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788442176568.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.56s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788442332231.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>7.59s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788442561857.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.74s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788442736123.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>unknown</b></td>
+            <td><span style="color:#ef4444;font-weight:bold;">❌ Mismatch</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>13.45s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788442870804.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.15s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788443033865.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>9.48s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 8</td>
+            <td style="font-family:monospace;font-size:12px;">ph_before_1788443220215.jpg</td>
+            <td><b>water_test_kit</b></td>
+            <td><b>water_test_kit</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>7.16s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788440636701.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>9.06s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788441878076.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>9.82s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788442176565.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.87s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788442332228.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>unknown</b></td>
+            <td><span style="color:#ef4444;font-weight:bold;">❌ Mismatch</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>9.36s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788442561854.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>9.56s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788442736121.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.02s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788442870801.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>unknown</b></td>
+            <td><span style="color:#ef4444;font-weight:bold;">❌ Mismatch</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>9.85s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788443033861.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>7.37s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_after_1788443220212.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>7.86s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 9</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788440636688.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.43s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788441878055.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>unknown</b></td>
+            <td><span style="color:#ef4444;font-weight:bold;">❌ Mismatch</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>11.98s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788442033681.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>10.16s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788442176563.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.36s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788442332227.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>10.65s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788442561853.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>8.77s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788442736119.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>6.56s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788442870800.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>7.62s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788443033860.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>water_meter</b></td>
+            <td><span style="color:#22c55e;font-weight:bold;">✅ Match</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;">➡️ Sent to Luna</span></td>
+            <td>6.87s</td>
+        </tr>
+        
+        <tr>
+            <td>Batch 10</td>
+            <td style="font-family:monospace;font-size:12px;">water_before_1788443220211.jpg</td>
+            <td><b>water_meter</b></td>
+            <td><b>unknown</b></td>
+            <td><span style="color:#ef4444;font-weight:bold;">❌ Mismatch</span></td>
+            <td><span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-size:11px;">Paid Fallback</span></td>
+            <td><span style="color:#6b7280;font-size:11px;">Stage 1 Done</span></td>
+            <td>9.64s</td>
+        </tr>
+        
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

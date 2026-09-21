@@ -8,6 +8,7 @@ import { CompressionProgress } from '@/components/CompressionProgress';
 import { ResultCard } from '@/components/ResultCard';
 import { FAQSection } from '@/components/FAQSection';
 import { SEOContent } from '@/components/SEOContent';
+import { Footer } from '@/components/Footer';
 import { LeftAdSidebar, RightAdSidebar } from '@/components/AdSidebars';
 import { compressPdfToTargetSize, CompressionResult } from '@/lib/pdf-compressor';
 import { Zap, Play } from 'lucide-react';
@@ -108,6 +109,8 @@ export default function CompressTo1MBPage() {
 
         <RightAdSidebar />
       </div>
+
+      <Footer />
     </div>
   );
 }
