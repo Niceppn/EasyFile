@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/i18n/context';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { FileText, Image as ImageIcon, QrCode, Megaphone, Menu, X } from 'lucide-react';
+import { FileText, Image as ImageIcon, QrCode, BookOpen, Megaphone, Menu, X } from 'lucide-react';
 
 export function Header() {
   const { t } = useLanguage();
@@ -35,7 +35,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation Bar */}
-        <nav className="hidden md:flex items-center gap-2 lg:gap-3">
+        <nav className="hidden md:flex items-center gap-1.5 lg:gap-2.5">
           <Link
             href="/"
             className="flex items-center gap-1.5 text-xs lg:text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors px-2.5 py-2 rounded-xl hover:bg-slate-100/80"
@@ -58,6 +58,14 @@ export function Header() {
           >
             <QrCode className="w-4 h-4 text-indigo-600 flex-shrink-0" />
             <span>{t.navQrGenerator}</span>
+          </Link>
+
+          <Link
+            href="/guides"
+            className="flex items-center gap-1.5 text-xs lg:text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors px-2.5 py-2 rounded-xl hover:bg-slate-100/80"
+          >
+            <BookOpen className="w-4 h-4 text-purple-600 flex-shrink-0" />
+            <span>Guides</span>
           </Link>
 
           <Link
@@ -115,6 +123,15 @@ export function Header() {
           >
             <QrCode className="w-5 h-5 text-indigo-600" />
             <span>{t.navQrGenerator}</span>
+          </Link>
+
+          <Link
+            href="/guides"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-3 text-sm font-bold text-slate-800 hover:text-blue-600 p-3 rounded-2xl hover:bg-slate-50 transition-colors"
+          >
+            <BookOpen className="w-5 h-5 text-purple-600" />
+            <span>Knowledge Hub & Guides</span>
           </Link>
 
           <Link

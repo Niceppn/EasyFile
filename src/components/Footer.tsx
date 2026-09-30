@@ -2,17 +2,17 @@
 
 import Link from 'next/link';
 import { useLanguage } from '@/lib/i18n/context';
-import { ShieldCheck, Heart, FileText, Image as ImageIcon, QrCode, Mail, Globe, Lock } from 'lucide-react';
+import { ShieldCheck, BookOpen, FileText, Image as ImageIcon, QrCode, Mail, Globe, Lock, Sparkles } from 'lucide-react';
 
 export function Footer() {
   const { t } = useLanguage();
 
   return (
     <footer className="w-full bg-slate-900 text-slate-400 border-t border-slate-800 text-sm mt-auto">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Column 1: Brand & Privacy Guarantee */}
-          <div className="space-y-4 md:col-span-1">
+          <div className="space-y-4 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 text-white font-black text-xl tracking-tight">
               <span className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white text-base shadow-sm">
                 Q
@@ -62,9 +62,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: QR Code & Utilities */}
+          {/* Column 3: QR Code Tools */}
           <div className="space-y-3">
-            <h4 className="text-white font-black text-xs uppercase tracking-wider">QR Code Tools</h4>
+            <h4 className="text-white font-black text-xs uppercase tracking-wider">QR Studio</h4>
             <ul className="space-y-2 text-xs">
               <li>
                 <Link href="/qr-code-generator" className="hover:text-white transition-colors flex items-center gap-1.5">
@@ -74,7 +74,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/scan-qr-code" className="hover:text-white transition-colors">
-                  Scan QR Code Online (Image)
+                  Scan QR Code from Image
                 </Link>
               </li>
               <li>
@@ -91,14 +91,49 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Trust & Legal */}
+          {/* Column 4: Guides & Knowledge Hub */}
+          <div className="space-y-3">
+            <h4 className="text-white font-black text-xs uppercase tracking-wider flex items-center gap-1.5">
+              <BookOpen className="w-3.5 h-3.5 text-purple-400" />
+              <span>Knowledge Hub</span>
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="/guides" className="text-purple-300 font-bold hover:text-white transition-colors">
+                  All Guides & Tutorials →
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/how-to-compress-pdf-without-losing-quality" className="hover:text-white transition-colors">
+                  Compress Without Quality Loss
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/reduce-pdf-size-for-government-portals" className="hover:text-white transition-colors">
+                  Government Uploads (&lt;500KB)
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/secure-pdf-compression-client-side-vs-server" className="hover:text-white transition-colors">
+                  Client-Side vs Server Security
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides/qr-code-best-practices-for-business" className="hover:text-white transition-colors">
+                  QR Codes for Business
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 5: Trust & Legal */}
           <div className="space-y-3">
             <h4 className="text-white font-black text-xs uppercase tracking-wider">Legal & Trust</h4>
             <ul className="space-y-2 text-xs">
               <li>
                 <Link href="/privacy-policy" className="hover:text-white transition-colors flex items-center gap-1.5">
                   <Lock className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Privacy Policy (GDPR / CCPA)</span>
+                  <span>Privacy Policy (GDPR/CCPA)</span>
                 </Link>
               </li>
               <li>
@@ -140,6 +175,10 @@ export function Footer() {
             <span>•</span>
             <Link href="/about" className="hover:text-white transition-colors">
               About
+            </Link>
+            <span>•</span>
+            <Link href="/guides" className="hover:text-white transition-colors">
+              Guides
             </Link>
           </div>
         </div>
